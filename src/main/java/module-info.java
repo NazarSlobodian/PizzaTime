@@ -1,4 +1,4 @@
-module pizzatime.grouppackage.pizzatime {
+module pizzatimepack {
     requires javafx.controls;
     requires javafx.fxml;
 
