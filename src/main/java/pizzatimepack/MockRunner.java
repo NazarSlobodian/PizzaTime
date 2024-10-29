@@ -1,6 +1,7 @@
 package pizzatimepack;
 
 import Model.SimulatorUpdater;
+import ViewModels.MainViewModel;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -12,6 +13,8 @@ public class MockRunner {
 
         // call update each realtime second
         SimulatorUpdater modelUpdater = new SimulatorUpdater();
+        MainViewModel viewModel = new MainViewModel(modelUpdater);
+
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(() -> update(modelUpdater), 0, 1, TimeUnit.SECONDS);
     }
