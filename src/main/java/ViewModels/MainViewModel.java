@@ -1,34 +1,30 @@
 package ViewModels;
 
-import Model.SimulatorUpdater;
+import Model.Pizzeria;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class MainViewModel {
-    private final SimulatorUpdater simulator;
+    private final Pizzeria simulator;
 
-    private final StringProperty simDateTime;
-    public StringProperty simDateTimeProperty() {
-        return simDateTime;
-    }
+    private final StringProperty simDateTimeProperty;
 
-    public MainViewModel(SimulatorUpdater simulator) {
+    //------------------------------------------------
+    public MainViewModel(Pizzeria simulator) {
         this.simulator = simulator;
-
-        simDateTime  = new SimpleStringProperty(simulator.getDateTime());
+        simDateTimeProperty = new SimpleStringProperty("This shouldn't be visible on startup");
 
         simulator.addPropertyChangeListener(evt-> {
             if ("simDateTime".equals(evt.getPropertyName())) {
-                simDateTime.set((String)evt.getNewValue());
-                System.out.println(simDateTime.get());
+                simDateTimeProperty.set((String)evt.getNewValue());
+
+                System.out.println(simDateTimeProperty.get());
             }
         });
-
-
-
     }
-
-
-
-
+    //------------------------------------------------
+    public StringProperty simDateTimeProperty() { //view should bind to this?
+        return simDateTimeProperty;
+    }
 }
