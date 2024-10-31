@@ -2,6 +2,7 @@ package Model.FoodAndStuff;
 
 import Model.FoodAndStuff.States.InitialPizzaState;
 import Model.FoodAndStuff.States.PizzaState;
+import Model.FoodAndStuff.States.BakedPizzaState;
 
 public class Pizza implements Cloneable, Cookable {
 
@@ -39,23 +40,55 @@ public class Pizza implements Cloneable, Cookable {
         return state;
     }
 
+    protected void setState(PizzaState state) {
+        this.state = state;
+    }
+
     @Override
     public Pizza clone() {
-        //that's a shallow copy, not deep
         try {
-            return (Pizza) super.clone();
-        } catch (CloneNotSupportedException e) {
+            Pizza cloned = (Pizza) super.clone();
+            // Глибоке клонування стану
+            cloned.state = this.state.getClass()
+                    .getDeclaredConstructor()
+                    .newInstance();
+            return cloned;
+        } catch (Exception e) {
             throw new RuntimeException("Failed to clone Pizza", e);
         }
     }
 
     @Override
     public void cook(boolean controlledCooking, long elapsedTime) {
+        // Розрахунок збільшення готовності на основі часу
+        double increaseFactor = (elapsedTime / (double) preparationTimeLeft) * 100;
+        state.increaseReadiness(increaseFactor);
+
         if (controlledCooking) {
-            // cook normally
+            // Контрольоване приготування
+            if (state.getReadiness() >= 100 && !state.isFinal()) {
+                setState(state.getNextSuccessful());
+            }
+        } else {
+            // Неконтрольоване приготування
+            if (state.getReadiness() >= 100) {
+                if (state instanceof BakedPizzaState) {
+                    setState(state.getNextFailed()); // Перехід до стану Burned
+                } else if (!state.isFinal()) {
+                    setState(state.getNextSuccessful());
+                }
+            }
         }
-        else {
-            // under some circumstances, go to bad state
+
+        // Перевірка на невдалий стан
+        if (state.isFinal() && state.isBad()) {
+            setState(state.getNextFailed());
+        }
+
+        // Оновлення часу приготування
+        preparationTimeLeft -= elapsedTime;
+        if (preparationTimeLeft < 0) {
+            preparationTimeLeft = 0;
         }
     }
 
