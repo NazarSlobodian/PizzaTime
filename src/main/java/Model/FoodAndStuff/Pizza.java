@@ -3,36 +3,21 @@ package Model.FoodAndStuff;
 import Model.FoodAndStuff.States.InitialPizzaState;
 import Model.FoodAndStuff.States.PizzaState;
 
-public class Pizza implements Cloneable, Cookable {
+public class Pizza extends Dish implements Cloneable, Cookable {
 
-    private String name;
-    private long preparationTimeLeft;
     private PizzaState state;
 
     public Pizza() {
         this.state = new InitialPizzaState();
     }
 
-    public Pizza(String name, int preparationTimeLeft) {
-        this();
-        this.name = name;
-        this.preparationTimeLeft = preparationTimeLeft;
+    public Pizza(String name, long preparationTimeLeft) {
+        super(name,preparationTimeLeft);
+        this.state = new InitialPizzaState();
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getPreparationTimeLeft() {
-        return preparationTimeLeft;
-    }
-
-    public void setPreparationTimeLeft(int preparationTimeLeft) {
-        this.preparationTimeLeft = preparationTimeLeft;
+    public Pizza(String name, long preparationTimeLeft, CookingDifficulty difficulty) {
+        super(name,preparationTimeLeft, difficulty);
+        this.state = new InitialPizzaState();
     }
 
     public PizzaState getState() {
