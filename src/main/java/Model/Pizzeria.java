@@ -1,5 +1,8 @@
 package Model;
 
+import Model.FoodAndStuff.Menu;
+import Model.Generators.OrderGenerator;
+import Model.KitchenStuff.KitchenManager;
 import Model.Utils.Clock;
 import Model.Utils.EventFiringContext;
 import Model.Utils.TimeProperties;
@@ -16,13 +19,14 @@ public class Pizzeria {
     private Clock clock;
     TimeProperties timeProperties;
 
+    OrderGenerator orderGenerator;
+    Menu menu;
+    KitchenManager kitchenManager;
     // support should be used in model classes which fire update events
-    private final EventFiringContext eventContext;
-    private final Lock lock;
+    private EventFiringContext eventContext;
+    private Lock lock;
     //------------------------------------------------
     public Pizzeria() {
-        eventContext = new EventFiringContext();
-        lock = new ReentrantLock(true);
         Initialize();
     }
     // - - - - - - - - - - - - - -
@@ -53,7 +57,8 @@ public class Pizzeria {
         lock.unlock();
     }
     private void updateStuff(long elapsedMs) {
-        //
+        orderGenerator.generateOrder();
+        kitchenManager.update(elapsedMs);
     }
     // - - - - - - - - - - - - - -
     public void setTimeSpeed(int timeSpeed) {
@@ -63,6 +68,9 @@ public class Pizzeria {
     }
     // - - - - - - - - - - - - - -
     private void Initialize() {
+        eventContext = new EventFiringContext();
+        lock = new ReentrantLock(true);
+
         clock = new Clock(ZonedDateTime.of(
                         LocalDateTime.of(2024, 10, 1, 9, 0, 0),
                         ZoneId.systemDefault())

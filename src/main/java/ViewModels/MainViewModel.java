@@ -26,6 +26,7 @@ public class MainViewModel {
         simulator.addPropertyChangeListener(evt-> {
             if ("simDateTime".equals(evt.getPropertyName())) {
                 Platform.runLater(()->simDateTimeProperty.set((String)evt.getNewValue()));
+
                 System.out.println(simDateTimeProperty.get());
             }
         });
@@ -33,7 +34,8 @@ public class MainViewModel {
         simulator.addPropertyChangeListener(evt-> {
             if ("simTimeSpeed".equals(evt.getPropertyName())) {
                 Platform.runLater(()->simTimeSpeedProperty.set((int)evt.getNewValue()));
-                System.out.println(simTimeSpeedProperty.get());
+
+                System.out.println("Time speed " + simTimeSpeedProperty.get());
             }
         });
     }
