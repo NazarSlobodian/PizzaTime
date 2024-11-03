@@ -1,24 +1,29 @@
 package Model.FoodAndStuff;
 
+import java.beans.PropertyChangeSupport;
+
 public class Dish {
 
     protected String name;
-    protected long preparationTimeLeft;
-    private CookingDifficulty difficulty;
-    public Dish() {
+    protected long preparationTimeLeftMs;
+    private CookingDifficulty difficulty; // not needed
 
-    }
-    public Dish(String name, long preparationTimeLeft) {
+    private final PropertyChangeSupport support;
+
+    public Dish(String name, long preparationTimeLeft, PropertyChangeSupport propertyChangeSupport) {
         this.name = name;
-        this.preparationTimeLeft = preparationTimeLeft;
+        this.preparationTimeLeftMs = preparationTimeLeft;
         this.difficulty = CookingDifficulty.EASY;
+        this.support = propertyChangeSupport;
     }
-    public Dish(String name, long preparationTimeLeft, CookingDifficulty difficulty) {
+    //
+    public Dish(String name, long preparationTimeLeft, CookingDifficulty difficulty, PropertyChangeSupport propertyChangeSupport) {
         this.name = name;
-        this.preparationTimeLeft = preparationTimeLeft;
+        this.preparationTimeLeftMs = preparationTimeLeft;
         this.difficulty = difficulty;
+        this.support = propertyChangeSupport;
     }
-
+    //
     public String getName() {
         return name;
     }
@@ -27,12 +32,12 @@ public class Dish {
         this.name = name;
     }
 
-    public long getPreparationTimeLeft() {
-        return preparationTimeLeft;
+    public long getPreparationTimeLeftMs() {
+        return preparationTimeLeftMs;
     }
 
-    public void setPreparationTimeLeft(int preparationTimeLeft) {
-        this.preparationTimeLeft = preparationTimeLeft;
+    public void setPreparationTimeLeftMs(int preparationTimeLeftMs) {
+        this.preparationTimeLeftMs = preparationTimeLeftMs;
     }
 
     public CookingDifficulty getDifficulty() {

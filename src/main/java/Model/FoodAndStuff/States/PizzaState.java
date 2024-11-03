@@ -28,4 +28,15 @@ public abstract class PizzaState implements CookableState {
     public boolean isBad() {
         return false;
     }
+    @Override
+    public abstract String toString();
+
+    @Override
+    public PizzaState clone() {
+        try {
+            return (PizzaState) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Clone not supported", e);
+        }
+    }
 }

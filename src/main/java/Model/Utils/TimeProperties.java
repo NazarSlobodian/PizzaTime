@@ -1,5 +1,7 @@
 package Model.Utils;
 
+import java.beans.PropertyChangeSupport;
+
 /**
  * Configuration of simulator time management
  */
@@ -7,10 +9,14 @@ public class TimeProperties {
 
     private int timeSpeed;
     private final long stepMs;
+
+    private final EventFiringContext eventContext;
     //------------------------------------------------
-    public TimeProperties(int timeSpeed, long stepMs) {
+    public TimeProperties(int timeSpeed, long stepMs, EventFiringContext eventContext) {
         this.timeSpeed = timeSpeed;
         this.stepMs = stepMs;
+
+        this.eventContext = eventContext;
     }
     //------------------------------------------------
     public int getTimeSpeed() {
@@ -26,7 +32,7 @@ public class TimeProperties {
             throw new IllegalArgumentException("Don't.");
         }
         this.timeSpeed = timeSpeed;
-        //fire event
+        eventContext.firePropertyChange("simTimeSpeed", 0, timeSpeed);
     }
     // - - - - - - - - - - - - - -
 }

@@ -15,4 +15,9 @@ public class DoughPizzaState extends PizzaState {
         return new InitialPizzaState();
     }
 
+    @Override
+    public String toString() {
+        return "Dough preparation";
+    }
+
 }

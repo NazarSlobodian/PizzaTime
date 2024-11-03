@@ -8,7 +8,7 @@ public class CookedPizzaState extends PizzaState {
 
     @Override
     public PizzaState getNextSuccessful() {
-        return new CookedPizzaState();
+        return this;
     }
 
     @Override
@@ -19,6 +19,11 @@ public class CookedPizzaState extends PizzaState {
     @Override
     public boolean isFinal() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Done";
     }
 
 }

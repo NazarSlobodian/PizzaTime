@@ -12,7 +12,7 @@ public class BurnedPizzaState extends PizzaState {
 
     @Override
     public PizzaState getNextFailed() {
-        return this;
+        return  new InitialPizzaState();
     }
 
     @Override
@@ -22,5 +22,10 @@ public class BurnedPizzaState extends PizzaState {
     @Override
     public boolean isBad() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Burned";
     }
 }

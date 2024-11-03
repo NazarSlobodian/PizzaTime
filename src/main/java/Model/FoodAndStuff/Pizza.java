@@ -2,22 +2,19 @@ package Model.FoodAndStuff;
 
 import Model.FoodAndStuff.States.InitialPizzaState;
 import Model.FoodAndStuff.States.PizzaState;
-import Model.FoodAndStuff.States.BakedPizzaState;
+
+import java.beans.PropertyChangeSupport;
 
 public class Pizza extends Dish implements Cloneable, Cookable {
 
     private PizzaState state;
 
-    public Pizza() {
+    public Pizza(String name, long preparationTimeLeftMs, PropertyChangeSupport support) {
+        super(name,preparationTimeLeftMs, support);
         this.state = new InitialPizzaState();
     }
-
-    public Pizza(String name, long preparationTimeLeft) {
-        super(name,preparationTimeLeft);
-        this.state = new InitialPizzaState();
-    }
-    public Pizza(String name, long preparationTimeLeft, CookingDifficulty difficulty) {
-        super(name,preparationTimeLeft, difficulty);
+    public Pizza(String name, long preparationTimeLeftMs, CookingDifficulty difficulty, PropertyChangeSupport support) {
+        super(name,preparationTimeLeftMs, difficulty, support);
         this.state = new InitialPizzaState();
     }
 
@@ -33,10 +30,7 @@ public class Pizza extends Dish implements Cloneable, Cookable {
     public Pizza clone() {
         try {
             Pizza cloned = (Pizza) super.clone();
-            // Глибоке клонування стану
-            cloned.state = this.state.getClass()
-                    .getDeclaredConstructor()
-                    .newInstance();
+            cloned.state = this.state.clone();
             return cloned;
         } catch (Exception e) {
             throw new RuntimeException("Failed to clone Pizza", e);
@@ -46,34 +40,27 @@ public class Pizza extends Dish implements Cloneable, Cookable {
     @Override
     public void cook(boolean controlledCooking, long elapsedTime) {
         // Розрахунок збільшення готовності на основі часу
-        double increaseFactor = (elapsedTime / (double) preparationTimeLeft) * 100;
+        double increaseFactor = (elapsedTime / (double) preparationTimeLeftMs) * 100; // divide by amount of states?
         state.increaseReadiness(increaseFactor);
 
         if (controlledCooking) {
-            // Контрольоване приготування
             if (state.getReadiness() >= 100 && !state.isFinal()) {
                 setState(state.getNextSuccessful());
             }
         } else {
-            // Неконтрольоване приготування
             if (state.getReadiness() >= 100) {
-                if (state instanceof BakedPizzaState) {
-                    setState(state.getNextFailed()); // Перехід до стану Burned
-                } else if (!state.isFinal()) {
+                if (state.isBad() && !state.isFinal()) {
                     setState(state.getNextSuccessful());
+                } else if (state.isBad() && state.isFinal()) {
+                    setState(state.getNextFailed());
                 }
             }
         }
 
-        // Перевірка на невдалий стан
-        if (state.isFinal() && state.isBad()) {
-            setState(state.getNextFailed());
-        }
-
         // Оновлення часу приготування
-        preparationTimeLeft -= elapsedTime;
-        if (preparationTimeLeft < 0) {
-            preparationTimeLeft = 0;
+        preparationTimeLeftMs -= elapsedTime;
+        if (preparationTimeLeftMs < 0) {
+            preparationTimeLeftMs = 0;
         }
     }
 

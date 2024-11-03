@@ -11,4 +11,9 @@ public class ToppingPizzaState extends PizzaState {
     public PizzaState getNextFailed() {
         return new InitialPizzaState();
     }
+
+    @Override
+    public String toString() {
+        return "Preparing topping";
+    }
 }

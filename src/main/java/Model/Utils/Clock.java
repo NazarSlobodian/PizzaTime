@@ -13,13 +13,13 @@ public class Clock {
 
     private long currentTime;
 
-    private final PropertyChangeSupport support;
+    private final EventFiringContext eventContext;
 
     //------------------------------------------------
-    public Clock(long currentTime, PropertyChangeSupport support) {
+    public Clock(long currentTime, EventFiringContext eventContext) {
         this.currentTime = currentTime;
-        this.support = support;
-        support.firePropertyChange("simDateTime", 0, toString());
+        this.eventContext = eventContext;
+        eventContext.firePropertyChange("simDateTime", 0, toString());
     }
     //------------------------------------------------
     public long getCurrentTime() {
@@ -30,10 +30,10 @@ public class Clock {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(currentTime), ZoneId.systemDefault());
     }
     // - - - - - - - - - - - - - -
-    public void addMs(long ms, boolean lastUpdate) {
+    public void addMs(long ms) {
         currentTime += ms;
-        if (lastUpdate) {
-            support.firePropertyChange("simDateTime", 0, toString());
+        if (eventContext.canFireEvent()) {
+            eventContext.firePropertyChange("simDateTime", 0, toString());
         }
     }
     // - - - - - - - - - - - - - -

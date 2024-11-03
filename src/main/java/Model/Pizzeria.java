@@ -1,12 +1,15 @@
 package Model;
 
 import Model.Utils.Clock;
+import Model.Utils.EventFiringContext;
 import Model.Utils.TimeProperties;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Pizzeria {
 
@@ -14,49 +17,60 @@ public class Pizzeria {
     TimeProperties timeProperties;
 
     // support should be used in model classes which fire update events
-    private final PropertyChangeSupport support;
-
+    private final EventFiringContext eventContext;
+    private final Lock lock;
     //------------------------------------------------
     public Pizzeria() {
-        support = new PropertyChangeSupport(this);
-
+        eventContext = new EventFiringContext();
+        lock = new ReentrantLock(true);
         Initialize();
     }
     // - - - - - - - - - - - - - -
     public void update(long elapsedMs) {
+        lock.lock();
+
+        eventContext.forbidEventFiring();
         long remainingMs = elapsedMs * timeProperties.getTimeSpeed();
         long step = timeProperties.getStepMs();
 
         while (remainingMs > step) {
-            clock.addMs(step, false);
+            clock.addMs(step);
 
-            updateStuff(step, false);
+            updateStuff(step);
 
             remainingMs -= step;
         }
         if (remainingMs > 0) {
-            clock.addMs(step, true);
+            eventContext.allowEventFiring();
+            clock.addMs(step);
 
-            updateStuff(step,true);
+            updateStuff(step);
         }
+        // FOR TESTING
+        timeProperties.setTimeSpeed(timeProperties.getTimeSpeed()+1);
+        //
+
+        lock.unlock();
     }
-    private void updateStuff(long elapsedMs, boolean lastUpdate) {
+    private void updateStuff(long elapsedMs) {
         //
     }
     // - - - - - - - - - - - - - -
     public void setTimeSpeed(int timeSpeed) {
+        lock.lock();
         timeProperties.setTimeSpeed(timeSpeed);
-    }
-    // - - - - - - - - - - - - - -
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
+        lock.unlock();
     }
     // - - - - - - - - - - - - - -
     private void Initialize() {
         clock = new Clock(ZonedDateTime.of(
                         LocalDateTime.of(2024, 10, 1, 9, 0, 0),
                         ZoneId.systemDefault())
-                .toInstant().toEpochMilli(), support);
-        timeProperties = new TimeProperties(60, 1000);
+                .toInstant().toEpochMilli(), eventContext);
+        timeProperties = new TimeProperties(60, 1000, eventContext);
+    }
+    // - - - - - - - - - - - - - -
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        eventContext.addPropertyChangeListener(listener);
     }
 }

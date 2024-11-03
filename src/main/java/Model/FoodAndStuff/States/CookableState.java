@@ -3,7 +3,7 @@ package Model.FoodAndStuff.States;
 /**
  * Represents state of food and its relations with other states
  */
-public interface CookableState {
+public interface CookableState extends Cloneable {
 
     /**
      *
