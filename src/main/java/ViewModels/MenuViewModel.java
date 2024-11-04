@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 public class MenuViewModel {
 
     private final Menu menu;
-    private final ObservableList<SingularPizzaViewModel> pizzasInMenu;
+    private final ObservableList<MenuPizzaViewModel> pizzasInMenu;
 
     public MenuViewModel(Menu menu) {
         this.menu = menu;
@@ -18,11 +18,11 @@ public class MenuViewModel {
         this.pizzasInMenu = FXCollections.observableArrayList();
 
         for (Pizza pizza : this.menu.getPizzas()) {
-            pizzasInMenu.add(new SingularPizzaViewModel(pizza));
+            pizzasInMenu.add(new MenuPizzaViewModel(pizza));
         }
         System.out.println("MENU:"); // <---don't forget to delete this
-        for (SingularPizzaViewModel pizza : pizzasInMenu) {
-            System.out.println("Name: " + pizza.nameProperty().getValue() + ", minTime: " + pizza.readinessProperty().getValue());
+        for (MenuPizzaViewModel pizza : pizzasInMenu) {
+            System.out.println("Name: " + pizza.nameProperty().getValue() + ", minTime: " + pizza.minTimeProperty().getValue());
         }
 
         this.menu.addPropertyChangeListener(evt -> {
@@ -36,14 +36,14 @@ public class MenuViewModel {
         this.menu.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals("menuPizzaAdded")) {
                 Platform.runLater(() -> {
-                    pizzasInMenu.add(new SingularPizzaViewModel((Pizza)evt.getNewValue()));
+                    pizzasInMenu.add(new MenuPizzaViewModel((Pizza)evt.getNewValue()));
                     System.out.println(((Pizza) evt.getNewValue()).getName() + " added");
                 });
             }
         });
     }
 
-    public ObservableList<SingularPizzaViewModel> getPizzasInMenu() {
+    public ObservableList<MenuPizzaViewModel> getPizzasInMenu() {
         return pizzasInMenu;
     }
 

@@ -75,9 +75,9 @@ public class Pizzeria extends ObservableModel {
             System.out.println("TIME OF FINISH: " + clock.toString());
             pizzas.remove(0);
         }
-        menu.removePizza(0);
+        //menu.removePizza(0);
         // :/
-        menu.addPizza(new Pizza("Something" + clock.getCurrentTime(), 100));
+        //menu.addPizza(new Pizza("Something" + clock.getCurrentTime(), 100));
         // TESTING
     }
 

@@ -5,16 +5,16 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class SingularPizzaViewModel {
+public class KitchenPizzaViewModel {
 
     private final StringProperty name;
     private final StringProperty stateProperty;
     private final StringProperty readinessProperty;
 
-    public SingularPizzaViewModel(Pizza pizza) {
+    public KitchenPizzaViewModel(Pizza pizza) {
         this.name = new SimpleStringProperty(pizza.getName());
         this.stateProperty = new SimpleStringProperty(pizza.getState().toString());
-        this.readinessProperty = new SimpleStringProperty(pizza.getReadiness() + "%");
+        this.readinessProperty = new SimpleStringProperty(String.format("%.2f", pizza.getReadiness()) + "%");
 
         pizza.addPropertyChangeListener(evt-> {
             if (evt.getPropertyName().equals("pizzaStateChanged")) {
@@ -27,7 +27,7 @@ public class SingularPizzaViewModel {
         pizza.addPropertyChangeListener(evt-> {
             if (evt.getPropertyName().equals("pizzaStateReadinessChanged")) {
                 Platform.runLater(()-> {
-                    readinessProperty.setValue(evt.getNewValue()+"%");
+                    readinessProperty.setValue(String.format("%.2f", (double)evt.getNewValue())+"%");
                     System.out.println("Pizza " + name.getValue()+" readiness " + readinessProperty.getValue());
                 });
             }

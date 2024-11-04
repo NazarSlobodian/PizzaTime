@@ -10,8 +10,7 @@ public class MainViewModel {
     // ideally, this should be split
     private final SimTimeViewModel simTimeViewModel;
     private final MenuViewModel menuViewModel;
-
-    private final ObservableList<SingularPizzaViewModel> pizzasInKitchen;
+    private final KitchenViewModel kitchenViewModel;
     // Time data
 
     //------------------------------------------------
@@ -19,15 +18,7 @@ public class MainViewModel {
         simTimeViewModel = new SimTimeViewModel(simulator.getClock(), simulator.getTimeProperties());
 
         menuViewModel = new MenuViewModel(simulator.getMenu());
-
-        this.pizzasInKitchen = FXCollections.observableArrayList();
-
-        for (Pizza pizza : simulator.getPizzas()) {
-            pizzasInKitchen.add(new SingularPizzaViewModel(pizza));
-        }
+        kitchenViewModel = new KitchenViewModel(simulator.getPizzas()); // replace with real list/object later
     }
 
-    public ObservableList<SingularPizzaViewModel> getPizzasInKitchen() {
-        return pizzasInKitchen;
-    }
 }

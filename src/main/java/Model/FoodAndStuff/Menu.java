@@ -3,14 +3,17 @@ package Model.FoodAndStuff;
 import Model.Utils.ObservableModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.locks.Lock;
 
 public class Menu extends ObservableModel {
     private List<Pizza> pizzas;
 
+    private final Random random;
     private final Lock lock;
     public Menu(Lock lock) {
         this.lock = lock;
+        this.random = new Random();
 
         pizzas = new ArrayList<>();
         pizzas.add(new Pizza("Quattro Formaggi", 20*60*1000));
@@ -20,6 +23,9 @@ public class Menu extends ObservableModel {
         pizzas.add(new Pizza("Salami", 18*60*1000));
     }
 
+    public Pizza getRandomPizza() {
+        return pizzas.get(random.nextInt(pizzas.size())).clone();
+    }
 
     public List<Pizza> getPizzas() {
         return new ArrayList<>(pizzas);
