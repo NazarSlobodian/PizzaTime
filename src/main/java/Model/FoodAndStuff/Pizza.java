@@ -2,18 +2,18 @@ package Model.FoodAndStuff;
 
 import Model.FoodAndStuff.States.DoughPizzaState;
 import Model.FoodAndStuff.States.PizzaState;
-import Model.Utils.EventFiringContext;
 
-public class Pizza extends Dish implements Cloneable, Cookable {
+public class Pizza extends Dish implements Cloneable {
 
     private PizzaState state;
 
-    public Pizza(String name, long preparationTimeLeftMs ) {
-        super(name,preparationTimeLeftMs);
+    public Pizza(String name, long totalPrepTimeMs) {
+        super(name, totalPrepTimeMs);
         this.state = new DoughPizzaState();
     }
+
     public Pizza(String name, long preparationTimeLeftMs, CookingDifficulty difficulty) {
-        super(name,preparationTimeLeftMs, difficulty);
+        super(name, preparationTimeLeftMs, difficulty);
         this.state = new DoughPizzaState();
     }
 
@@ -21,12 +21,31 @@ public class Pizza extends Dish implements Cloneable, Cookable {
         return state;
     }
 
-    protected void setState(PizzaState state) {
-        PizzaState oldState = this.state;
-        this.state = state;
-        //if (eventContext.canFireEvent()) { force update
-            eventContext.forceFirePropertyChange("pizzaStateChanged", oldState.toString(), this.state.toString());
-        //}
+    @Override
+    public void increaseReadiness(double value) {
+        state.increaseReadiness(value);
+        if (eventContext.canFireEvent()) {
+            eventContext.firePropertyChange("pizzaStateReadinessChanged", 0, this.state.getReadiness());
+        }
+        if (state.getReadiness() >= 100.0) {
+            updateState();
+        }
+    }
+    private void updateState() {
+        if (state.isFinal()) {
+            return;
+        }
+        if (state.isBad()) {
+            setNextFailureState();
+        }
+        else {
+            setNextSuccessfulState();
+        }
+    }
+
+    @Override
+    public boolean cookableWithoutCook() {
+        return state.canBeAutocooked();
     }
 
     @Override
@@ -41,46 +60,26 @@ public class Pizza extends Dish implements Cloneable, Cookable {
     }
 
     @Override
-    public void cook(boolean cookPresent, long elapsedTime) {
-        if (!state.canBeAutocooked() && !cookPresent) {
-            return;
-        }
-        // Розрахунок збільшення готовності на основі часу
-        double increaseFactor = ((elapsedTime*3) / (double) totalPrepTimeMs) * 100;
-        state.increaseReadiness(increaseFactor);
-
-        if (cookPresent) {
-            if (state.getReadiness() >= 100 && !state.isFinal()) {
-                setState(state.getNextSuccessful());
-            }
-        } else {
-            if (state.getReadiness() >= 100) {
-                if (state.isBad() && !state.isFinal()) {
-                    setState(state.getNextSuccessful());
-                } else if (state.isBad() && state.isFinal()) {
-                    setState(state.getNextFailed());
-                }
-            }
-        }
-
-        if (eventContext.canFireEvent()) {
-            eventContext.firePropertyChange("pizzaStateReadinessChanged", 0, this.state.getReadiness());
-        }
-    }
-    /**
-     *
-     * @return true if pizza can be served
-     */
-    @Override
     public boolean isCooked() {
         return state.isFinal() && !state.isBad();
     }
-    /**
-     *
-     * @return readiness of pizza (%)
-     */
+
     @Override
     public double getReadiness() {
         return state.getReadiness();
+    }
+
+    private void setNextSuccessfulState() {
+        setState(state.getNextSuccessful());
+    }
+    private void setNextFailureState() {
+        setState(state.getNextFailed());
+    }
+    private void setState(PizzaState state) {
+        PizzaState oldState = this.state;
+        this.state = state;
+        //if (eventContext.canFireEvent()) { force update
+        eventContext.forceFirePropertyChange("pizzaStateChanged", oldState.toString(), this.state.toString());
+        //}
     }
 }

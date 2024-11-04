@@ -3,6 +3,7 @@ package Model;
 import Model.FoodAndStuff.Menu;
 import Model.FoodAndStuff.Pizza;
 import Model.Generators.OrderGenerator;
+import Model.KitchenStuff.Cook;
 import Model.KitchenStuff.KitchenManager;
 import Model.Utils.Clock;
 import Model.Utils.ObservableModel;
@@ -70,7 +71,8 @@ public class Pizzeria extends ObservableModel {
         //kitchenManager.update(elapsedMs);
 
         // TESTING
-        pizzas.get(0).cook(true, elapsedMs);
+        Cook cook = new Cook();
+        cook.cook(pizzas.get(0),true, elapsedMs);
         if (pizzas.get(0).isCooked()) {
             System.out.println("TIME OF FINISH: " + clock.toString());
             pizzas.remove(0);

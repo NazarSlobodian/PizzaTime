@@ -1,11 +1,10 @@
 package Model.FoodAndStuff;
 
-import Model.Utils.EventFiringContext;
+import Model.FoodAndStuff.States.CookableState;
 import Model.Utils.ObservableModel;
 
-import java.beans.PropertyChangeSupport;
 
-public class Dish extends ObservableModel {
+public abstract class Dish extends ObservableModel implements Cookable {
 
     protected String name;
     protected long totalPrepTimeMs;
@@ -24,19 +23,20 @@ public class Dish extends ObservableModel {
         this.difficulty = difficulty;
     }
     //
+    @Override
+    public long getTotalPrepTimeMs() {
+        return totalPrepTimeMs;
+    }
+    @Override
     public String getName() {
         return name;
     }
-
+    @Override
     public void setName(String name) {
         this.name = name;
     }
-
-    public long getPreparationTimeLeftMs() {
-        return totalPrepTimeMs;
-    }
-
-    public void setPreparationTimeLeftMs(int totalPrepTimeMs) {
+    @Override
+    public void setTotalPrepTimeMs(long totalPrepTimeMs) {
         this.totalPrepTimeMs = totalPrepTimeMs;
     }
 

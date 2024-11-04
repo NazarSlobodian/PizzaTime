@@ -2,7 +2,6 @@ package ViewModels;
 
 import Model.FoodAndStuff.Menu;
 import Model.FoodAndStuff.Pizza;
-import Model.Pizzeria;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

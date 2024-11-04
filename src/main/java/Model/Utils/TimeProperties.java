@@ -1,6 +1,5 @@
 package Model.Utils;
 
-import java.beans.PropertyChangeSupport;
 import java.util.concurrent.locks.Lock;
 
 /**
