@@ -1,7 +1,6 @@
 package ViewModels;
 
 import Model.FoodAndStuff.Pizza;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -14,7 +13,7 @@ public class MenuPizzaViewModel {
     public MenuPizzaViewModel(Pizza pizza) {
         this.name = new SimpleStringProperty(pizza.getName());
         this.stateProperty = new SimpleStringProperty(pizza.getState().toString());
-        this.minTimeProperty = new SimpleStringProperty(pizza.getPreparationTimeLeftMs()/1000/60 + " minutes");
+        this.minTimeProperty = new SimpleStringProperty(pizza.getTotalPrepTimeMs()/1000/60 + " minutes");
     }
 
     public StringProperty nameProperty() {

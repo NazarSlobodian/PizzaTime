@@ -16,10 +16,6 @@ public class BurnedPizzaState extends PizzaState {
     }
 
     @Override
-    public boolean isFinal() {
-        return true;
-    }
-    @Override
     public boolean isBad() {
         return true;
     }
