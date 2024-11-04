@@ -1,54 +1,32 @@
 package ViewModels;
 
+import Model.FoodAndStuff.Pizza;
 import Model.Pizzeria;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 public class MainViewModel {
     private final Pizzeria simulator;
 
+    private final SimTimeViewModel simTimeViewModel;
+
+    private final ObservableList<SingularPizzaViewModel> pizzasInKitchen;
     // Time data
-    private final StringProperty simDateTimeProperty;
-    private final IntegerProperty simTimeSpeedProperty;
 
     //------------------------------------------------
     public MainViewModel(Pizzeria simulator) {
         this.simulator = simulator;
+        simTimeViewModel = new SimTimeViewModel(simulator, simulator.getClock(), simulator.getTimeProperties());
 
-        simDateTimeProperty = new SimpleStringProperty("This shouldn't be visible on startup");
-        simTimeSpeedProperty = new SimpleIntegerProperty(0);
+        this.pizzasInKitchen = FXCollections.observableArrayList();
 
-
-        simulator.addPropertyChangeListener(evt-> {
-            if ("simDateTime".equals(evt.getPropertyName())) {
-                Platform.runLater(()->simDateTimeProperty.set((String)evt.getNewValue()));
-
-                System.out.println(simDateTimeProperty.get());
-            }
-        });
-
-        simulator.addPropertyChangeListener(evt-> {
-            if ("simTimeSpeed".equals(evt.getPropertyName())) {
-                Platform.runLater(()->simTimeSpeedProperty.set((int)evt.getNewValue()));
-
-                System.out.println("Time speed " + simTimeSpeedProperty.get());
-            }
-        });
-    }
-    //------------------------------------------------
-    public StringProperty simDateTimeProperty() {
-        return simDateTimeProperty;
+        for (Pizza pizza : simulator.getPizzas()) {
+            pizzasInKitchen.add(new SingularPizzaViewModel(pizza));
+        }
     }
 
-    public IntegerProperty simTimeSpeedProperty() {
-        return simTimeSpeedProperty;
+    public ObservableList<SingularPizzaViewModel> getPizzasInKitchen() {
+        return pizzasInKitchen;
     }
-    public void setSimTimeSpeed(int simTimeSpeed) {
-        simulator.setTimeSpeed(simTimeSpeed);
-    }
-
 }

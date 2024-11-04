@@ -7,12 +7,12 @@ public class BurnedPizzaState extends PizzaState {
 
     @Override
     public PizzaState getNextSuccessful() {
-        return new InitialPizzaState();
+        return new DoughPizzaState();
     }
 
     @Override
     public PizzaState getNextFailed() {
-        return  new InitialPizzaState();
+        return  new DoughPizzaState();
     }
 
     @Override

@@ -5,7 +5,7 @@ import java.beans.PropertyChangeSupport;
 /**
  * Configuration of simulator time management
  */
-public class TimeProperties {
+public class TimeProperties extends ObservableModel {
 
     private int timeSpeed;
     private final long stepMs;
@@ -31,8 +31,9 @@ public class TimeProperties {
         if (timeSpeed < 0) {
             throw new IllegalArgumentException("Don't.");
         }
+        int oldTimeSpeed = this.timeSpeed;
         this.timeSpeed = timeSpeed;
-        eventContext.firePropertyChange("simTimeSpeed", 0, timeSpeed);
+        eventContext.firePropertyChange("simTimeSpeed", oldTimeSpeed, timeSpeed);
     }
     // - - - - - - - - - - - - - -
 }

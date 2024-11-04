@@ -13,7 +13,10 @@ public class BakedPizzaState extends PizzaState {
     public PizzaState getNextFailed() {
         return new BurnedPizzaState();
     }
-
+    @Override
+    public boolean canBeAutocooked() {
+        return true;
+    }
     @Override
     public String toString() {
         return "Baking";

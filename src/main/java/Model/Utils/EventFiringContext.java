@@ -8,15 +8,12 @@ public class EventFiringContext {
     private final PropertyChangeSupport support;
     boolean eventFireAllowed;
 
-    public EventFiringContext() {
-        support = new PropertyChangeSupport(this);
-        eventFireAllowed = false;
-    }
-    public void allowEventFiring() {
+    public EventFiringContext(Object source) {
+        support = new PropertyChangeSupport(source);
         eventFireAllowed = true;
     }
-    public void forbidEventFiring() {
-        eventFireAllowed = false;
+    public void setEventFiring(boolean setting) {
+        eventFireAllowed = setting;
     }
     public boolean canFireEvent() {
         return eventFireAllowed;
@@ -25,6 +22,9 @@ public class EventFiringContext {
         if (canFireEvent()) {
             support.firePropertyChange(name, oldValue, newValue);
         }
+    }
+    public void forceFirePropertyChange(String name, Object oldValue, Object newValue) {
+        support.firePropertyChange(name, oldValue, newValue);
     }
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);

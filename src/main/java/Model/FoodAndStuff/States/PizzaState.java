@@ -29,6 +29,10 @@ public abstract class PizzaState implements CookableState {
         return false;
     }
     @Override
+    public boolean canBeAutocooked() {
+        return false;
+    }
+    @Override
     public abstract String toString();
 
     @Override

@@ -9,7 +9,6 @@ public interface CookableState extends Cloneable {
      *
      * @return readiness for current state (0-100%)
      */
-
     double getReadiness();
 
     /**
@@ -39,8 +38,14 @@ public interface CookableState extends Cloneable {
      * @return is bad or not
      */
     boolean isBad();
+
     /**
-     * Should vary depending on readiness ('baked' if 100%, 'in oven' if 0-99%)
+     * If cookable can be cooked without cook. If readiness crosses 100% uncontrolled state will be sat to failed
+     * @return true if cookable *can be cooked without cook
+     */
+    boolean canBeAutocooked();
+    /**
+     * Name of state for display
      * @return name of state
      */
     @Override

@@ -1,21 +1,20 @@
 package Model.FoodAndStuff;
 
-import Model.FoodAndStuff.States.InitialPizzaState;
+import Model.FoodAndStuff.States.DoughPizzaState;
 import Model.FoodAndStuff.States.PizzaState;
-
-import java.beans.PropertyChangeSupport;
+import Model.Utils.EventFiringContext;
 
 public class Pizza extends Dish implements Cloneable, Cookable {
 
     private PizzaState state;
 
-    public Pizza(String name, long preparationTimeLeftMs, PropertyChangeSupport support) {
-        super(name,preparationTimeLeftMs, support);
-        this.state = new InitialPizzaState();
+    public Pizza(String name, long preparationTimeLeftMs ) {
+        super(name,preparationTimeLeftMs);
+        this.state = new DoughPizzaState();
     }
-    public Pizza(String name, long preparationTimeLeftMs, CookingDifficulty difficulty, PropertyChangeSupport support) {
-        super(name,preparationTimeLeftMs, difficulty, support);
-        this.state = new InitialPizzaState();
+    public Pizza(String name, long preparationTimeLeftMs, CookingDifficulty difficulty) {
+        super(name,preparationTimeLeftMs, difficulty);
+        this.state = new DoughPizzaState();
     }
 
     public PizzaState getState() {
@@ -23,7 +22,11 @@ public class Pizza extends Dish implements Cloneable, Cookable {
     }
 
     protected void setState(PizzaState state) {
+        PizzaState oldState = this.state;
         this.state = state;
+        //if (eventContext.canFireEvent()) { force update
+            eventContext.forceFirePropertyChange("pizzaStateChanged", oldState.toString(), this.state.toString());
+        //}
     }
 
     @Override
@@ -38,12 +41,15 @@ public class Pizza extends Dish implements Cloneable, Cookable {
     }
 
     @Override
-    public void cook(boolean controlledCooking, long elapsedTime) {
+    public void cook(boolean cookPresent, long elapsedTime) {
+        if (!state.canBeAutocooked() && !cookPresent) {
+            return;
+        }
         // Розрахунок збільшення готовності на основі часу
-        double increaseFactor = (elapsedTime / (double) preparationTimeLeftMs) * 100; // divide by amount of states?
+        double increaseFactor = ((elapsedTime*3) / (double) totalPrepTimeMs) * 100;
         state.increaseReadiness(increaseFactor);
 
-        if (controlledCooking) {
+        if (cookPresent) {
             if (state.getReadiness() >= 100 && !state.isFinal()) {
                 setState(state.getNextSuccessful());
             }
@@ -57,13 +63,10 @@ public class Pizza extends Dish implements Cloneable, Cookable {
             }
         }
 
-        // Оновлення часу приготування
-        preparationTimeLeftMs -= elapsedTime;
-        if (preparationTimeLeftMs < 0) {
-            preparationTimeLeftMs = 0;
+        if (eventContext.canFireEvent()) {
+            eventContext.firePropertyChange("pizzaStateReadinessChanged", 0, this.state.getReadiness());
         }
     }
-
     /**
      *
      * @return true if pizza can be served
@@ -72,7 +75,6 @@ public class Pizza extends Dish implements Cloneable, Cookable {
     public boolean isCooked() {
         return state.isFinal() && !state.isBad();
     }
-
     /**
      *
      * @return readiness of pizza (%)

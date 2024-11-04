@@ -12,7 +12,7 @@ public class DoughPizzaState extends PizzaState {
 
     @Override
     public PizzaState getNextFailed() {
-        return new InitialPizzaState();
+        return new DoughPizzaState();
     }
 
     @Override

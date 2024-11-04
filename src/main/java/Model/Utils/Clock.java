@@ -9,17 +9,15 @@ import java.time.format.DateTimeFormatter;
 /**
  * Keeps track of time
  */
-public class Clock {
+public class Clock extends ObservableModel{
 
     private long currentTime;
 
-    private final EventFiringContext eventContext;
-
     //------------------------------------------------
-    public Clock(long currentTime, EventFiringContext eventContext) {
+    public Clock(long currentTime) {
         this.currentTime = currentTime;
-        this.eventContext = eventContext;
-        eventContext.firePropertyChange("simDateTime", 0, toString());
+        this.eventContext = new EventFiringContext(this);
+
     }
     //------------------------------------------------
     public long getCurrentTime() {
@@ -31,9 +29,10 @@ public class Clock {
     }
     // - - - - - - - - - - - - - -
     public void addMs(long ms) {
+        String oldTime = toString();
         currentTime += ms;
         if (eventContext.canFireEvent()) {
-            eventContext.firePropertyChange("simDateTime", 0, toString());
+            eventContext.firePropertyChange("simDateTime", oldTime, toString());
         }
     }
     // - - - - - - - - - - - - - -

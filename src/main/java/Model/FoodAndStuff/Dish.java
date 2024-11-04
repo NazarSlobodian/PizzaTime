@@ -1,27 +1,27 @@
 package Model.FoodAndStuff;
 
+import Model.Utils.EventFiringContext;
+import Model.Utils.ObservableModel;
+
 import java.beans.PropertyChangeSupport;
 
-public class Dish {
+public class Dish extends ObservableModel {
 
     protected String name;
-    protected long preparationTimeLeftMs;
+    protected long totalPrepTimeMs;
     private CookingDifficulty difficulty; // not needed
 
-    private final PropertyChangeSupport support;
 
-    public Dish(String name, long preparationTimeLeft, PropertyChangeSupport propertyChangeSupport) {
+    public Dish(String name, long totalPrepTimeMs) {
         this.name = name;
-        this.preparationTimeLeftMs = preparationTimeLeft;
+        this.totalPrepTimeMs = totalPrepTimeMs;
         this.difficulty = CookingDifficulty.EASY;
-        this.support = propertyChangeSupport;
     }
     //
-    public Dish(String name, long preparationTimeLeft, CookingDifficulty difficulty, PropertyChangeSupport propertyChangeSupport) {
+    public Dish(String name, long totalPrepTimeMs, CookingDifficulty difficulty) {
         this.name = name;
-        this.preparationTimeLeftMs = preparationTimeLeft;
+        this.totalPrepTimeMs = totalPrepTimeMs;
         this.difficulty = difficulty;
-        this.support = propertyChangeSupport;
     }
     //
     public String getName() {
@@ -33,11 +33,11 @@ public class Dish {
     }
 
     public long getPreparationTimeLeftMs() {
-        return preparationTimeLeftMs;
+        return totalPrepTimeMs;
     }
 
-    public void setPreparationTimeLeftMs(int preparationTimeLeftMs) {
-        this.preparationTimeLeftMs = preparationTimeLeftMs;
+    public void setPreparationTimeLeftMs(int totalPrepTimeMs) {
+        this.totalPrepTimeMs = totalPrepTimeMs;
     }
 
     public CookingDifficulty getDifficulty() {
