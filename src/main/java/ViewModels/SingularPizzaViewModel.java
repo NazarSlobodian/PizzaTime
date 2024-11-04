@@ -18,18 +18,18 @@ public class SingularPizzaViewModel {
 
         pizza.addPropertyChangeListener(evt-> {
             if (evt.getPropertyName().equals("pizzaStateChanged")) {
-                Platform.runLater(()->{stateProperty.setValue(evt.getNewValue().toString());
+                Platform.runLater(()->{
+                    stateProperty.setValue(evt.getNewValue().toString());
                     System.out.println("Pizza "+ name.getValue() + " state " + stateProperty.getValue());
                 });
-
             }
         });
         pizza.addPropertyChangeListener(evt-> {
             if (evt.getPropertyName().equals("pizzaStateReadinessChanged")) {
-                Platform.runLater(()->{readinessProperty.setValue(evt.getNewValue()+"%");
+                Platform.runLater(()-> {
+                    readinessProperty.setValue(evt.getNewValue()+"%");
                     System.out.println("Pizza " + name.getValue()+" readiness " + readinessProperty.getValue());
                 });
-
             }
         });
     }

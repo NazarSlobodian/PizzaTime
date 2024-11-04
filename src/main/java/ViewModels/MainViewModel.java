@@ -7,17 +7,18 @@ import javafx.collections.ObservableList;
 
 
 public class MainViewModel {
-    private final Pizzeria simulator;
-
+    // ideally, this should be split
     private final SimTimeViewModel simTimeViewModel;
+    private final MenuViewModel menuViewModel;
 
     private final ObservableList<SingularPizzaViewModel> pizzasInKitchen;
     // Time data
 
     //------------------------------------------------
     public MainViewModel(Pizzeria simulator) {
-        this.simulator = simulator;
-        simTimeViewModel = new SimTimeViewModel(simulator, simulator.getClock(), simulator.getTimeProperties());
+        simTimeViewModel = new SimTimeViewModel(simulator.getClock(), simulator.getTimeProperties());
+
+        menuViewModel = new MenuViewModel(simulator.getMenu());
 
         this.pizzasInKitchen = FXCollections.observableArrayList();
 

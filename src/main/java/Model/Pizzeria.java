@@ -75,16 +75,10 @@ public class Pizzeria extends ObservableModel {
             System.out.println("TIME OF FINISH: " + clock.toString());
             pizzas.remove(0);
         }
+        menu.removePizza(0);
         // :/
-
+        menu.addPizza(new Pizza("Something" + clock.getCurrentTime(), 100));
         // TESTING
-    }
-
-    // - - - - - - - - - - - - - -
-    public void setTimeSpeed(int timeSpeed) {
-        lock.lock();
-        timeProperties.setTimeSpeed(timeSpeed);
-        lock.unlock();
     }
 
     public Clock getClock() {
@@ -101,6 +95,9 @@ public class Pizzeria extends ObservableModel {
     }
     //TESTING
 
+    public Menu getMenu() {
+        return menu;
+    }
     // - - - - - - - - - - - - - -
     private void Initialize() {
         lock = new ReentrantLock(true);
@@ -109,8 +106,8 @@ public class Pizzeria extends ObservableModel {
                         LocalDateTime.of(2024, 10, 1, 9, 0, 0),
                         ZoneId.systemDefault())
                 .toInstant().toEpochMilli());
-        timeProperties = new TimeProperties(60, 1000, eventContext);
-        menu = new Menu();
+        timeProperties = new TimeProperties(60, 1000, lock);
+        menu = new Menu(lock);
 
         //
         pizzas = menu.getPizzas();
@@ -124,5 +121,6 @@ public class Pizzeria extends ObservableModel {
         for (Pizza pizza : pizzas) {
             pizza.setNotifications(setting);
         }
+        menu.setNotifications(setting);
     }
 }
