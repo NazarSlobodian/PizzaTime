@@ -12,15 +12,12 @@ import javafx.beans.property.StringProperty;
 
 public class SimTimeViewModel {
 
-    private Pizzeria pizzeria;
-
-    private Clock clock;
     private TimeProperties timeProperties;
 
     private final StringProperty simDateTimeProperty;
     private final IntegerProperty simTimeSpeedProperty;
 
-    public SimTimeViewModel(Pizzeria pizzeria, Clock clock, TimeProperties timeProperties) {
+    public SimTimeViewModel(Clock clock, TimeProperties timeProperties) {
 
         simDateTimeProperty = new SimpleStringProperty(clock.toString());
         simTimeSpeedProperty = new SimpleIntegerProperty(timeProperties.getTimeSpeed());
@@ -50,6 +47,6 @@ public class SimTimeViewModel {
     //------------------------------------------------
 
     public void setSimTimeSpeed(int simTimeSpeed) {
-        pizzeria.setTimeSpeed(simTimeSpeed);
+        timeProperties.setTimeSpeed(simTimeSpeed);
     }
 }
