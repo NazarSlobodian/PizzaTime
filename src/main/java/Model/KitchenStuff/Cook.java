@@ -43,19 +43,13 @@ public class Cook {
             return cookNextState(cookable); // Переходимо до наступного стану
         } else {
             isActive = true; // Кухар активний, якщо не можна готувати до заданого стану
-            DishReadiness dishReadiness = new DishReadiness();
-            dishReadiness.setCookable(cookable);
-            dishReadiness.setReady(false);
-            return dishReadiness;
+            return new DishReadiness(cookable, false);
         }
     }
     // Рекурсивний метод для обробки наступного стану приготування
     private DishReadiness cookNextState(Cookable cookable) {
 
-        DishReadiness dishReadiness = new DishReadiness();
-        dishReadiness.setCookable(cookable);
-        dishReadiness.setReady(false);
-        return dishReadiness;
+        return new DishReadiness(cookable, false);
     }
 
 

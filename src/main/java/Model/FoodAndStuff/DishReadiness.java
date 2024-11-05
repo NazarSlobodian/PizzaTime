@@ -4,6 +4,12 @@ public class DishReadiness {
     private Cookable cookable;
     private boolean isReady;
 
+    public DishReadiness(){}
+    public DishReadiness(Cookable cookable, boolean isReady){
+
+        this.cookable = cookable;
+        this.isReady = isReady;
+    }
     public Cookable getCookable() {
         return cookable;
     }
