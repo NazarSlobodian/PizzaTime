@@ -20,7 +20,9 @@ public class Pizza extends Dish implements Cloneable {
     public PizzaState getState() {
         return state;
     }
-
+    public String getStateName() {
+        return state.toString();
+    }
     @Override
     public void increaseReadiness(double value) {
         state.increaseReadiness(value);

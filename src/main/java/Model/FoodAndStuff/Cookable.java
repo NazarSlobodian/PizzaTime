@@ -20,6 +20,7 @@ public interface Cookable {
     void increaseReadiness(double value);
     void setName(String name);
     String getName();
+    String getStateName();
     void setTotalPrepTimeMs(long totalPrepTimeMs);
     boolean cookableWithoutCook();
 }
