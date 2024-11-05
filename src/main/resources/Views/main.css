@@ -1,0 +1,75 @@
+#rootAnchorPane{
+    -fx-background-image: url("images/EnterBackground.jpg");
+}
+
+#enterButton {
+    -fx-background-color: #E2D5BD;
+    -fx-border-color: #000000;
+    -fx-border-width: 3px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+#enterButton:hover {
+    -fx-background-color: #D1C2A3;
+    -fx-border-color: #333333;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 2);
+}
+
+#enterButton:pressed {
+    -fx-background-color: #BFA58B;
+    -fx-border-color: #333333;
+    -fx-translate-y: 2px;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.4), 6, 0, 0, 1);
+}
+
+#dropDownButton {
+    -fx-font-size: 26px;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 5px;
+}
+
+#dropDownButton:hover {
+    -fx-background-color: #e0e0e0;
+    -fx-border-color: #808080;
+}
+
+#dropDownButton:pressed {
+    -fx-background-color: #c0c0c0;
+    -fx-border-color: #404040;
+}
+
+.active-button {
+    -fx-text-fill: blue;
+}
+
+#imageMenuButton {
+    -fx-translate-x: -10px;
+    -fx-padding: 0 15px 0 0;
+}
+
+.menu-items-box {
+    -fx-border-color: #d1d1d1;
+    -fx-background-color: white;
+    -fx-padding: 5px;
+    -fx-spacing: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-border-radius: 5px;
+}
+
+.menu-item {
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+    -fx-background-color: white;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-width: 0;
+    -fx-padding: 5px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #e0e0e0;
+    -fx-border-color: #808080;
+}

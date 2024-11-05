@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="windowMenuAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #76582B;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxsample.NavSceneController">
+   <children>
+      <ImageView fitHeight="720.0" fitWidth="612.0" layoutX="668.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <image>
+            <Image url="@images/NavFramePizza.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="menuAnchorPane" layoutX="14.0" layoutY="14.0" prefHeight="680.0" prefWidth="318.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 28;">
+         <children>
+            <AnchorPane prefHeight="80.0" prefWidth="318.0" style="-fx-background-color: #C9B495; -fx-background-radius: 28;">
+               <children>
+                  <Label fx:id="pizzaLabel" layoutX="61.0" layoutY="18.0" text="P I Z Z" textFill="WHITE">
+                     <font>
+                        <Font name="Rockwell Extra Bold" size="32.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/TopMenuImage.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <!-- Основна кнопка для розгортання/згортання меню -->
+            <Button fx:id="dropDownButton" layoutX="59.0" layoutY="157.0" onAction="#toggleMenu" prefHeight="40.0" prefWidth="205.0" text="Меню">
+               <graphic>
+                  <ImageView fx:id="imageMenuButton" fitHeight="25.0" fitWidth="25.0">
+                     <image>
+                        <Image url="@images/MenuButton.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+
+            <!-- VBox для пунктів меню, які будуть показані/сховані -->
+            <VBox fx:id="menuItemsBox" layoutX="59.0" layoutY="200.0" prefHeight="103.0" prefWidth="205.0" spacing="5" styleClass="menu-items-box" visible="false">
+               <children>
+                  <Button fx:id="pizzaButton" onAction="#btnPizza" prefHeight="31.0" prefWidth="208.0" styleClass="menu-item" text="Піца" />
+                  <Button fx:id="drinksButton" onAction="#btnDrinks" prefHeight="31.0" prefWidth="211.0" styleClass="menu-item" text="Напої" />
+                  <Button fx:id="dessertsButton" onAction="#btnDesserts" prefHeight="31.0" prefWidth="235.0" styleClass="menu-item" text="Десерти" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <BorderPane fx:id="viewBorderPane" layoutX="429.0" layoutY="14.0" prefHeight="680.0" prefWidth="800.0" style="-fx-background-color: white;" visible="false" />
+   </children>
+</AnchorPane>
