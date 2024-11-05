@@ -2,24 +2,34 @@ package pizzatimepack;
 
 import Model.Pizzeria;
 import ViewModels.MainViewModel;
+import ViewModels.SimTimeViewModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Views/hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Oi!");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/enter-view.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        String css = this.getClass().getResource("/Views/main.css").toExternalForm();
+        scene.getStylesheets().add(css);
         stage.setScene(scene);
         stage.show();
 
         Pizzeria pizzeria = new Pizzeria();
         MainViewModel mainViewModel = new MainViewModel(pizzeria);
+
+        SimTimeViewModel simTimeViewModel = mainViewModel.getSimTimeViewModel();
+        EnterSceneController enterController = loader.getController();
+        enterController.setSimTimeViewModel(simTimeViewModel);
+
         SimulatorLauncher launcher = new SimulatorLauncher(pizzeria);
         launcher.run();
         stage.setOnCloseRequest(event -> {
