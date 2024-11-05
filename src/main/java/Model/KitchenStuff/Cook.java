@@ -15,45 +15,34 @@ public class Cook {
     public Cook() {
         stateMap = new HashMap<>();
         initializeStates();
-        isActive = true; // Початково кухар активний
+        isActive = true;
     }
     private void initializeStates() {
-        stateMap.put("Dough preparation", true); // Стан підготовки тіста
-        stateMap.put("Preparing topping", true); // Стан додавання начинки
-        stateMap.put("Baking", true); // Стан випікання
-        stateMap.put("Done", true); // Стан готовності
-        stateMap.put("Burned", false); // Стан "підгоріло", до якого не можна свідомо перейти
+        stateMap.put("Dough preparation", true);
+        stateMap.put("Preparing topping", true);
+        stateMap.put("Baking", true);
+        stateMap.put("Done", true);
+        stateMap.put("Burned", false);
     }
 
-    // Метод для перевірки, чи можна готувати до зазначеного стану
+    // Метод для перевірки, чи можна готувати певний стан
     private boolean canCook(String stateName) {
-        return stateMap.getOrDefault(stateName, false); // Повертаємо true, якщо можна готувати, інакше false
+        return stateMap.getOrDefault(stateName, false);
     }
-
+    // Метод готовки
     public DishReadiness cook(Cookable cookable, boolean cookPresent, long elapsedTime) {
         isActive = false;
-
-        // Перевірка, чи дозволяє стан приготування
-        if (canCook(cookable.getStateName()))
-        { // Викликаємо canCook з поточним станом cookable
+        boolean isReady = false;
+        // цикл для проходу всіх станів які може пригутувати кухар
+        while (canCook(cookable.getStateName()))
+        {
             double increaseFactor = ((double) (elapsedTime * 3) / cookable.getTotalPrepTimeMs()) * 100;
-            cookable.increaseReadiness(increaseFactor); // Збільшуємо рівень готовності
-
-            isActive = true; // Після приготування кухар стає активним
-            return cookNextState(cookable); // Переходимо до наступного стану
-        } else {
-            isActive = true; // Кухар активний, якщо не можна готувати до заданого стану
-            return new DishReadiness(cookable, false);
+            cookable.increaseReadiness(increaseFactor);
+            isReady = true;
         }
+        isActive = true;
+        return new DishReadiness(cookable, isReady);
     }
-    // Рекурсивний метод для обробки наступного стану приготування
-    private DishReadiness cookNextState(Cookable cookable) {
-
-        return new DishReadiness(cookable, false);
-    }
-
-
-
 }
 
 
