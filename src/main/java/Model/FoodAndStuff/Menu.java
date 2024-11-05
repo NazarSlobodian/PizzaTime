@@ -1,10 +1,11 @@
 package Model.FoodAndStuff;
 
-import Model.Utils.ObservableModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.Lock;
+
+import Model.Utils.ObservableModel;
 
 public class Menu extends ObservableModel {
     private List<Pizza> pizzas;
@@ -59,5 +60,14 @@ public class Menu extends ObservableModel {
         pizzas.remove(index);
         lock.unlock();
         eventContext.forceFirePropertyChange("menuPizzaDeleted", -1, index);
+    }
+
+    public Pizza getPizzaByType(String type) {
+        for (Pizza pizza : pizzas) {
+            if (pizza.getName().equalsIgnoreCase(type)) {
+                return pizza.clone();
+            }
+        }
+        return null;
     }
 }
