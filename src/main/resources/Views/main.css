@@ -23,7 +23,7 @@
     -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.4), 6, 0, 0, 1);
 }
 
-#dropDownButton {
+.nav-item {
     -fx-font-size: 26px;
     -fx-background-color: white;
     -fx-border-color: black;
@@ -32,12 +32,12 @@
     -fx-background-radius: 5px;
 }
 
-#dropDownButton:hover {
+.nav-item:hover {
     -fx-background-color: #e0e0e0;
     -fx-border-color: #808080;
 }
 
-#dropDownButton:pressed {
+.nav-item:pressed {
     -fx-background-color: #c0c0c0;
     -fx-border-color: #404040;
 }
