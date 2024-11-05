@@ -3,6 +3,7 @@ package Model.KitchenStuff;
 import java.util.HashMap;
 import java.util.Map;
 import Model.FoodAndStuff.Cookable;
+import Model.FoodAndStuff.DishReadiness;
 import Model.FoodAndStuff.States.CookableState;
 
 /**
@@ -29,7 +30,7 @@ public class Cook {
         return stateMap.getOrDefault(stateName, false); // Повертаємо true, якщо можна готувати, інакше false
     }
 
-    public boolean cook(Cookable cookable, boolean cookPresent, long elapsedTime) {
+    public DishReadiness cook(Cookable cookable, boolean cookPresent, long elapsedTime) {
         isActive = false;
 
         // Перевірка, чи дозволяє стан приготування
@@ -42,13 +43,19 @@ public class Cook {
             return cookNextState(cookable); // Переходимо до наступного стану
         } else {
             isActive = true; // Кухар активний, якщо не можна готувати до заданого стану
-            return false;
+            DishReadiness dishReadiness = new DishReadiness();
+            dishReadiness.setCookable(cookable);
+            dishReadiness.setReady(false);
+            return dishReadiness;
         }
     }
     // Рекурсивний метод для обробки наступного стану приготування
-    private boolean cookNextState(Cookable cookable) {
+    private DishReadiness cookNextState(Cookable cookable) {
 
-     return false;
+        DishReadiness dishReadiness = new DishReadiness();
+        dishReadiness.setCookable(cookable);
+        dishReadiness.setReady(false);
+        return dishReadiness;
     }
 
 
