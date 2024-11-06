@@ -71,12 +71,12 @@ public class Pizzeria extends ObservableModel {
         //kitchenManager.update(elapsedMs);
 
         // TESTING
-        Cook cook = new Cook();
-        cook.cook(pizzas.get(0),true, elapsedMs);
-        if (pizzas.get(0).isCooked()) {
-            System.out.println("TIME OF FINISH: " + clock.toString());
-            pizzas.remove(0);
-        }
+      //  Cook cook = new Cook();
+       // cook.cook(pizzas.get(0),true, elapsedMs);
+      //  if (pizzas.get(0).isCooked()) {
+         //   System.out.println("TIME OF FINISH: " + clock.toString());
+            //pizzas.remove(0);
+       // }
         //menu.removePizza(0);
         // :/
         //menu.addPizza(new Pizza("Something" + clock.getCurrentTime(), 100));
