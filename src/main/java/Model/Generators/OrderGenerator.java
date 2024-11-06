@@ -9,19 +9,29 @@ import Model.FoodAndStuff.Menu;
 import Model.KitchenStuff.Order;
 
 /**
- * Generates orders based on different strategies.
+ * An interface for generating orders based on different strategies
  */
-public class OrderGenerator {
+public interface OrderGenerator {
+    Order generateRandomOrder();
+    Order generateFixedOrder(int itemCount);
+    Order generatePromoOrder(List<String> promoPizzaTypes);
+}
+
+/**
+ * Generates orders based on different strategies
+ */
+class OrderGeneratorImpl implements OrderGenerator {
 
     private Menu menu;
     private Random random;
 
-    public OrderGenerator(Menu menu) {
+    public OrderGeneratorImpl(Menu menu) {
         this.menu = menu;
         this.random = new Random();
     }
 
     // Generates an order with a random number of pizzas (1-5)
+    @Override
     public Order generateRandomOrder() {
         int itemCount = random.nextInt(5) + 1;
         List<Cookable> items = new ArrayList<>();
@@ -32,6 +42,7 @@ public class OrderGenerator {
     }
 
     // Generates an order with a fixed number of pizzas
+    @Override
     public Order generateFixedOrder(int itemCount) {
         List<Cookable> items = new ArrayList<>();
         for (int i = 0; i < itemCount; i++) {
@@ -41,6 +52,7 @@ public class OrderGenerator {
     }
     
     // Generates promotional order with specific types of pizzas
+    @Override
     public Order generatePromoOrder(List<String> promoPizzaTypes) {
         List<Cookable> items = new ArrayList<>();
         for (String type : promoPizzaTypes) {
