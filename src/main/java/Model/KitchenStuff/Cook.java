@@ -22,6 +22,6 @@ public class Cook {
             return;
         }
         double increaseFactor = ((double) (elapsedTime * 3) / cookable.getTotalPrepTimeMs()) * 100;
-        cookable.increaseReadiness(increaseFactor);
+        cookable.increaseReadiness(increaseFactor, cookPresent);
     }
 }

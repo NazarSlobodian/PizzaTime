@@ -22,24 +22,21 @@ public class Pizza extends Dish implements Cloneable {
     }
 
     @Override
-    public void increaseReadiness(double value) {
+    public void increaseReadiness(double value, boolean controlledCooking) {
         state.increaseReadiness(value);
         if (eventContext.canFireEvent()) {
             eventContext.firePropertyChange("pizzaStateReadinessChanged", 0, this.state.getReadiness());
         }
-        if (state.getReadiness() >= 100.0) {
-            updateState();
-        }
-    }
-    private void updateState() {
-        if (state.isFinal()) {
-            return;
+        if (state.getReadiness() >=100) {
+            if (controlledCooking) {
+                setNextSuccessfulState();
+            }
+            else {
+                setNextFailureState();
+            }
         }
         if (state.isBad()) {
             setNextFailureState();
-        }
-        else {
-            setNextSuccessfulState();
         }
     }
 

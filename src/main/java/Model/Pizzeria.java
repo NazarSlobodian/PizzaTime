@@ -84,10 +84,7 @@ public class Pizzeria extends ObservableModel {
             System.out.println("TIME OF FINISH: " + clock.toString());
             pizzas.remove(0);
         }
-        //menu.removePizza(0);
-        // :/
-        //menu.addPizza(new Pizza("Something" + clock.getCurrentTime(), 100));
-        // TESTING
+        //TESTING
     }
 
     public Clock getClock() {
@@ -112,7 +109,7 @@ public class Pizzeria extends ObservableModel {
         lock = new ReentrantLock(true);
 
         clock = new Clock(ZonedDateTime.of(
-                        LocalDateTime.of(2024, 10, 1, 17, 0, 1),
+                        LocalDateTime.of(2024, 10, 1, 9, 0, 1),
                         ZoneId.systemDefault())
                 .toInstant().toEpochMilli());
         timeProperties = new TimeProperties(60, 1000, lock);
