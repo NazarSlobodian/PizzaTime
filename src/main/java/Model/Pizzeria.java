@@ -80,10 +80,11 @@ public class Pizzeria extends ObservableModel {
         // TESTING
 
         Cook cook = new Cook();
-        cook.cook(pizzas.get(0),true, elapsedMs);
+        cook.cook(pizzas.get(0), elapsedMs);
         if (pizzas.get(0).isCooked()) {
             System.out.println("TIME OF FINISH: " + clock.toString());
             pizzas.remove(0);
+        }
     }
 
     public Clock getClock() {

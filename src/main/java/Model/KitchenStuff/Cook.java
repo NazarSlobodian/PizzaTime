@@ -56,13 +56,10 @@ public class Cook extends ObservableModel { // Успадковуємо Observab
             double increaseFactor = ((double) (elapsedTime * 3) / cookable.getTotalPrepTimeMs()) * 100;
 
             // Викликаємо increaseReadiness, передаючи тільки приріст готовності
-            cookable.increaseReadiness(increaseFactor);
+            cookable.increaseReadiness(increaseFactor, cookPresent);
 
             // Перевіряємо, чи страва готова після збільшення рівня готовності
             boolean isReady = cookable.getReadiness() >= 100 && cookable.isCooked();
-
-            // Викликаємо forceFirePropertyChange для повідомлення про зміну стану готовності
-            eventContext.forceFirePropertyChange("pizzaStateChanged", !isReady, isReady);
 
             isActive = true; // Після приготування кухар стає активним
             return new DishReadiness(cookable, isReady);
