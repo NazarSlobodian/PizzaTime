@@ -21,4 +21,7 @@ public class MainViewModel {
         kitchenViewModel = new KitchenViewModel(simulator.getPizzas()); // replace with real list/object later
     }
 
+    public SimTimeViewModel getSimTimeViewModel() {
+        return simTimeViewModel;
+    }
 }

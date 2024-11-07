@@ -71,6 +71,7 @@ public class Cook extends ObservableModel { // Успадковуємо Observab
         // Якщо кухар не може готувати цей стан, повертаємо DishReadiness з готовністю false
         isActive = true; // Після завершення кухар стає активним
         return new DishReadiness(cookable, false);
+
     }
 
 }
