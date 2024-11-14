@@ -59,7 +59,7 @@ public class KitchenManager {
     private void processOrderItem(Cookable cookable, long elapsedMs, Order order) {
         Cook assignedCook = cookAssignments.get(cookable);
 
-        // Якщо кухар не призначений, шукаємо першого доступного
+        // Якщо кухар не призначений або зайнятий іншою стравою, шукаємо доступного кухаря
         if (assignedCook == null) {
             assignedCook = assignCook(cookable, elapsedMs);
             if (assignedCook == null) {
@@ -72,7 +72,7 @@ public class KitchenManager {
         DishReadiness readiness = assignedCook.cook(cookable, elapsedMs);
 
         if (readiness.isReady()) {
-            System.out.println("Cook " + assignedCook + " completed an stage of: " + cookable.getStateName() + " Readines: " +cookable.getReadiness() + "%");
+            System.out.println("Cook " + assignedCook + " completed an stage of: " + cookable.getStateName() + " Readiness: " + cookable.getReadiness() + "%");
 
             // Перевірка, чи продукт повністю готовий
             if (cookable.isCooked()) {
@@ -91,10 +91,16 @@ public class KitchenManager {
     }
 
     /**
-     * Призначає доступного кухаря для приготування страви.
+     * Призначає доступного кухаря для приготування страви, якщо він не зайнятий.
      */
     private Cook assignCook(Cookable cookable, long elapsedMs) {
         for (Cook cook : activeCooks) {
+            // Перевіряємо, чи кухар уже зайнятий іншою стравою
+            if (cookAssignments.containsValue(cook)) {
+                continue; // Пропускаємо кухаря, якщо він уже зайнятий
+            }
+
+            // Якщо кухар не зайнятий, призначаємо його для приготування страви
             DishReadiness readiness = cook.cook(cookable, elapsedMs);
             if (readiness.isReady()) {
                 cookAssignments.put(cookable, cook);
@@ -142,8 +148,6 @@ public class KitchenManager {
 
     private static List<Cook> generateTestCooks() {
         List<Cook> cooks = new ArrayList<>();
-        cooks.add(new Cook());
-        cooks.add(new Cook());
         cooks.add(new Cook());
         return cooks;
     }
