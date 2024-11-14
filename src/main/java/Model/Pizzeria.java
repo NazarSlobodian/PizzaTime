@@ -39,7 +39,8 @@ public class Pizzeria extends ObservableModel {
     }
 
     // - - - - - - - - - - - - - -
-    public void update(long elapsedMs) {
+    public void update(long elapsedMs)
+    {
 
         lock.lock();
 
@@ -71,20 +72,22 @@ public class Pizzeria extends ObservableModel {
         lock.unlock();
     }
 
-    private void updateStuff(long elapsedMs) {
+    private void updateStuff(long elapsedMs)
+    {
         //orderGenerator.generateOrder();
-        //kitchenManager.update(elapsedMs);
+
         if (timeProperties.isSkippingTime()) { // fine for now
             return;
         }
         // TESTING
 
-        Cook cook = new Cook();
-        cook.cook(pizzas.get(0), elapsedMs);
-        if (pizzas.get(0).isCooked()) {
-            System.out.println("TIME OF FINISH: " + clock.toString());
-            pizzas.remove(0);
-        }
+        //Cook cook = new Cook();
+        //cook.cook(pizzas.get(0), elapsedMs);
+        kitchenManager.update(elapsedMs);
+//        if (pizzas.get(0).isCooked()) {
+//            System.out.println("TIME OF FINISH: " + clock.toString());
+//            pizzas.remove(0);
+//        }
     }
 
     public Clock getClock() {
@@ -118,6 +121,7 @@ public class Pizzeria extends ObservableModel {
 
         //
         pizzas = menu.getPizzas();
+        kitchenManager = new KitchenManager();
         //
     }
 
