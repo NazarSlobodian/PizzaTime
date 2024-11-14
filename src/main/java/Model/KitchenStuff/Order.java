@@ -10,7 +10,7 @@ import Model.FoodAndStuff.Cookable;
 public class Order {
 
     private List<Cookable> items;
-    private long orderTime;
+    private final long orderTime;
 
     public Order(List<Cookable> items, long orderTime) {
         this.items = items;

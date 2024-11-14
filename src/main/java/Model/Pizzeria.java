@@ -27,10 +27,6 @@ public class Pizzeria extends ObservableModel {
     Menu menu;
     KitchenManager kitchenManager;
 
-    //TESTING
-    List<Pizza> pizzas;
-    //TESTING IN PROD
-
     private Lock lock;
 
     //------------------------------------------------
@@ -39,21 +35,14 @@ public class Pizzeria extends ObservableModel {
     }
 
     // - - - - - - - - - - - - - -
-    public void update(long elapsedMs)
-    {
-
+    public void update(long elapsedMs) {
         lock.lock();
 
-        setAllNotifications(false);
-        if (!schedule.isOpen(clock.getLocalDateTime())) {
-            timeProperties.setSkippingTime(true);
-
-        } else if (timeProperties.isSkippingTime()) {
-            timeProperties.setSkippingTime(false);
-        }
-
+        //handleDayNightCycle(); //this is inaccurate, will fix
         long remainingMs = elapsedMs * timeProperties.getTimeSpeed();
         long step = timeProperties.getStepMs();
+
+        setAllNotifications(false);
 
         while (remainingMs > step) {
             clock.addMs(step);
@@ -71,42 +60,30 @@ public class Pizzeria extends ObservableModel {
 
         lock.unlock();
     }
+    private void handleDayNightCycle() {
+        if (!schedule.isOpen(clock.getLocalDateTime())) {
+            timeProperties.setSkippingTime(true);
+        } else if (timeProperties.isSkippingTime()) {
+            timeProperties.setSkippingTime(false);
+        }
+    }
 
-    private void updateStuff(long elapsedMs)
-    {
+    private void updateStuff(long elapsedMs) {
         //orderGenerator.generateOrder();
-
-        if (timeProperties.isSkippingTime()) { // fine for now
+        if (timeProperties.isSkippingTime()) {
             return;
         }
-        // TESTING
-
-        //Cook cook = new Cook();
-        //cook.cook(pizzas.get(0), elapsedMs);
         kitchenManager.update(elapsedMs);
-//        if (pizzas.get(0).isCooked()) {
-//            System.out.println("TIME OF FINISH: " + clock.toString());
-//            pizzas.remove(0);
-//        }
     }
 
-    public Clock getClock() {
-        return clock;
+    private void setAllNotifications(boolean setting) {
+        this.eventContext.setEventFiring(setting);
+        clock.setNotifications(setting);
+        timeProperties.setNotifications(setting);
+        kitchenManager.setNotifications(setting);
+        menu.setNotifications(setting);
     }
 
-    public TimeProperties getTimeProperties() {
-        return timeProperties;
-    }
-
-    //TESTING
-    public List<Pizza> getPizzas() {
-        return pizzas;
-    }
-    //TESTING
-
-    public Menu getMenu() {
-        return menu;
-    }
     // - - - - - - - - - - - - - -
     private void Initialize() {
         lock = new ReentrantLock(true);
@@ -119,19 +96,19 @@ public class Pizzeria extends ObservableModel {
         schedule = new Schedule();
         menu = new Menu(lock);
 
-        //
-        pizzas = menu.getPizzas();
         kitchenManager = new KitchenManager();
-        //
     }
 
-    private void setAllNotifications(boolean setting) {
-        this.eventContext.setEventFiring(setting);
-        clock.setNotifications(setting);
-        timeProperties.setNotifications(setting);
-        for (Pizza pizza : pizzas) {
-            pizza.setNotifications(setting);
-        }
-        menu.setNotifications(setting);
+    // For view model
+    public Clock getClock() {
+        return clock;
+    }
+
+    public TimeProperties getTimeProperties() {
+        return timeProperties;
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 }

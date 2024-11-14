@@ -3,13 +3,14 @@ package Model.KitchenStuff;
 import Model.FoodAndStuff.Cookable;
 import Model.FoodAndStuff.DishReadiness;
 import Model.FoodAndStuff.Pizza;
+import Model.Utils.ObservableModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class KitchenManager {
+public class KitchenManager extends ObservableModel {
 
     private List<Order> orders; // Список замовлень
     private List<Cook> activeCooks; // Активні кухарі

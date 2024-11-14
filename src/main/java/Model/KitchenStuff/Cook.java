@@ -27,7 +27,7 @@ public class Cook extends ObservableModel { // Успадковуємо Observab
         stateMap.put("Preparing topping", true);
         stateMap.put("Baking", true);
         stateMap.put("Done", true);
-        stateMap.put("Burned", false);
+        stateMap.put("Burned", false); // виняткові стани треба забрати з мапи
     }
 
     // Перевіряє, чи можна готувати до заданого стану

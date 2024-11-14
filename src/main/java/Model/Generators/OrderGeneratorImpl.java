@@ -13,8 +13,8 @@ import java.util.Random;
  */
 class OrderGeneratorImpl implements OrderGenerator {
 
-    private Menu menu;
-    private Random random;
+    private final Menu menu;
+    private final Random random;
 
     public OrderGeneratorImpl(Menu menu) {
         this.menu = menu;

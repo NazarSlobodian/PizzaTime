@@ -17,7 +17,7 @@ public class TimeProperties extends ObservableModel {
 
         this.timeSpeed = timeSpeed;
         this.stepMs = stepMs;
-        this.skippingTime = true;
+        this.skippingTime = false;
         this.skippingTimeSpeed = 60*60;
         this.lock = lock;
     }
