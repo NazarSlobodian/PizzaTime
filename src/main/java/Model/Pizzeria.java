@@ -89,14 +89,14 @@ public class Pizzeria extends ObservableModel {
         lock = new ReentrantLock(true);
 
         clock = new Clock(ZonedDateTime.of(
-                        LocalDateTime.of(2024, 10, 1, 9, 0, 1),
+                        LocalDateTime.of(2024, 10, 1, 10, 0, 0),
                         ZoneId.systemDefault())
                 .toInstant().toEpochMilli());
         timeProperties = new TimeProperties(60, 1000, lock);
         schedule = new Schedule();
         menu = new Menu(lock);
 
-        kitchenManager = new KitchenManager();
+        kitchenManager = new KitchenManager(clock);
     }
 
     // For view model

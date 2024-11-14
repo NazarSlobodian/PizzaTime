@@ -3,6 +3,7 @@ package Model.KitchenStuff;
 import Model.FoodAndStuff.Cookable;
 import Model.FoodAndStuff.DishReadiness;
 import Model.FoodAndStuff.Pizza;
+import Model.Utils.Clock;
 import Model.Utils.ObservableModel;
 
 import java.util.ArrayList;
@@ -16,19 +17,22 @@ public class KitchenManager extends ObservableModel {
     private List<Cook> activeCooks; // Активні кухарі
     private List<Cook> notActiveCooks; // Неактивні кухарі
     private Map<Cookable, Cook> cookAssignments; // Мапа для відстеження, хто готує кожну страву
+    private final Clock clock;
 
-    public KitchenManager() {
+    public KitchenManager(Clock clock) {
         this.orders = generateTestOrders(); // Генеруємо тестові замовлення
         this.activeCooks = generateTestCooks(); // Генеруємо тестових кухарів
         this.notActiveCooks = new ArrayList<>();
         this.cookAssignments = new HashMap<>();
+        this.clock = clock;
     }
 
-    public KitchenManager(List<Order> orders, List<Cook> cooks) {
+    public KitchenManager(List<Order> orders, List<Cook> cooks, Clock clock) {
         this.orders = orders;
         this.activeCooks = cooks;
         this.notActiveCooks = new ArrayList<>();
         this.cookAssignments = new HashMap<>();
+        this.clock = clock;
     }
 
     public void addOrder(Order order) {
@@ -64,7 +68,7 @@ public class KitchenManager extends ObservableModel {
         if (assignedCook == null) {
             assignedCook = assignCook(cookable, elapsedMs);
             if (assignedCook == null) {
-                System.out.println("No available cook for " + cookable.getStateName());
+                //System.out.println("No available cook for " + cookable.getStateName());
                 return;
             }
         }
@@ -77,7 +81,7 @@ public class KitchenManager extends ObservableModel {
 
             // Перевірка, чи продукт повністю готовий
             if (cookable.isCooked()) {
-                System.out.println("Product " + cookable.getName() + " is fully cooked and ready at time: " + System.currentTimeMillis());
+                System.out.println("Product " + cookable.getName() + " is fully cooked and ready at time: " + clock.getLocalDateTime().toLocalTime());
                 cookAssignments.remove(cookable); // Видаляємо з мапи призначень, страва готова
                 order.getItems().remove(cookable); // Видаляємо готовий елемент з замовлення
             }
@@ -134,12 +138,12 @@ public class KitchenManager extends ObservableModel {
     private static List<Order> generateTestOrders() {
         List<Order> orders = new ArrayList<>();
         List<Cookable> itemsOrder1 = new ArrayList<>();
-        itemsOrder1.add(new Pizza("Margherita", 20 * 60 * 1000));
-        itemsOrder1.add(new Pizza("Pepperoni", 25 * 60 * 1000));
+        itemsOrder1.add(new Pizza("Quattro Formaggi", 20*60*1000));
+        itemsOrder1.add(new Pizza("Diavolo", 25*60*1000));
 
         List<Cookable> itemsOrder2 = new ArrayList<>();
-        itemsOrder2.add(new Pizza("Vegetarian", 15 * 60 * 1000));
-        itemsOrder2.add(new Pizza("Hawaiian", 14 * 60 * 1000));
+        itemsOrder2.add(new Pizza("Hawaii", 15*60*1000));
+        itemsOrder2.add(new Pizza("Margherita", 14*60*1000));
 
         orders.add(new Order(itemsOrder1, System.currentTimeMillis()));
         orders.add(new Order(itemsOrder2, System.currentTimeMillis()));
