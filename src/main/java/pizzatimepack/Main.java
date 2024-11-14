@@ -13,7 +13,8 @@ import java.io.IOException;
 
 public class Main extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException
+    {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/enter-view.fxml"));
         Parent root = loader.load();
 
@@ -38,7 +39,8 @@ public class Main extends Application {
         });
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch();
     }
 }

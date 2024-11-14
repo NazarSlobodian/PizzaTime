@@ -14,6 +14,7 @@ public class Cook extends ObservableModel { // Успадковуємо Observab
     private boolean isActive; // Показує, чи активний кухар
     private boolean cookPresent; // Показує, чи присутній кухар
 
+
     public Cook() {
         stateMap = new HashMap<>();
         initializeStates();
@@ -38,6 +39,8 @@ public class Cook extends ObservableModel { // Успадковуємо Observab
     public boolean isCookPresent() {
         return cookPresent;
     }
+    public boolean isActive(){return isActive;}
+
 
     // Сеттер для cookPresent з викликом forceFirePropertyChange
     public void setCookPresent(boolean cookPresent) {
@@ -58,11 +61,8 @@ public class Cook extends ObservableModel { // Успадковуємо Observab
             // Викликаємо increaseReadiness, передаючи тільки приріст готовності
             cookable.increaseReadiness(increaseFactor, cookPresent);
 
-            // Перевіряємо, чи страва готова після збільшення рівня готовності
-            boolean isReady = cookable.getReadiness() >= 100 && cookable.isCooked();
-
             isActive = true; // Після приготування кухар стає активним
-            return new DishReadiness(cookable, isReady);
+            return new DishReadiness(cookable, true);
         }
 
         // Якщо кухар не може готувати цей стан, повертаємо DishReadiness з готовністю false
