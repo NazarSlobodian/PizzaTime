@@ -50,7 +50,7 @@
                   <Button fx:id="dessertsButton" onAction="#btnDesserts" prefHeight="31.0" prefWidth="235.0" styleClass="menu-item" text="Десерти" />
                </children>
             </VBox>
-            <Button fx:id="cashButton" layoutX="50.0" layoutY="250.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Каса">
+            <Button fx:id="cashButton" onAction="#btnCash"  layoutX="50.0" layoutY="250.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Каса">
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>

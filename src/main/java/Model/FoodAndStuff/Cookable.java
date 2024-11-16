@@ -17,9 +17,11 @@ public interface Cookable {
 
     long getTotalPrepTimeMs();
 
-    void increaseReadiness(double value);
+    void increaseReadiness(double value, boolean controlledCooking);
     void setName(String name);
     String getName();
+    String getStateName();
     void setTotalPrepTimeMs(long totalPrepTimeMs);
     boolean cookableWithoutCook();
+    // boolean shouldBeRecooked();
 }

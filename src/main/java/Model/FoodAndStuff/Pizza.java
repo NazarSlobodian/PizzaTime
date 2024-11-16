@@ -12,34 +12,28 @@ public class Pizza extends Dish implements Cloneable {
         this.state = new DoughPizzaState();
     }
 
-    public Pizza(String name, long preparationTimeLeftMs, CookingDifficulty difficulty) {
-        super(name, preparationTimeLeftMs, difficulty);
-        this.state = new DoughPizzaState();
-    }
-
     public PizzaState getState() {
         return state;
     }
-
+    public String getStateName() {
+        return state.toString();
+    }
     @Override
-    public void increaseReadiness(double value) {
+    public void increaseReadiness(double value, boolean controlledCooking) {
         state.increaseReadiness(value);
         if (eventContext.canFireEvent()) {
             eventContext.firePropertyChange("pizzaStateReadinessChanged", 0, this.state.getReadiness());
         }
-        if (state.getReadiness() >= 100.0) {
-            updateState();
-        }
-    }
-    private void updateState() {
-        if (state.isFinal()) {
-            return;
+        if (state.getReadiness() >=100) {
+            if (controlledCooking) {
+                setNextSuccessfulState();
+            }
+            else {
+                setNextFailureState();
+            }
         }
         if (state.isBad()) {
             setNextFailureState();
-        }
-        else {
-            setNextSuccessfulState();
         }
     }
 

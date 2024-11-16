@@ -9,17 +9,23 @@ public class TimeProperties extends ObservableModel {
 
     private int timeSpeed;
     private final long stepMs;
-
+    private boolean skippingTime;
+    private int skippingTimeSpeed;
     private final Lock lock;
     //------------------------------------------------
     public TimeProperties(int timeSpeed, long stepMs, Lock lock) {
+
         this.timeSpeed = timeSpeed;
         this.stepMs = stepMs;
-
+        this.skippingTime = false;
+        this.skippingTimeSpeed = 60*60;
         this.lock = lock;
     }
     //------------------------------------------------
     public int getTimeSpeed() {
+        if (skippingTime) {
+            return skippingTimeSpeed;
+        }
         return timeSpeed;
     }
     // - - - - - - - - - - - - - -
@@ -38,4 +44,10 @@ public class TimeProperties extends ObservableModel {
         eventContext.firePropertyChange("simTimeSpeed", oldTimeSpeed, timeSpeed);
     }
     // - - - - - - - - - - - - - -
+    public void setSkippingTime(boolean skippingTime) {
+        this.skippingTime = skippingTime;
+    }
+    public boolean isSkippingTime() {
+        return skippingTime;
+    }
 }

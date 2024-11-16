@@ -7,6 +7,7 @@ import Model.KitchenStuff.Cook;
 import Model.KitchenStuff.KitchenManager;
 import Model.Utils.Clock;
 import Model.Utils.ObservableModel;
+import Model.Utils.Schedule;
 import Model.Utils.TimeProperties;
 
 import java.time.LocalDateTime;
@@ -20,14 +21,11 @@ public class Pizzeria extends ObservableModel {
 
     private Clock clock;
     TimeProperties timeProperties;
+    Schedule schedule;
 
     OrderGenerator orderGenerator;
     Menu menu;
     KitchenManager kitchenManager;
-
-    //TESTING
-    List<Pizza> pizzas;
-    //TESTING IN PROD
 
     private Lock lock;
 
@@ -40,9 +38,11 @@ public class Pizzeria extends ObservableModel {
     public void update(long elapsedMs) {
         lock.lock();
 
-        setAllNotifications(false);
+        //handleDayNightCycle(); //this is inaccurate, will fix
         long remainingMs = elapsedMs * timeProperties.getTimeSpeed();
         long step = timeProperties.getStepMs();
+
+        setAllNotifications(false);
 
         while (remainingMs > step) {
             clock.addMs(step);
@@ -58,31 +58,48 @@ public class Pizzeria extends ObservableModel {
             updateStuff(step);
         }
 
-
-        // TESTING
-        timeProperties.setTimeSpeed(timeProperties.getTimeSpeed() + 1);
-        // TESTING
-
         lock.unlock();
+    }
+    private void handleDayNightCycle() {
+        if (!schedule.isOpen(clock.getLocalDateTime())) {
+            timeProperties.setSkippingTime(true);
+        } else if (timeProperties.isSkippingTime()) {
+            timeProperties.setSkippingTime(false);
+        }
     }
 
     private void updateStuff(long elapsedMs) {
         //orderGenerator.generateOrder();
-        //kitchenManager.update(elapsedMs);
-
-        // TESTING
-        Cook cook = new Cook();
-        cook.cook(pizzas.get(0),true, elapsedMs);
-        if (pizzas.get(0).isCooked()) {
-            System.out.println("TIME OF FINISH: " + clock.toString());
-            pizzas.remove(0);
+        if (timeProperties.isSkippingTime()) {
+            return;
         }
-        //menu.removePizza(0);
-        // :/
-        //menu.addPizza(new Pizza("Something" + clock.getCurrentTime(), 100));
-        // TESTING
+        kitchenManager.update(elapsedMs);
     }
 
+    private void setAllNotifications(boolean setting) {
+        this.eventContext.setEventFiring(setting);
+        clock.setNotifications(setting);
+        timeProperties.setNotifications(setting);
+        kitchenManager.setNotifications(setting);
+        menu.setNotifications(setting);
+    }
+
+    // - - - - - - - - - - - - - -
+    private void Initialize() {
+        lock = new ReentrantLock(true);
+
+        clock = new Clock(ZonedDateTime.of(
+                        LocalDateTime.of(2024, 10, 1, 10, 0, 0),
+                        ZoneId.systemDefault())
+                .toInstant().toEpochMilli());
+        timeProperties = new TimeProperties(60, 1000, lock);
+        schedule = new Schedule();
+        menu = new Menu(lock);
+
+        kitchenManager = new KitchenManager(clock);
+    }
+
+    // For view model
     public Clock getClock() {
         return clock;
     }
@@ -91,38 +108,7 @@ public class Pizzeria extends ObservableModel {
         return timeProperties;
     }
 
-    //TESTING
-    public List<Pizza> getPizzas() {
-        return pizzas;
-    }
-    //TESTING
-
     public Menu getMenu() {
         return menu;
-    }
-    // - - - - - - - - - - - - - -
-    private void Initialize() {
-        lock = new ReentrantLock(true);
-
-        clock = new Clock(ZonedDateTime.of(
-                        LocalDateTime.of(2024, 10, 1, 9, 0, 0),
-                        ZoneId.systemDefault())
-                .toInstant().toEpochMilli());
-        timeProperties = new TimeProperties(60, 1000, lock);
-        menu = new Menu(lock);
-
-        //
-        pizzas = menu.getPizzas();
-        //
-    }
-
-    private void setAllNotifications(boolean setting) {
-        this.eventContext.setEventFiring(setting);
-        clock.setNotifications(setting);
-        timeProperties.setNotifications(setting);
-        for (Pizza pizza : pizzas) {
-            pizza.setNotifications(setting);
-        }
-        menu.setNotifications(setting);
     }
 }

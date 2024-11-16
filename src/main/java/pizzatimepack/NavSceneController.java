@@ -85,5 +85,11 @@ public class NavSceneController {
         viewBorderPane.setCenter(view);
     }
 
+    @FXML
+    private void btnCash() throws IOException {
+        AnchorPane view = FXMLLoader.load(getClass().getResource("/Views/cash_view.fxml"));
+        viewBorderPane.setVisible(true);
+        viewBorderPane.setCenter(view);
+    }
 
 }
