@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- Створення таблиці -->
+    <TableView layoutX="0.0" layoutY="-100.0" pickOnBounds="true" >
+    <!-- Стовпці -->
+        <columns>
+            <!-- Стовпець для номера замовлення -->
+            <TableColumn fx:id="orderNumberColumn" text="Номер замовлення" prefWidth="200.0"/>
+            <!-- Стовпець для стану -->
+            <TableColumn fx:id="statusColumn" text="Стан" prefWidth="200.0"/>
+            <!-- Стовпець для готовності -->
+            <TableColumn fx:id="readinessColumn" text="Готовність" prefWidth="200.0"/>
+        </columns>
+    </TableView>
+
+</AnchorPane>
