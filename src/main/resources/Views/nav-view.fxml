@@ -54,7 +54,7 @@
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
-                        <Image url="@images/cashIcon.png" /> <!-- Замість CashIcon.png використайте свій файл іконки -->
+                        <Image url="@images/cashIcon.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -65,7 +65,7 @@
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
-                        <Image url="@images/kitchenIcon.png" /> <!-- Замість KitchenIcon.png використайте свій файл іконки -->
+                        <Image url="@images/kitchenIcon.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -76,18 +76,20 @@
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
-                        <Image url="@images/staffIcon.png" /> <!-- Замість StaffIcon.png використайте свій файл іконки -->
+                        <Image url="@images/staffIcon.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
+            <Label fx:id="clockLabel" layoutX="21.0" layoutY="607.0" text="Label">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="speedUp1Btn" layoutX="135.0" layoutY="608.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="x1" />
+            <Button fx:id="speedUp60Btn" layoutX="135.0" layoutY="635.0" mnemonicParsing="false" prefWidth="35.0" text="x60" />
          </children>
       </AnchorPane>
       <BorderPane fx:id="viewBorderPane" layoutX="429.0" layoutY="14.0" prefHeight="680.0" prefWidth="800.0" style="-fx-background-color: white;" visible="false" />
-      <Label fx:id="clockLabel" layoutX="490.0" layoutY="653.0" text="Label">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>
