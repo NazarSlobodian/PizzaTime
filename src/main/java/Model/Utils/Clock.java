@@ -37,7 +37,7 @@ public class Clock extends ObservableModel{
     // - - - - - - - - - - - - - -
     @Override
     public String toString() {
-        return this.getLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd, HH:mm:ss"));
+        return this.getLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd,\nHH:mm:ss"));
     }
     // - - - - - - - - - - - - - -
 }
