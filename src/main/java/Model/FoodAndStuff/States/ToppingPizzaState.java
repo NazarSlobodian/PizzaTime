@@ -14,6 +14,6 @@ public class ToppingPizzaState extends PizzaState {
 
     @Override
     public String toString() {
-        return "Preparing topping";
+        return "Topping preparation";
     }
 }

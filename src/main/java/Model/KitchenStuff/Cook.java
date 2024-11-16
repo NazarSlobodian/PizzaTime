@@ -1,48 +1,44 @@
 package Model.KitchenStuff;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import Model.FoodAndStuff.Cookable;
 import Model.FoodAndStuff.DishReadiness;
+import Model.FoodAndStuff.StateRegistry;
 import Model.Utils.ObservableModel;
 
 /**
  *  Let him cook
  */
-public class Cook extends ObservableModel { // Успадковуємо ObservableModel
+public class Cook extends ObservableModel implements Cooker { // Успадковуємо ObservableModel
     private final Map<String, Boolean> stateMap; // Карта для зберігання доступних станів приготування
     private boolean isActive; // Показує, чи активний кухар
     private boolean cookPresent; // Показує, чи присутній кухар
 
 
     public Cook() {
-        stateMap = new HashMap<>();
-        initializeStates();
+        stateMap = StateRegistry.getStateMap();
         isActive = true; // Початково кухар активний
         cookPresent = true; // За замовчуванням кухар присутній
     }
 
-    private void initializeStates() {
-        stateMap.put("Dough preparation", true);
-        stateMap.put("Preparing topping", true);
-        stateMap.put("Baking", true);
-        stateMap.put("Done", true);
-        stateMap.put("Burned", false); // виняткові стани треба забрати з мапи
-    }
-
-    // Перевіряє, чи можна готувати до заданого стану
-    private boolean canCook(String stateName) {
+    @Override
+    public boolean canCook(String stateName) {
         return stateMap.getOrDefault(stateName, false);
     }
 
     // Геттер для cookPresent
+    @Override
     public boolean isCookPresent() {
         return cookPresent;
     }
+    @Override
     public boolean isActive(){return isActive;}
 
 
     // Сеттер для cookPresent з викликом forceFirePropertyChange
+    @Override
     public void setCookPresent(boolean cookPresent) {
         boolean oldCookPresent = this.cookPresent;
         this.cookPresent = cookPresent;
@@ -50,6 +46,7 @@ public class Cook extends ObservableModel { // Успадковуємо Observab
     }
 
     // Метод готовки
+    @Override
     public DishReadiness cook(Cookable cookable, long elapsedTime) {
         isActive = false; // Встановлюємо, що кухар неактивний на час приготування
 

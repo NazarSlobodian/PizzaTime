@@ -14,9 +14,9 @@ import java.util.Map;
 public class KitchenManager extends ObservableModel {
 
     private List<Order> orders; // Список замовлень
-    private List<Cook> activeCooks; // Активні кухарі
-    private List<Cook> notActiveCooks; // Неактивні кухарі
-    private Map<Cookable, Cook> cookAssignments; // Мапа для відстеження, хто готує кожну страву
+    private List<Cooker> activeCooks; // Активні кухарі
+    private List<Cooker> notActiveCooks; // Неактивні кухарі
+    private Map<Cookable, Cooker> cookAssignments; // Мапа для відстеження, хто готує кожну страву
     private final Clock clock;
 
     public KitchenManager(Clock clock) {
@@ -27,7 +27,7 @@ public class KitchenManager extends ObservableModel {
         this.clock = clock;
     }
 
-    public KitchenManager(List<Order> orders, List<Cook> cooks, Clock clock) {
+    public KitchenManager(List<Order> orders, List<Cooker> cooks, Clock clock) {
         this.orders = orders;
         this.activeCooks = cooks;
         this.notActiveCooks = new ArrayList<>();
@@ -62,7 +62,7 @@ public class KitchenManager extends ObservableModel {
      * Метод для обробки окремого елемента замовлення.
      */
     private void processOrderItem(Cookable cookable, long elapsedMs, Order order) {
-        Cook assignedCook = cookAssignments.get(cookable);
+        Cooker assignedCook = cookAssignments.get(cookable);
 
         // Якщо кухар не призначений або зайнятий іншою стравою, шукаємо доступного кухаря
         if (assignedCook == null) {
@@ -98,8 +98,8 @@ public class KitchenManager extends ObservableModel {
     /**
      * Призначає доступного кухаря для приготування страви, якщо він не зайнятий.
      */
-    private Cook assignCook(Cookable cookable, long elapsedMs) {
-        for (Cook cook : activeCooks) {
+    private Cooker assignCook(Cookable cookable, long elapsedMs) {
+        for (Cooker cook : activeCooks) {
             // Перевіряємо, чи кухар уже зайнятий іншою стравою
             if (cookAssignments.containsValue(cook)) {
                 continue; // Пропускаємо кухаря, якщо він уже зайнятий
@@ -119,14 +119,14 @@ public class KitchenManager extends ObservableModel {
      * Перевіряє активність кухарів і оновлює списки активних та неактивних.
      */
     private void checkActiveCook() {
-        for (Cook cook : new ArrayList<>(activeCooks)) {
+        for (Cooker cook : new ArrayList<>(activeCooks)) {
             if (!cook.isActive() || !cook.isCookPresent()) {
                 notActiveCooks.add(cook);
                 activeCooks.remove(cook);
             }
         }
 
-        for (Cook cook : new ArrayList<>(notActiveCooks)) {
+        for (Cooker cook : new ArrayList<>(notActiveCooks)) {
             if (cook.isActive() && cook.isCookPresent()) {
                 activeCooks.add(cook);
                 notActiveCooks.remove(cook);
@@ -151,8 +151,8 @@ public class KitchenManager extends ObservableModel {
         return orders;
     }
 
-    private static List<Cook> generateTestCooks() {
-        List<Cook> cooks = new ArrayList<>();
+    private static List<Cooker> generateTestCooks() {
+        List<Cooker> cooks = new ArrayList<>();
         cooks.add(new Cook());
         return cooks;
     }
