@@ -1,7 +1,5 @@
 package Model.Generators;
 
-import java.util.List;
-
 import Model.KitchenStuff.Order;
 
 /**
@@ -9,7 +7,6 @@ import Model.KitchenStuff.Order;
  */
 public interface OrderGenerator {
     Order generateRandomOrder();
-    Order generateFixedOrder(int itemCount);
-    Order generatePromoOrder(List<String> promoPizzaTypes);
+    Order generateOrderAfterInterval();
 }
 
