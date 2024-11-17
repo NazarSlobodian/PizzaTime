@@ -49,6 +49,8 @@ public class KitchenManager extends ObservableModel {
     // Example method: Accept the order for processing
     public void acceptOrder(Order order) {
         // Logic to process the order in the kitchen
+
+        orders.add(order); // This works, but maybe there should be more logic? - N.S
         System.out.println("Kitchen processing order: " + order);
     }
     
@@ -158,7 +160,7 @@ public class KitchenManager extends ObservableModel {
         //itemsOrder2.add(new Pizza("Hawaii", 15*60*1000));
         //itemsOrder2.add(new Pizza("Margherita", 14*60*1000));
 
-        //orders.add(new Order(itemsOrder1, System.currentTimeMillis()));
+        orders.add(new Order(itemsOrder1, System.currentTimeMillis()));
         //orders.add(new Order(itemsOrder2, System.currentTimeMillis()));
 
         return orders;

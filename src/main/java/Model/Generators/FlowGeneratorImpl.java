@@ -1,5 +1,7 @@
 package Model.Generators;
 
+import Model.Utils.Clock;
+
 import java.util.Random;
 
 /**
@@ -9,11 +11,13 @@ public class FlowGeneratorImpl implements FlowGenerator {
     private final int intervalMillis;
     private long lastOrderTime;
     private final Random random;
+    private final Clock clock;
 
-    public FlowGeneratorImpl(int intervalMillis) {
+    public FlowGeneratorImpl(int intervalMillis, Clock clock) {
         this.intervalMillis = intervalMillis;
-        this.lastOrderTime = System.currentTimeMillis();
+        this.lastOrderTime = clock.getCurrentTime()-intervalMillis;
         this.random = new Random();
+        this.clock = clock;
     }
 
     /**
@@ -23,7 +27,7 @@ public class FlowGeneratorImpl implements FlowGenerator {
      */
     @Override
     public boolean shouldGenerateOrder() {
-        long currentTime = System.currentTimeMillis();
+        long currentTime = clock.getCurrentTime();
         if (currentTime - lastOrderTime >= intervalMillis) {
             lastOrderTime = currentTime;
             return true;
