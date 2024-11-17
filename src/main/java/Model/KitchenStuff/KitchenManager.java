@@ -1,15 +1,15 @@
 package Model.KitchenStuff;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import Model.FoodAndStuff.Cookable;
 import Model.FoodAndStuff.DishReadiness;
 import Model.FoodAndStuff.Pizza;
 import Model.Utils.Clock;
 import Model.Utils.ObservableModel;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class KitchenManager extends ObservableModel {
 
@@ -39,6 +39,19 @@ public class KitchenManager extends ObservableModel {
         orders.add(order);
     }
 
+    // Example method: Check if the kitchen can accept the order
+    public boolean canAcceptOrder(Order order) {
+        // Logic to determine if the kitchen can accept the order
+        // Example: Check if there are enough available slots or resources
+        return true; // Placeholder
+    }
+
+    // Example method: Accept the order for processing
+    public void acceptOrder(Order order) {
+        // Logic to process the order in the kitchen
+        System.out.println("Kitchen processing order: " + order);
+    }
+    
     /**
      * Головний метод оновлення для обробки замовлень і приготування страв.
      */

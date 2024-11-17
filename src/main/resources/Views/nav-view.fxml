@@ -60,8 +60,9 @@
                </graphic>
             </Button>
 
+
             <!-- Кнопка для Кухня -->
-            <Button fx:id="kitchenButton" layoutX="50.0" layoutY="350.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Кухня">
+            <Button fx:id="kitchenButton" onAction="#btnKitchen" layoutX="50.0" layoutY="350.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Кухня">
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
