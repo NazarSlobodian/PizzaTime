@@ -7,23 +7,26 @@ import java.util.Random;
 import Model.FoodAndStuff.Cookable;
 import Model.FoodAndStuff.Menu;
 import Model.KitchenStuff.Order;
+import Model.Utils.Clock;
 
 /**
  * Generates orders based on different strategies
  */
-class OrderGeneratorImpl implements OrderGenerator {
+public class OrderGeneratorImpl implements OrderGenerator {
 
     private final Menu menu;
     private final Random random;
 
     private long lastOrderTime;
-    private final int intervalMillis;
+    private final long intervalMillis;
+    Clock clock;
 
-    public OrderGeneratorImpl(Menu menu) {
+    public OrderGeneratorImpl(Menu menu, Clock clock) {
         this.menu = menu;
         this.random = new Random();
-        this.lastOrderTime = System.currentTimeMillis();
+        this.lastOrderTime = clock.getCurrentTime();
         this.intervalMillis = 10000;
+        this.clock = clock;
     }
 
     // Generates an order with a random number of pizzas (1-5)
@@ -34,13 +37,13 @@ class OrderGeneratorImpl implements OrderGenerator {
         for (int i = 0; i < itemCount; i++) {
             items.add(menu.getRandomPizza());
         }
-        return new Order(items, System.currentTimeMillis());
+        return new Order(items, clock.getCurrentTime());
     }
 
     // Generates an order after a fixed interval of time
     @Override
     public Order generateOrderAfterInterval() {
-        long currentTime = System.currentTimeMillis();
+        long currentTime = clock.getCurrentTime();
         if (currentTime - lastOrderTime >= intervalMillis) {
             lastOrderTime = currentTime;
 
@@ -50,9 +53,10 @@ class OrderGeneratorImpl implements OrderGenerator {
                 items.add(menu.getRandomPizza());
             }
 
-            return new Order(items, System.currentTimeMillis());
+            return new Order(items, clock.getCurrentTime());
         }
-
-        throw new IllegalStateException("Interval has not passed yet. Wait for the next generation.");
+        return null;
+        // ?? Why throw??????
+        //throw new IllegalStateException("Interval has not passed yet. Wait for the next generation.");
     }
 }

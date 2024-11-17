@@ -2,9 +2,12 @@ package Model;
 
 import Model.FoodAndStuff.Menu;
 import Model.FoodAndStuff.Pizza;
+import Model.Generators.FlowGeneratorImpl;
 import Model.Generators.OrderGenerator;
+import Model.Generators.OrderStrategyManager;
 import Model.KitchenStuff.Cook;
 import Model.KitchenStuff.KitchenManager;
+import Model.KitchenStuff.Queues;
 import Model.Utils.Clock;
 import Model.Utils.ObservableModel;
 import Model.Utils.Schedule;
@@ -13,19 +16,18 @@ import Model.Utils.TimeProperties;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Pizzeria extends ObservableModel {
 
     private Clock clock;
-    TimeProperties timeProperties;
-    Schedule schedule;
+    private TimeProperties timeProperties;
+    private Schedule schedule;
 
-    OrderGenerator orderGenerator;
-    Menu menu;
-    KitchenManager kitchenManager;
+    private Queues queues;
+    private Menu menu;
+    private KitchenManager kitchenManager;
 
     private Lock lock;
 
@@ -38,7 +40,7 @@ public class Pizzeria extends ObservableModel {
     public void update(long elapsedMs) {
         lock.lock();
 
-        //handleDayNightCycle(); //this is inaccurate, will fix
+        handleDayNightCycle(); // barely works, won't fix
         long remainingMs = elapsedMs * timeProperties.getTimeSpeed();
         long step = timeProperties.getStepMs();
 
@@ -69,10 +71,8 @@ public class Pizzeria extends ObservableModel {
     }
 
     private void updateStuff(long elapsedMs) {
-        //orderGenerator.generateOrder();
-        if (timeProperties.isSkippingTime()) {
-            return;
-        }
+        if (timeProperties.isSkippingTime()) { return; }
+        queues.manageOrderFlow();
         kitchenManager.update(elapsedMs);
     }
 
@@ -97,6 +97,7 @@ public class Pizzeria extends ObservableModel {
         menu = new Menu(lock);
 
         kitchenManager = new KitchenManager(clock);
+        queues = new Queues(schedule, new FlowGeneratorImpl(1000*60*60, clock), new OrderStrategyManager(menu, clock), kitchenManager, clock);
     }
 
     // For view model
