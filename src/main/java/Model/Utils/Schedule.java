@@ -21,18 +21,20 @@ public class Schedule {
         this.specialSchedule = specialSchedule;
         this.holidays = holidays;
     }
+
     public Schedule() {
         TimeInterval typicalWorkday = new TimeInterval(LocalTime.of(9, 0), LocalTime.of(17, 0));
         this.defaultSchedule = new HashMap<>();
-        defaultSchedule.put(DayOfWeek.MONDAY,typicalWorkday);
-        defaultSchedule.put(DayOfWeek.TUESDAY,typicalWorkday);
-        defaultSchedule.put(DayOfWeek.WEDNESDAY,typicalWorkday);
-        defaultSchedule.put(DayOfWeek.THURSDAY,typicalWorkday);
-        defaultSchedule.put(DayOfWeek.FRIDAY,typicalWorkday);
+        defaultSchedule.put(DayOfWeek.MONDAY, typicalWorkday);
+        defaultSchedule.put(DayOfWeek.TUESDAY, typicalWorkday);
+        defaultSchedule.put(DayOfWeek.WEDNESDAY, typicalWorkday);
+        defaultSchedule.put(DayOfWeek.THURSDAY, typicalWorkday);
+        defaultSchedule.put(DayOfWeek.FRIDAY, typicalWorkday);
 
         specialSchedule = new HashMap<>();
         holidays = new HashSet<>();
     }
+
     //------------------------------------------------
     public boolean isOpen(LocalDateTime time) {
         LocalDate date = time.toLocalDate();
@@ -40,19 +42,17 @@ public class Schedule {
         DayOfWeek day = date.getDayOfWeek();
         if (holidays.contains(date)) {
             return false;
-        }
-        else if (specialSchedule.containsKey(date)) {
+        } else if (specialSchedule.containsKey(date)) {
             return localTime.isAfter(specialSchedule.get(date).start())
                     && localTime.isBefore(specialSchedule.get(date).end());
-        }
-        else if (defaultSchedule.containsKey(day)) {
+        } else if (defaultSchedule.containsKey(day)) {
             return localTime.isAfter(defaultSchedule.get(day).start())
                     && localTime.isBefore(defaultSchedule.get(day).end());
-        }
-        else {
+        } else {
             return false;
         }
     }
+
     // - - - - - - - - - - - - - -
     public LocalTime getOpenTime(LocalDate localDate) {
         if (holidays.contains(localDate)) {
@@ -60,11 +60,11 @@ public class Schedule {
         }
         if (specialSchedule.containsKey(localDate)) {
             return specialSchedule.get(localDate).start();
-        }
-        else {
+        } else {
             return defaultSchedule.get(localDate.getDayOfWeek()).start();
         }
     }
+
     // - - - - - - - - - - - - - -
     public LocalTime getCloseTime(LocalDate localDate) {
         if (holidays.contains(localDate)) {
@@ -72,10 +72,22 @@ public class Schedule {
         }
         if (specialSchedule.containsKey(localDate)) {
             return specialSchedule.get(localDate).end();
-        }
-        else {
+        } else {
             return defaultSchedule.get(localDate.getDayOfWeek()).end();
         }
     }
+
     // - - - - - - - - - - - - - -
+    public long getCloseTimeMs(LocalDate localDate) {
+        LocalTime localTime = getCloseTime(localDate);
+        ZonedDateTime zonedDateTime = localTime.atDate(localDate).atZone(ZoneId.systemDefault());
+        return zonedDateTime.toInstant().toEpochMilli();
+    }
+
+    // - - - - - - - - - - - - - -
+    public long getOpenTimeMs(LocalDate localDate) {
+        LocalTime localTime = getOpenTime(localDate);
+        ZonedDateTime zonedDateTime = localTime.atDate(localDate).atZone(ZoneId.systemDefault());
+        return zonedDateTime.toInstant().toEpochMilli();
+    }
 }

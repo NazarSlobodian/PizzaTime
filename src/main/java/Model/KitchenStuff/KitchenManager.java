@@ -151,15 +151,15 @@ public class KitchenManager extends ObservableModel {
     private static List<Order> generateTestOrders() {
         List<Order> orders = new ArrayList<>();
         List<Cookable> itemsOrder1 = new ArrayList<>();
-        itemsOrder1.add(new Pizza("Quattro Formaggi", 20*60*1000));
-        itemsOrder1.add(new Pizza("Diavolo", 25*60*1000));
+        //itemsOrder1.add(new Pizza("Quattro Formaggi", 20*60*1000));
+        //itemsOrder1.add(new Pizza("Diavolo", 25*60*1000));
 
-        List<Cookable> itemsOrder2 = new ArrayList<>();
-        itemsOrder2.add(new Pizza("Hawaii", 15*60*1000));
-        itemsOrder2.add(new Pizza("Margherita", 14*60*1000));
+        //List<Cookable> itemsOrder2 = new ArrayList<>();
+        //itemsOrder2.add(new Pizza("Hawaii", 15*60*1000));
+        //itemsOrder2.add(new Pizza("Margherita", 14*60*1000));
 
-        orders.add(new Order(itemsOrder1, System.currentTimeMillis()));
-        orders.add(new Order(itemsOrder2, System.currentTimeMillis()));
+        //orders.add(new Order(itemsOrder1, System.currentTimeMillis()));
+        //orders.add(new Order(itemsOrder2, System.currentTimeMillis()));
 
         return orders;
     }

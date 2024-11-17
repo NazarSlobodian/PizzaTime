@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * An implementation of FlowGeneratorImpl that determines when to generate a new order
  */
-class FlowGeneratorImpl implements FlowGenerator {
+public class FlowGeneratorImpl implements FlowGenerator {
     private final int intervalMillis;
     private long lastOrderTime;
     private final Random random;

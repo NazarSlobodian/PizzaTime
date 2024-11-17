@@ -5,6 +5,8 @@ import java.util.Queue;
 
 import Model.Generators.FlowGenerator;
 import Model.Generators.OrderStrategyManager;
+import Model.Utils.Clock;
+import Model.Utils.Schedule;
 
 /**
  * Manages the queues for order processing and integrates with OrderStrategyManager, FlowGenerator, and KitchenManager.
@@ -13,18 +15,20 @@ public class Queues {
     private final Queue<Order> generalQueue;
     private final Queue<Order> rejectedQueue;
     private final KitchenManager kitchenManager;
-    private final long endOfDayTime;
+    Schedule  schedule;
 
     private final FlowGenerator flowGenerator;
     private final OrderStrategyManager orderStrategyManager;
+    Clock clock;
 
-    public Queues(long endOfDayTime, FlowGenerator flowGenerator, OrderStrategyManager orderStrategyManager, KitchenManager kitchenManager) {
+    public Queues(Schedule schedule, FlowGenerator flowGenerator, OrderStrategyManager orderStrategyManager, KitchenManager kitchenManager, Clock clock) {
         this.generalQueue = new LinkedList<>();
         this.rejectedQueue = new LinkedList<>();
-        this.endOfDayTime = endOfDayTime;
+        this.schedule = schedule;
         this.flowGenerator = flowGenerator;
         this.orderStrategyManager = orderStrategyManager;
         this.kitchenManager = kitchenManager;
+        this.clock = clock;
     }
 
     /**
@@ -78,7 +82,7 @@ public class Queues {
      */
     private boolean canOrderBeCompleted(Order order) {
         long estimatedCompletionTime = order.getOrderTime() + 20 * 60 * 1000; // 20 minutes
-        return estimatedCompletionTime <= endOfDayTime;
+        return estimatedCompletionTime <= schedule.getCloseTimeMs(clock.getLocalDate());
     }
 
     /**
