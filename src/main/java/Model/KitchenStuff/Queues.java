@@ -1,10 +1,8 @@
 package Model.KitchenStuff;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 
 import Model.Generators.FlowGenerator;
@@ -16,18 +14,20 @@ import Model.Utils.Schedule;
  * Manages the queues for order processing and integrates with OrderStrategyManager, FlowGenerator, and KitchenManager.
  */
 public class Queues {
-    private final Map<String, Queue<Order>> orderQueues;
+    private final List<Queue<Order>> orderQueues;
     private final Queue<Order> rejectedQueue;
-    private final List<Order> allOrders;
+    private final List<Order> allOrders;  
     private final KitchenManager kitchenManager;
-    Schedule  schedule;
+    private final Schedule schedule;
 
     private final FlowGenerator flowGenerator;
     private final OrderStrategyManager orderStrategyManager;
-    Clock clock;
+    private final Clock clock;
+
+    private int currentQueueIndex;
 
     public Queues(Schedule schedule, FlowGenerator flowGenerator, OrderStrategyManager orderStrategyManager, KitchenManager kitchenManager, Clock clock) {
-        this.orderQueues = new HashMap<>();
+        this.orderQueues = new ArrayList<>();
         this.rejectedQueue = new LinkedList<>();
         this.allOrders = new ArrayList<>();
         this.schedule = schedule;
@@ -35,15 +35,11 @@ public class Queues {
         this.orderStrategyManager = orderStrategyManager;
         this.kitchenManager = kitchenManager;
         this.clock = clock;
-    }
+        this.currentQueueIndex = 0;
 
-    /**
-     * Adds a new queue for a specific type of order.
-     *
-     * @param queueName The name of the queue.
-     */
-    public void addQueue(String queueName) {
-        orderQueues.put(queueName, new LinkedList<>());
+        for (int i = 0; i < 4; i++) {
+            orderQueues.add(new LinkedList<>());
+        }
     }
 
     /**
@@ -53,7 +49,7 @@ public class Queues {
         if (flowGenerator.shouldGenerateOrder()) {
             // Generate a new order using the active strategy
             Order newOrder = orderStrategyManager.generateOrder();
-            addOrderToAppropriateQueue(newOrder);
+            addOrderToQueue(newOrder);
         }
 
         // Try to process orders from all queues into the kitchen
@@ -61,20 +57,19 @@ public class Queues {
     }
 
     /**
-     * Adds an order to the appropriate queue based on custom criteria.
+     * Adds an order to one of the queues in a round-robin manner.
      *
      * @param order The order to be added.
      */
-    private void addOrderToAppropriateQueue(Order order) {
+    private void addOrderToQueue(Order order) {
         allOrders.add(order); // Save to the history of all orders
 
-        // Example logic: decide the queue based on order size
-        String queueName = (order.getItems().size() <= 3) ? "SmallOrders" : "LargeOrders";
-        Queue<Order> queue = orderQueues.get(queueName);
-
-        if (queue != null && canOrderBeCompleted(order)) {
+        if (canOrderBeCompleted(order)) {
+            Queue<Order> queue = orderQueues.get(currentQueueIndex);
             queue.add(order);
-            System.out.println("Order added to queue [" + queueName + "]: " + order);
+            System.out.println("Order added to queue [" + (currentQueueIndex + 1) + "]: " + order);
+
+            currentQueueIndex = (currentQueueIndex + 1) % orderQueues.size();
         } else {
             rejectOrder(order);
         }
@@ -84,17 +79,17 @@ public class Queues {
      * Processes orders from all queues and sends them to the kitchen if possible.
      */
     private void processOrdersToKitchen() {
-        for (Map.Entry<String, Queue<Order>> entry : orderQueues.entrySet()) {
-            Queue<Order> queue = entry.getValue();
+        for (int i = 0; i < orderQueues.size(); i++) {
+            Queue<Order> queue = orderQueues.get(i);
             while (!queue.isEmpty()) {
                 Order order = queue.peek();
                 if (kitchenManager.canAcceptOrder(order)) {
                     queue.poll(); // Remove the order from the queue
                     Order orderCopy = new Order(order); // Create a copy before sending
                     kitchenManager.acceptOrder(orderCopy);
-                    System.out.println("Order sent to kitchen from [" + entry.getKey() + "]: " + orderCopy);
+                    System.out.println("Order sent to kitchen from queue [" + (i + 1) + "]: " + orderCopy);
                 } else {
-                    System.out.println("Kitchen cannot accept order yet from queue [" + entry.getKey() + "]: " + order);
+                    System.out.println("Kitchen cannot accept order yet from queue [" + (i + 1) + "]: " + order);
                     break; // Stop processing this queue if the kitchen can't accept the current order
                 }
             }
