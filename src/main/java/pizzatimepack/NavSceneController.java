@@ -92,4 +92,12 @@ public class NavSceneController {
         viewBorderPane.setCenter(view);
     }
 
+    @FXML
+    private void btnKitchen() throws IOException {
+        AnchorPane view = FXMLLoader.load(getClass().getResource("/Views/kitchen-view.fxml"));
+        viewBorderPane.setVisible(true);
+        viewBorderPane.setCenter(view);
+    }
+
+
 }

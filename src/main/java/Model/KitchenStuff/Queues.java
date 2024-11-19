@@ -1,95 +1,115 @@
 package Model.KitchenStuff;
 
-
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import Model.Generators.FlowGenerator;
-import Model.Generators.OrderGenerator;
-
+import Model.Generators.OrderStrategyManager;
+import Model.Utils.Clock;
+import Model.Utils.Schedule;
 
 /**
- * Manages the queues for order processing and integrates with FlowGenerator and OrderGenerator.
+ * Manages the queues for order processing and integrates with OrderStrategyManager, FlowGenerator, and KitchenManager.
  */
 public class Queues {
-    private final Queue<Order> cashierQueue;
-    private final Queue<Order> kitchenQueue;
+    private final List<Queue<Order>> orderQueues;
     private final Queue<Order> rejectedQueue;
-    private final long endOfDayTime;
+    private final List<Order> allOrders;  
+    private final KitchenManager kitchenManager;
+    private final Schedule schedule;
 
     private final FlowGenerator flowGenerator;
-    private final OrderGenerator orderGenerator;
+    private final OrderStrategyManager orderStrategyManager;
+    private final Clock clock;
 
-    public Queues(long endOfDayTime, FlowGenerator flowGenerator, OrderGenerator orderGenerator) {
-        this.cashierQueue = new LinkedList<>();
-        this.kitchenQueue = new LinkedList<>();
+    private int currentQueueIndex;
+
+    public Queues(Schedule schedule, FlowGenerator flowGenerator, OrderStrategyManager orderStrategyManager, KitchenManager kitchenManager, Clock clock) {
+        this.orderQueues = new ArrayList<>();
         this.rejectedQueue = new LinkedList<>();
-        this.endOfDayTime = endOfDayTime;
+        this.allOrders = new ArrayList<>();
+        this.schedule = schedule;
         this.flowGenerator = flowGenerator;
-        this.orderGenerator = orderGenerator;
-    }
+        this.orderStrategyManager = orderStrategyManager;
+        this.kitchenManager = kitchenManager;
+        this.clock = clock;
+        this.currentQueueIndex = 0;
 
-    /**
-     * Main logic to check and generate orders.
-     */
-    public void manageOrderFlow() {
-        if (flowGenerator.shouldGenerateOrder()) {
-            // Generate a new order and add it to the cashier queue
-            Order newOrder = orderGenerator.generateRandomOrder();
-            addOrderToCashierQueue(newOrder);
+        for (int i = 0; i < 4; i++) {
+            orderQueues.add(new LinkedList<>());
         }
     }
 
     /**
-     * Adds an order to the cashier queue for processing.
+     * Main logic to generate orders and manage the flow between queues and the kitchen.
+     */
+    public void manageOrderFlow() {
+        if (flowGenerator.shouldGenerateOrder()) {
+            // Generate a new order using the active strategy
+            Order newOrder = orderStrategyManager.generateOrder();
+            addOrderToQueue(newOrder);
+        }
+
+        // Try to process orders from all queues into the kitchen
+        processOrdersToKitchen();
+    }
+
+    /**
+     * Adds an order to one of the queues in a round-robin manner.
+     *
      * @param order The order to be added.
      */
-    private void addOrderToCashierQueue(Order order) {
+    private void addOrderToQueue(Order order) {
+        allOrders.add(order); // Save to the history of all orders
+
         if (canOrderBeCompleted(order)) {
-            cashierQueue.add(order);
-            System.out.println("Order added to cashier queue: " + order);
+            Queue<Order> queue = orderQueues.get(currentQueueIndex);
+            queue.add(order);
+            System.out.println("Order added to queue [" + (currentQueueIndex + 1) + "]: " + order);
+
+            currentQueueIndex = (currentQueueIndex + 1) % orderQueues.size();
         } else {
             rejectOrder(order);
         }
     }
 
     /**
-     * Moves an order from the cashier queue to the kitchen queue.
+     * Processes orders from all queues and sends them to the kitchen if possible.
      */
-    public void processOrderAtCashier() {
-        if (!cashierQueue.isEmpty()) {
-            Order order = cashierQueue.poll();
-            if (order != null) {
-                kitchenQueue.add(order);
-                System.out.println("Order moved to kitchen queue: " + order);
+    private void processOrdersToKitchen() {
+        for (int i = 0; i < orderQueues.size(); i++) {
+            Queue<Order> queue = orderQueues.get(i);
+            while (!queue.isEmpty()) {
+                Order order = queue.peek();
+                if (kitchenManager.canAcceptOrder(order)) {
+                    queue.poll(); // Remove the order from the queue
+                    Order orderCopy = new Order(order); // Create a copy before sending
+                    kitchenManager.acceptOrder(orderCopy);
+                    System.out.println("Order sent to kitchen from queue [" + (i + 1) + "]: " + orderCopy);
+                } else {
+                    System.out.println("Kitchen cannot accept order yet from queue [" + (i + 1) + "]: " + order);
+                    break; // Stop processing this queue if the kitchen can't accept the current order
+                }
             }
         }
     }
 
     /**
-     * Processes orders in the kitchen queue.
-     */
-    public void processOrderInKitchen() {
-        if (!kitchenQueue.isEmpty()) {
-            Order order = kitchenQueue.poll();
-            // Logic to handle order preparation (can be added later)
-            System.out.println("Order prepared in kitchen: " + order);
-        }
-    }
-
-    /**
      * Checks if the order can be completed before the end of the day.
+     *
      * @param order The order to check.
      * @return True if the order can be completed, false otherwise.
      */
     private boolean canOrderBeCompleted(Order order) {
-        // Assume each order has an average preparation time (can be adjusted)
         long estimatedCompletionTime = order.getOrderTime() + 20 * 60 * 1000; // 20 minutes
-        return estimatedCompletionTime <= endOfDayTime;
+        return estimatedCompletionTime <= schedule.getCloseTimeMs(clock.getLocalDate());
     }
 
     /**
      * Rejects the order if it can't be completed on time.
+     *
      * @param order The order to be rejected.
      */
     private void rejectOrder(Order order) {
@@ -99,9 +119,19 @@ public class Queues {
 
     /**
      * Retrieves the queue of rejected orders.
+     *
      * @return The rejected orders queue.
      */
     public Queue<Order> getRejectedOrders() {
         return rejectedQueue;
+    }
+
+    /**
+     * Retrieves the list of all orders processed throughout the day.
+     *
+     * @return The list of all orders.
+     */
+    public List<Order> getAllOrders() {
+        return allOrders;
     }
 }
