@@ -32,7 +32,7 @@ public class OrderGeneratorImpl implements OrderGenerator {
     // Generates an order with a random number of pizzas (1-5)
     @Override
     public Order generateRandomOrder() {
-        int itemCount = random.nextInt(1) + 1;
+        int itemCount = random.nextInt(1) + 2;
         List<Cookable> items = new ArrayList<>();
         for (int i = 0; i < itemCount; i++) {
             items.add(menu.getRandomPizza());
