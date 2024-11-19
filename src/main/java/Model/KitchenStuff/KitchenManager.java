@@ -1,10 +1,9 @@
 package Model.KitchenStuff;
 
 import Model.FoodAndStuff.Cookable;
-import Model.FoodAndStuff.Dish;
-import Model.FoodAndStuff.DishReadiness;
 import Model.FoodAndStuff.Pizza;
 import Model.Utils.Clock;
+import Model.Utils.Logger;
 import Model.Utils.ObservableModel;
 
 import java.util.ArrayList;
@@ -97,14 +96,21 @@ public class KitchenManager extends ObservableModel {
         }
 
         // Виконуємо один етап приготування з призначеним кухарем
-        DishReadiness readiness = assignedCook.cook(cookable, elapsedMs);
+        boolean isCookingStepDone = assignedCook.cook(cookable, elapsedMs);
 
-        if (readiness.isReady()) {
+        if(isCookingStepDone && cookable.getStateName().equals("Dough preparation")
+                && cookable.getReadiness() < 0.5)
+        {
+            Logger.logStartCooking(cookable.getName());
+        }
+
+        if (isCookingStepDone) {
             System.out.println("Cook " + assignedCook + " completed an stage of: " + cookable.getStateName() + " Readiness: " + cookable.getReadiness() + "%");
 
             // Перевірка, чи продукт повністю готовий
             if (cookable.isCooked()) {
-                System.out.println("Product " + cookable.getName() + " is fully cooked and ready at time: " + clock.getLocalDateTime().toLocalTime());
+                //System.out.println("Product " + cookable.getName() + " is fully cooked and ready at time: " + clock.getLocalDateTime().toLocalTime());
+                Logger.logFinishCooking(cookable.getName());
                 cookAssignments.remove(cookable); // Видаляємо з мапи призначень, страва готова
                 order.getItems().remove(cookable); // Видаляємо готовий елемент з замовлення
             }
@@ -129,8 +135,8 @@ public class KitchenManager extends ObservableModel {
             }
 
             // Якщо кухар не зайнятий, призначаємо його для приготування страви
-            DishReadiness readiness = cook.cook(cookable, elapsedMs);
-            if (readiness.isReady()) {
+            boolean isCookingStepDone = cook.cook(cookable, elapsedMs);
+            if (isCookingStepDone) {
                 cookAssignments.put(cookable, cook);
                 return cook;
             }
