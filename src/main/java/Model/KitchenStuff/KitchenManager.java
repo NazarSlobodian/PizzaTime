@@ -39,6 +39,20 @@ public class KitchenManager extends ObservableModel {
         orders.add(order);
     }
 
+    public void setCookPresent(Cooker cooker, boolean cookPresent) {
+        // Змінюємо параметри кухаря в списку activeCooks, якщо він там є
+        activeCooks.stream()
+                .filter(cook -> cook.equals(cooker))
+                .findFirst()
+                .ifPresent(cook -> cook.setCookPresent(cookPresent));
+
+        // Змінюємо параметри кухаря в списку notActiveCooks, якщо він там є
+        notActiveCooks.stream()
+                .filter(cook -> cook.equals(cooker))
+                .findFirst()
+                .ifPresent(cook -> cook.setCookPresent(cookPresent));
+    }
+
     /**
      * Головний метод оновлення для обробки замовлень і приготування страв.
      */
