@@ -1,6 +1,7 @@
 package Model.KitchenStuff;
 
 import Model.FoodAndStuff.Cookable;
+import Model.FoodAndStuff.Dish;
 import Model.FoodAndStuff.DishReadiness;
 import Model.FoodAndStuff.Pizza;
 import Model.Utils.Clock;
@@ -52,6 +53,14 @@ public class KitchenManager extends ObservableModel {
                 .findFirst()
                 .ifPresent(cook -> cook.setCookPresent(cookPresent));
     }
+
+    public List<Cookable> getAllCookable() {
+        // Витягуємо всі страви зі списку замовлень
+        return orders.stream()
+                .flatMap(order -> order.getItems().stream()) // Отримуємо Stream всіх Cookable зі списку замовлень
+                .toList(); // Перетворюємо в список
+    }
+
 
     /**
      * Головний метод оновлення для обробки замовлень і приготування страв.
