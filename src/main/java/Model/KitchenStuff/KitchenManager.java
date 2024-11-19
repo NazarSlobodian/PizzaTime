@@ -105,7 +105,7 @@ public class KitchenManager extends ObservableModel {
         }
 
         if (isCookingStepDone) {
-            System.out.println("Cook " + assignedCook + " completed an stage of: " + cookable.getStateName() + " Readiness: " + cookable.getReadiness() + "%");
+            //System.out.println("Cook " + assignedCook + " completed an stage of: " + cookable.getStateName() + " Readiness: " + cookable.getReadiness() + "%");
 
             // Перевірка, чи продукт повністю готовий
             if (cookable.isCooked()) {
