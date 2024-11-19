@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import Model.FoodAndStuff.Cookable;
-import Model.FoodAndStuff.DishReadiness;
 import Model.FoodAndStuff.Pizza;
 import Model.Utils.Clock;
+import Model.Utils.Logger;
 import Model.Utils.ObservableModel;
 
 public class KitchenManager extends ObservableModel {
@@ -43,6 +43,28 @@ public class KitchenManager extends ObservableModel {
         System.out.println("Kitchen processing order: " + order);
     }
 
+    public void setCookPresent(Cooker cooker, boolean cookPresent) {
+        // Змінюємо параметри кухаря в списку activeCooks, якщо він там є
+        activeCooks.stream()
+                .filter(cook -> cook.equals(cooker))
+                .findFirst()
+                .ifPresent(cook -> cook.setCookPresent(cookPresent));
+
+        // Змінюємо параметри кухаря в списку notActiveCooks, якщо він там є
+        notActiveCooks.stream()
+                .filter(cook -> cook.equals(cooker))
+                .findFirst()
+                .ifPresent(cook -> cook.setCookPresent(cookPresent));
+    }
+
+    public List<Cookable> getAllCookable() {
+        // Витягуємо всі страви зі списку замовлень
+        return orders.stream()
+                .flatMap(order -> order.getItems().stream()) // Отримуємо Stream всіх Cookable зі списку замовлень
+                .toList(); // Перетворюємо в список
+    }
+
+
     /**
      * Головний метод оновлення для обробки замовлень і приготування страв.
      */
@@ -66,16 +88,7 @@ public class KitchenManager extends ObservableModel {
         }
     }
 
-
-private void addCookable(Cookable cookable) {
-    cookables.add(cookable);
-    eventContext.forceFirePropertyChange("cookableAdded", null, cookable);
-}
-
-/**
- * Метод для обробки окремого елемента замовлення.
- */
-private void processOrderItem(Cookable cookable, long elapsedMs) {
+  private void processOrderItem(Cookable cookable, long elapsedMs) {
     Cooker assignedCook = cookAssignments.get(cookable);
 
     // Якщо кухар не призначений або зайнятий іншою стравою, шукаємо доступного кухаря
@@ -86,22 +99,40 @@ private void processOrderItem(Cookable cookable, long elapsedMs) {
             return;
         }
     }
+        // Виконуємо один етап приготування з призначеним кухарем
+        boolean isCookingStepDone = assignedCook.cook(cookable, elapsedMs);
 
-    // Виконуємо один етап приготування з призначеним кухарем
-    DishReadiness readiness = assignedCook.cook(cookable, elapsedMs);
-
-    if (readiness.isReady()) {
-
-    } else {
-        // Якщо кухар більше не може виконати етап, видаляємо його призначення для цього етапу
-        cookAssignments.remove(cookable);
-        assignedCook = assignCook(cookable, elapsedMs);
-        if (assignedCook == null) {
-            System.out.println("No available cook to continue " + cookable.getStateName());
+        if(isCookingStepDone && cookable.getStateName().equals("Dough preparation")
+                && cookable.getReadiness() < 0.5)
+        {
+            Logger.logStartCooking(cookable.getName());
         }
-    }
-}
 
+        if (isCookingStepDone) {
+            //System.out.println("Cook " + assignedCook + " completed an stage of: " + cookable.getStateName() + " Readiness: " + cookable.getReadiness() + "%");
+
+            // Перевірка, чи продукт повністю готовий
+            if (cookable.isCooked()) {
+                //System.out.println("Product " + cookable.getName() + " is fully cooked and ready at time: " + clock.getLocalDateTime().toLocalTime());
+                Logger.logFinishCooking(cookable.getName());
+                cookAssignments.remove(cookable); // Видаляємо з мапи призначень, страва готова
+                order.getItems().remove(cookable); // Видаляємо готовий елемент з замовлення
+            }
+        } else {
+            // Якщо кухар більше не може виконати етап, видаляємо його призначення для цього етапу
+            cookAssignments.remove(cookable);
+            assignedCook = assignCook(cookable, elapsedMs);
+            if (assignedCook == null) {
+                System.out.println("No available cook to continue " + cookable.getStateName());
+            }
+        }
+}
+       
+   
+private void addCookable(Cookable cookable) {
+    cookables.add(cookable);
+    eventContext.forceFirePropertyChange("cookableAdded", null, cookable);
+}
 /**
  * Призначає доступного кухаря для приготування страви, якщо він не зайнятий.
  */
@@ -113,11 +144,11 @@ private Cooker assignCook(Cookable cookable, long elapsedMs) {
         }
 
         // Якщо кухар не зайнятий, призначаємо його для приготування страви
-        DishReadiness readiness = cook.cook(cookable, elapsedMs);
-        if (readiness.isReady()) {
-            cookAssignments.put(cookable, cook);
-            return cook;
-        }
+        boolean isCookingStepDone = cook.cook(cookable, elapsedMs);
+            if (isCookingStepDone) {
+                cookAssignments.put(cookable, cook);
+                return cook;
+            }
     }
     return null; // Якщо немає доступного кухаря
 }
