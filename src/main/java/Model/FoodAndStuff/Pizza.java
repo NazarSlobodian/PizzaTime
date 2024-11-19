@@ -12,9 +12,6 @@ public class Pizza extends Dish implements Cloneable {
         this.state = new DoughPizzaState();
     }
 
-    public PizzaState getState() {
-        return state;
-    }
     public String getStateName() {
         return state.toString();
     }

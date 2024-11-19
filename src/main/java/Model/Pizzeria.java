@@ -112,4 +112,7 @@ public class Pizzeria extends ObservableModel {
     public Menu getMenu() {
         return menu;
     }
+    public KitchenManager getKitchen() {
+        return kitchenManager;
+    }
 }
