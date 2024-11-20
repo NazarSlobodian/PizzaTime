@@ -2,7 +2,6 @@ package pizzatimepack;
 
 import Model.Pizzeria;
 import ViewModels.MainViewModel;
-import ViewModels.SimTimeViewModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,9 +26,8 @@ public class Main extends Application {
         Pizzeria pizzeria = new Pizzeria();
         MainViewModel mainViewModel = new MainViewModel(pizzeria);
 
-        SimTimeViewModel simTimeViewModel = mainViewModel.getSimTimeViewModel();
         EnterSceneController enterController = loader.getController();
-        enterController.setSimTimeViewModel(simTimeViewModel);
+        enterController.setMainViewModel(mainViewModel);
 
         SimulatorLauncher launcher = new SimulatorLauncher(pizzeria);
         launcher.run();
