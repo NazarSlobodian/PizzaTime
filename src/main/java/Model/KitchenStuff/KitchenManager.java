@@ -3,21 +3,19 @@ package Model.KitchenStuff;
 import java.util.*;
 
 import Model.FoodAndStuff.Cookable;
-import Model.FoodAndStuff.Pizza;
 import Model.Utils.Clock;
 import Model.Utils.Logger;
 import Model.Utils.ObservableModel;
 
 public class KitchenManager extends ObservableModel {
 
-    private List<Cookable> cookables;
-    private List<Cooker> cooks; // Активні кухарі
-    private Map<Cookable, Cooker> cookAssignments; // Мапа для відстеження, хто готує кожну страву
-    private final Clock clock;
+    private final List<Cookable> cookables;
+    private final List<Cooker> cooks; // Активні кухарі
+    private final Map<Cookable, Cooker> cookAssignments; // Мапа для відстеження, хто готує кожну страву
     private final Logger logger;
 
     public KitchenManager(Clock clock) {
-        this.cookables = new ArrayList<Cookable>(); // Генеруємо тестові замовлення
+        this.cookables = new ArrayList<>(); // Генеруємо тестові замовлення
         this.cooks = new ArrayList<>(); // Генеруємо тестових кухарів
         addCook();
         addCook();
@@ -25,7 +23,6 @@ public class KitchenManager extends ObservableModel {
         addCook();
         addCook();
         this.cookAssignments = new HashMap<>();
-        this.clock = clock;
         this.logger = new Logger(clock);
     }
 

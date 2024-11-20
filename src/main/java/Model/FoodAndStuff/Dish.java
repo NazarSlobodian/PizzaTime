@@ -31,5 +31,13 @@ public abstract class Dish extends ObservableModel implements Cookable {
     public void setTotalPrepTimeMs(long totalPrepTimeMs) {
         this.totalPrepTimeMs = totalPrepTimeMs;
     }
+    @Override
+    public Cookable clone() {
+        try {
+            return (Dish) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Cloning not supported", e);
+        }
+    }
 
 }

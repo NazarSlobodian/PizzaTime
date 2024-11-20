@@ -3,7 +3,7 @@ package Model.FoodAndStuff;
 import Model.FoodAndStuff.States.CookableState;
 import Model.Utils.Observable;
 
-public interface Cookable extends Observable {
+public interface Cookable extends Observable, Cloneable {
     /**
      * @return whether cookable is ready for serving
      */
@@ -30,5 +30,6 @@ public interface Cookable extends Observable {
 
     boolean cookableWithoutCook();
 
+    Cookable clone();
     // boolean shouldBeRecooked();
 }

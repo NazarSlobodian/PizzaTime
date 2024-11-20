@@ -20,18 +20,16 @@ public class Queues {
     private final KitchenManager kitchenManager;
     private final Schedule schedule;
 
-    private final FlowGenerator flowGenerator;
     private final OrderStrategyManager orderStrategyManager;
     private final Clock clock;
 
     private int currentQueueIndex;
 
-    public Queues(Schedule schedule, FlowGenerator flowGenerator, OrderStrategyManager orderStrategyManager, KitchenManager kitchenManager, Clock clock) {
+    public Queues(Schedule schedule, OrderStrategyManager orderStrategyManager, KitchenManager kitchenManager, Clock clock) {
         this.orderQueues = new ArrayList<>();
         this.rejectedQueue = new LinkedList<>();
         this.allOrders = new ArrayList<>();
         this.schedule = schedule;
-        this.flowGenerator = flowGenerator;
         this.orderStrategyManager = orderStrategyManager;
         this.kitchenManager = kitchenManager;
         this.clock = clock;
@@ -46,7 +44,7 @@ public class Queues {
      * Main logic to generate orders and manage the flow between queues and the kitchen.
      */
     public void manageOrderFlow() {
-        if (flowGenerator.shouldGenerateOrder()) {
+        if (orderStrategyManager.shouldGenerate()) {
             // Generate a new order using the active strategy
             Order newOrder = orderStrategyManager.generateOrder();
             addOrderToQueue(newOrder);

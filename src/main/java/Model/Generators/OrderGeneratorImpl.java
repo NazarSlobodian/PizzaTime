@@ -35,7 +35,7 @@ public class OrderGeneratorImpl implements OrderGenerator {
         int itemCount = random.nextInt(1) + 2;
         List<Cookable> items = new ArrayList<>();
         for (int i = 0; i < itemCount; i++) {
-            items.add(menu.getRandomPizza());
+            items.add(menu.getRandomCookable());
         }
         return new Order(items, clock.getCurrentTime());
     }
@@ -50,7 +50,7 @@ public class OrderGeneratorImpl implements OrderGenerator {
             int itemCount = random.nextInt(3) + 1;
             List<Cookable> items = new ArrayList<>();
             for (int i = 0; i < itemCount; i++) {
-                items.add(menu.getRandomPizza());
+                items.add(menu.getRandomCookable());
             }
 
             return new Order(items, clock.getCurrentTime());

@@ -1,11 +1,8 @@
 package Model;
 
 import Model.FoodAndStuff.Menu;
-import Model.FoodAndStuff.Pizza;
 import Model.Generators.FlowGeneratorImpl;
-import Model.Generators.OrderGenerator;
 import Model.Generators.OrderStrategyManager;
-import Model.KitchenStuff.Cook;
 import Model.KitchenStuff.KitchenManager;
 import Model.KitchenStuff.Queues;
 import Model.Utils.*;
@@ -97,7 +94,7 @@ public class Pizzeria extends ObservableModel {
         menu = new Menu(lock);
 
         kitchenManager = new KitchenManager(clock);
-        queues = new Queues(schedule, new FlowGeneratorImpl(1000 * 30 * 60, clock), new OrderStrategyManager(menu, clock), kitchenManager, clock);
+        queues = new Queues(schedule, new OrderStrategyManager(menu, clock), kitchenManager, clock);
     }
 
     // For view model
