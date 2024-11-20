@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,20 +8,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.shape.Circle?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
 
-      <ImageView layoutX="125.0" layoutY="80.0" fitWidth="50.0" fitHeight="50.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="10.0" AnchorPane.rightAnchor="10.0">
-         <image>
-            <Image url="@images/plus.png" />
-         </image>
-      </ImageView>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzatimepack.DessertsSceneController">
+   <children>
 
 
       <!-- Кругла картинка -->
-      <ImageView layoutX="125.0" layoutY="80.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="dessertImage" fitHeight="150.0" fitWidth="150.0" layoutX="125.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/icecream.jpg" />
          </image>
@@ -28,17 +23,11 @@
             <Circle centerX="75.0" centerY="75.0" radius="75.0" />
          </clip>
       </ImageView>
-      <Label text="Ice Cream"  layoutX="160.0" layoutY="235.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-
-      <ImageView layoutX="250.0" layoutY="80.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
-         <image>
-            <Image url="@images/minus.png" />
-         </image>
-      </ImageView>
+      <Label layoutX="160.0" layoutY="235.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Ice Cream" />
 
 
 
-      <ImageView layoutX="125.0" layoutY="280.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="125.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/donout.jpg" />
          </image>
@@ -46,15 +35,15 @@
             <Circle centerX="75.0" centerY="75.0" radius="75.0" />
          </clip>
       </ImageView>
-      <Label text="Donut"  layoutX="170.0" layoutY="435.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+      <Label layoutX="170.0" layoutY="435.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Donut" />
 
-      <ImageView layoutX="250.0" layoutY="280.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="250.0" layoutY="280.0" preserveRatio="true">
          <image>
             <Image url="@images/minus.png" />
          </image>
       </ImageView>
 
-      <ImageView layoutX="125.0" layoutY="480.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="125.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/sweet.jpg" />
          </image>
@@ -62,15 +51,15 @@
             <Circle centerX="75.0" centerY="75.0" radius="75.0" />
          </clip>
       </ImageView>
-      <Label text="Cookie"  layoutX="170.0" layoutY="635.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+      <Label layoutX="170.0" layoutY="635.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Cookie" />
 
-      <ImageView layoutX="250.0" layoutY="480.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="250.0" layoutY="480.0" preserveRatio="true">
          <image>
             <Image url="@images/minus.png" />
          </image>
       </ImageView>
 
-      <ImageView layoutX="325.0" layoutY="80.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="325.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/marshmello.jpg" />
          </image>
@@ -78,16 +67,16 @@
             <Circle centerX="75.0" centerY="75.0" radius="75.0" />
          </clip>
       </ImageView>
-      <Label text="Marshmallows"  layoutX="350.0" layoutY="235.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+      <Label layoutX="350.0" layoutY="235.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Marshmallows" />
 
 
-      <ImageView layoutX="455.0" layoutY="80.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="455.0" layoutY="80.0" preserveRatio="true">
          <image>
             <Image url="@images/minus.png" />
          </image>
       </ImageView>
 
-      <ImageView layoutX="325.0" layoutY="280.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="325.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/lavacake.jpg" />
          </image>
@@ -96,17 +85,17 @@
          </clip>
       </ImageView>
 
-      <Label text="Molten Chocolate Cake"  layoutX="320.0" layoutY="435.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+      <Label layoutX="320.0" layoutY="435.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Molten Chocolate Cake" />
 
 
-      <ImageView layoutX="455.0" layoutY="280.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="455.0" layoutY="280.0" preserveRatio="true">
          <image>
             <Image url="@images/minus.png" />
          </image>
       </ImageView>
 
 
-      <ImageView layoutX="325.0" layoutY="480.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="325.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/garbus.jpg" />
          </image>
@@ -114,15 +103,15 @@
             <Circle centerX="75.0" centerY="75.0" radius="75.0" />
          </clip>
       </ImageView>
-      <Label text="Pumpkin cake"  layoutX="350.0" layoutY="635.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+      <Label layoutX="350.0" layoutY="635.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Pumpkin cake" />
 
-      <ImageView layoutX="455.0" layoutY="480.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="455.0" layoutY="480.0" preserveRatio="true">
          <image>
             <Image url="@images/minus.png" />
          </image>
       </ImageView>
 
-      <ImageView layoutX="525.0" layoutY="80.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="525.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/cheesecake.jpg" />
          </image>
@@ -130,15 +119,15 @@
             <Circle centerX="75.0" centerY="75.0" radius="75.0" />
          </clip>
       </ImageView>
-      <Label text="Cheese Cake"  layoutX="555.0" layoutY="435.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+      <Label layoutX="555.0" layoutY="435.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Cheese Cake" />
 
-      <ImageView layoutX="655.0" layoutY="80.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="655.0" layoutY="80.0" preserveRatio="true">
          <image>
             <Image url="@images/minus.png" />
          </image>
       </ImageView>
 
-      <ImageView layoutX="525.0" layoutY="280.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="525.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/cheerycake.jpg" />
          </image>
@@ -147,16 +136,16 @@
          </clip>
       </ImageView>
 
-      <Label text="Cheery Cake"  layoutX="555.0" layoutY="235.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+      <Label layoutX="555.0" layoutY="235.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Cheery Cake" />
 
 
-      <ImageView layoutX="655.0" layoutY="280.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="655.0" layoutY="280.0" preserveRatio="true">
          <image>
             <Image url="@images/minus.png" />
          </image>
       </ImageView>
 
-      <ImageView layoutX="525.0" layoutY="480.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="525.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/cake.jpg" />
          </image>
@@ -164,13 +153,33 @@
             <Circle centerX="75.0" centerY="75.0" radius="75.0" />
          </clip>
       </ImageView>
-      <Label text="Cake"  layoutX="585.0" layoutY="635.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+      <Label layoutX="585.0" layoutY="635.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Cake" />
 
 
-      <ImageView layoutX="655.0" layoutY="480.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="655.0" layoutY="480.0" preserveRatio="true">
          <image>
             <Image url="@images/minus.png" />
          </image>
       </ImageView>
+      <Button fx:id="addDessertsButton" layoutX="716.0" layoutY="22.0" mnemonicParsing="false" onAction="#BtnAddDesserts" prefHeight="6.0" prefWidth="19.0" styleClass="dessertsButtons">
+         <graphic>
+      
+            <ImageView fitHeight="42.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="DessertsButtons">
+               <image>
+                  <Image url="@images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="deleteDessertsButton" layoutX="240.0" layoutY="75.0" mnemonicParsing="false" styleClass="dessertsButtons">
+         <graphic>
+      
+                  <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+               <image>
+                  <Image url="@images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

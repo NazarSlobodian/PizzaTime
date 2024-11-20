@@ -1,7 +1,6 @@
 package pizzatimepack;
 
 import ViewModels.MainViewModel;
-import ViewModels.SimTimeViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,10 +14,11 @@ public class EnterSceneController {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    private SimTimeViewModel simTimeViewModel;
 
-    public void setSimTimeViewModel(SimTimeViewModel simTimeViewModel) {
-        this.simTimeViewModel = simTimeViewModel;
+    private MainViewModel mainViewModel;
+
+    public void setMainViewModel(MainViewModel mainViewModel) {
+        this.mainViewModel = mainViewModel;
     }
 
     public void switchToNav(ActionEvent event) throws IOException {
@@ -26,7 +26,7 @@ public class EnterSceneController {
         root = loader.load();
 
         NavSceneController navController = loader.getController();
-        navController.setSimTimeViewModel(simTimeViewModel);
+        navController.setMainViewModel(mainViewModel);
 
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

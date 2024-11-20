@@ -26,4 +26,12 @@ public class MainViewModel {
     public SimTimeViewModel getSimTimeViewModel() {
         return simTimeViewModel;
     }
+
+    public KitchenViewModel getKitchenViewModel() {
+        return kitchenViewModel;
+    }
+
+    public MenuViewModel getMenuViewModel() {
+        return menuViewModel;
+    }
 }

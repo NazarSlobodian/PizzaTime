@@ -7,21 +7,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-
-    <!-- Створення таблиці -->
-    <TableView layoutX="0.0" layoutY="-100.0" pickOnBounds="true" >
-        <!-- Стовпці -->
-        <columns>
-            <!-- Стовпець для номера замовлення -->
-            <TableColumn fx:id="orderNumberColumn" text="Номер замовлення" prefWidth="200.0"/>
-            <!-- Стовпець для стану -->
-            <TableColumn fx:id="statusColumn" text="Стан" prefWidth="200.0"/>
-            <!-- Стовпець для готовності -->
-            <TableColumn fx:id="readinessColumn" text="Готовність" prefWidth="200.0"/>
-        </columns>
-    </TableView>
-
-
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzatimepack.KitchenSceneController">
+   <children>
+       <!-- Створення таблиці -->
+       <TableView fx:id="kitchenTable" layoutX="0.0" layoutY="-100.0" pickOnBounds="true">
+           <!-- Стовпці -->
+           <columns>
+               <!-- Стовпець для номера замовлення -->
+               <TableColumn fx:id="orderNumberColumn" prefWidth="200.0" text="Номер замовлення" />
+               <!-- Стовпець для стану -->
+               <TableColumn fx:id="statusColumn" prefWidth="200.0" text="Стан" />
+               <!-- Стовпець для готовності -->
+               <TableColumn fx:id="readinessColumn" prefWidth="200.0" text="Готовність" />
+           </columns>
+       </TableView>
+   </children>
 </AnchorPane>
