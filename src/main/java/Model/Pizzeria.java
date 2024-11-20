@@ -8,10 +8,7 @@ import Model.Generators.OrderStrategyManager;
 import Model.KitchenStuff.Cook;
 import Model.KitchenStuff.KitchenManager;
 import Model.KitchenStuff.Queues;
-import Model.Utils.Clock;
-import Model.Utils.ObservableModel;
-import Model.Utils.Schedule;
-import Model.Utils.TimeProperties;
+import Model.Utils.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -62,6 +59,7 @@ public class Pizzeria extends ObservableModel {
 
         lock.unlock();
     }
+
     private void handleDayNightCycle() {
         if (!schedule.isOpen(clock.getLocalDateTime())) {
             timeProperties.setSkippingTime(true);
@@ -71,7 +69,9 @@ public class Pizzeria extends ObservableModel {
     }
 
     private void updateStuff(long elapsedMs) {
-        if (timeProperties.isSkippingTime()) { return; }
+        if (timeProperties.isSkippingTime()) {
+            return;
+        }
         queues.manageOrderFlow();
         kitchenManager.update(elapsedMs);
     }
@@ -97,7 +97,7 @@ public class Pizzeria extends ObservableModel {
         menu = new Menu(lock);
 
         kitchenManager = new KitchenManager(clock);
-        queues = new Queues(schedule, new FlowGeneratorImpl(1000*30*60, clock), new OrderStrategyManager(menu, clock), kitchenManager, clock);
+        queues = new Queues(schedule, new FlowGeneratorImpl(1000 * 30 * 60, clock), new OrderStrategyManager(menu, clock), kitchenManager, clock);
     }
 
     // For view model
@@ -112,7 +112,12 @@ public class Pizzeria extends ObservableModel {
     public Menu getMenu() {
         return menu;
     }
+
     public KitchenManager getKitchen() {
         return kitchenManager;
+    }
+
+    public Logger getLogger() {
+        return kitchenManager.getLogger();
     }
 }

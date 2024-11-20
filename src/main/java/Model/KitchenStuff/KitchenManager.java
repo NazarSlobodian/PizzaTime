@@ -24,7 +24,7 @@ public class KitchenManager extends ObservableModel {
         this.cooks = generateTestCooks(); // Генеруємо тестових кухарів
         this.cookAssignments = new HashMap<>();
         this.clock = clock;
-        this.logger= new Logger(clock);
+        this.logger = new Logger(clock);
     }
 
     // Example method: Check if the kitchen can accept the order
@@ -57,9 +57,11 @@ public class KitchenManager extends ObservableModel {
         //видалення приготованих страв
         for (int i = 0; i < cookables.size(); i++) {
             if (cookables.get(i).isCooked()) {
-                logger.logFinishCooking(cookables.get(i).getName());
-                cookAssignments.remove(cookables.get(i)); // Видаляємо з мапи призначень, страва готова
-                cookables.remove(cookables.get(i)); // Видаляємо готовий елемент з замовлення
+                Cookable c = cookables.get(i);
+                logger.logFinishCooking(c.getName());
+                cookAssignments.remove(c); // Видаляємо з мапи призначень, страва готова
+                cookables.remove(c); // Видаляємо готовий елемент з замовлення
+                eventContext.forceFirePropertyChange("cookableDeleted", null, c);
                 i--;
             }
         }
@@ -85,7 +87,6 @@ public class KitchenManager extends ObservableModel {
 
 
     }
-
 
     private void addCookable(Cookable cookable) {
         cookables.add(cookable);
@@ -113,7 +114,6 @@ public class KitchenManager extends ObservableModel {
         }
     }
 
-
     private static List<Cooker> generateTestCooks() {
         List<Cooker> cooks = new ArrayList<>();
         cooks.add(new Cook());
@@ -124,11 +124,16 @@ public class KitchenManager extends ObservableModel {
         cooks.add(new Cook());
         return cooks;
     }
+
     @Override
     public void setNotifications(boolean setting) {
         eventContext.setEventFiring(setting);
         for (Cookable cookable : cookables) {
             cookable.setNotifications(setting);
         }
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 }

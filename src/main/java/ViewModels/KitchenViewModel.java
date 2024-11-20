@@ -20,9 +20,23 @@ public class KitchenViewModel {
         this.kitchenManager = kitchenManager;
         kitchenManager.addPropertyChangeListener(evt-> {
             if (evt.getPropertyName().equals("cookableAdded")) {
-                Platform.runLater(()-> {
-                    pizzasInKitchen.add(new KitchenPizzaViewModel((Cookable)evt.getNewValue()));
+                Platform.runLater(() -> {
+                    pizzasInKitchen.add(new KitchenPizzaViewModel((Cookable) evt.getNewValue()));
                     System.out.println("Cookable added to kitchen");
+                });
+            }
+        });
+        kitchenManager.addPropertyChangeListener(evt-> {
+            if (evt.getPropertyName().equals("cookableDeleted")) {
+                Platform.runLater(()-> {
+                    Cookable deleted = (Cookable)evt.getNewValue();
+                    for (KitchenPizzaViewModel v : pizzasInKitchen) {
+                        if (v.boundTo(deleted)) {
+                            pizzasInKitchen.remove(v);
+                            break;
+                        }
+                    }
+                    System.out.println("Cookable " + evt.getNewValue() + " removed from kitchen");
                 });
             }
         });
