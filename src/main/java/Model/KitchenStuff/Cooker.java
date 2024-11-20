@@ -4,13 +4,10 @@ import Model.FoodAndStuff.Cookable;
 
 public interface Cooker {
     // Перевіряє, чи можна готувати до заданого стану
-    boolean canCook(String stateName);
+    boolean canCook(Cookable cookable);
 
     // Геттер для cookPresent
     boolean isCookPresent();
-
-    boolean isActive();
-
     // Сеттер для cookPresent з викликом forceFirePropertyChange
     void setCookPresent(boolean cookPresent);
 

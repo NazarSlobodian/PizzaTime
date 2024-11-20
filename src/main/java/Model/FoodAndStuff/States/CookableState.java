@@ -33,6 +33,7 @@ public interface CookableState extends Cloneable {
      */
     boolean isFinal();
 
+    boolean isInitial();
     /**
      * If it has to be cooked anew. Maybe its redundant
      * @return is bad or not
