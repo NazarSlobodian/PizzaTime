@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Logger {
+public class Logger extends ObservableModel {
     private final Clock clock;
     private final List<String> logEntries = new ArrayList<>();
 
@@ -17,24 +17,11 @@ public class Logger {
     public void logStartCooking(String pizzaName) {
         String log = "[" + clock.toString() + "] Cooking started for: " + pizzaName;
         logEntries.add(log);
-        System.out.println(log);
+        eventContext.forceFirePropertyChange("logAdded", null, log);
     }
-
-
     public void logFinishCooking(String pizzaName) {
         String log = "[" + clock.toString() + "] Cooking finished for: " + pizzaName;
         logEntries.add(log);
-        System.out.println(log);
+        eventContext.forceFirePropertyChange("logAdded", null, log);
     }
-
-    // Метод для отримання списку логів
-    public List<String> getLogEntries() {
-        return Collections.unmodifiableList(logEntries); // Повертаємо незмінний список
-    }
-
-
-    public void clearLogs() {
-        logEntries.clear();
-    }
-
 }

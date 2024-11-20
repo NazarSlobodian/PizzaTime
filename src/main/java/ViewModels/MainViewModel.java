@@ -11,6 +11,7 @@ public class MainViewModel {
     private final SimTimeViewModel simTimeViewModel;
     private final MenuViewModel menuViewModel;
     private final KitchenViewModel kitchenViewModel;
+    private final LogViewModel logViewModel;
     // Time data
 
     //------------------------------------------------
@@ -18,7 +19,8 @@ public class MainViewModel {
         simTimeViewModel = new SimTimeViewModel(simulator.getClock(), simulator.getTimeProperties());
 
         menuViewModel = new MenuViewModel(simulator.getMenu());
-        kitchenViewModel = new KitchenViewModel(simulator.getKitchen()); // replace with real list/object later
+        kitchenViewModel = new KitchenViewModel(simulator.getKitchen());
+        logViewModel = new LogViewModel(simulator.getLogger());
     }
 
     public SimTimeViewModel getSimTimeViewModel() {
