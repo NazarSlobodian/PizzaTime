@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.stage.Stage?>
+
+<VBox xmlns:fx="http://javafx.com/javafx/8.0.171" xmlns="http://javafx.com/javafx/8.0.171"  alignment="CENTER" spacing="20" style="-fx-padding: 20;">
+    <!-- Текст повідомлення -->
+    <Label text="Ви впевнені, що хочете видалити 'назва'?" style="-fx-font-size: 14;"/>
+
+    <!-- Кнопки
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Скасувати" onAction="
+            ((Stage)((Button)event.getSource()).getScene().getWindow()).close();
+        " style="-fx-background-color: #a67c52; -fx-text-fill: white; -fx-font-size: 14;"/>
+        <Button text="Видалити" onAction="
+            System.out.println('Видалення підтверджено');
+            ((Stage)((Button)event.getSource()).getScene().getWindow()).close();
+        " style="-fx-background-color: #a67c52; -fx-text-fill: white; -fx-font-size: 14;"/>
+    </HBox>-->
+</VBox>
