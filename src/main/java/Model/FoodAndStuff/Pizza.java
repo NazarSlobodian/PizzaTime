@@ -21,6 +21,10 @@ public class Pizza extends Dish implements Cloneable {
 
     @Override
     public void increaseReadiness(double value, boolean controlledCooking) {
+
+        if (!cookableWithoutCook() && !controlledCooking) {
+            return;
+        }
         state.increaseReadiness(value);
         if (eventContext.canFireEvent()) {
             eventContext.firePropertyChange("pizzaStateReadinessChanged", 0, this.state.getReadiness());

@@ -1,9 +1,6 @@
 package Model.KitchenStuff;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import Model.FoodAndStuff.Cookable;
 import Model.FoodAndStuff.Pizza;
@@ -21,7 +18,12 @@ public class KitchenManager extends ObservableModel {
 
     public KitchenManager(Clock clock) {
         this.cookables = new ArrayList<Cookable>(); // Генеруємо тестові замовлення
-        this.cooks = generateTestCooks(); // Генеруємо тестових кухарів
+        this.cooks = new ArrayList<>(); // Генеруємо тестових кухарів
+        addCook();
+        addCook();
+        addCook();
+        addCook();
+        addCook();
         this.cookAssignments = new HashMap<>();
         this.clock = clock;
         this.logger = new Logger(clock);
@@ -37,10 +39,34 @@ public class KitchenManager extends ObservableModel {
         for (Cookable cookable : order.getItems()) {
             addCookable(cookable);
         }
-        System.out.println("Kitchen processing order: " + order);
     }
 
-    public void setCookPresent(Cooker cooker, boolean cookPresent) {
+    public void startCooker(Cooker cooker) {
+        setCookPresent(cooker, true);
+    }
+    public void stopCooker(Cooker cooker) {
+        setCookPresent(cooker, false);
+        for (Cookable cookable: cookAssignments.keySet()) {
+            if (cookAssignments.get(cookable).equals(cooker)) {
+                assignCook(cookable);
+                System.out.println("Trying to find someone to help");
+            }
+        }
+    }
+    public void startCooker(int index) {
+
+        setCookPresent(cooks.get(index), true);
+    }
+    public void stopCooker(int index) {
+        setCookPresent(cooks.get(index), false);
+        for (Cookable cookable: cookAssignments.keySet()) {
+            if (cookAssignments.get(cookable).equals(cooks.get(index))) {
+                assignCook(cookable);
+                System.out.println("Trying to find someone to help");
+            }
+        }
+    }
+    private void setCookPresent(Cooker cooker, boolean cookPresent) {
         cooks.stream()
                 .filter(cook -> cook.equals(cooker))
                 .findFirst()
@@ -84,8 +110,6 @@ public class KitchenManager extends ObservableModel {
         } else {
             cookAssignments.remove(cookable);
         }
-
-
     }
 
     private void addCookable(Cookable cookable) {
@@ -114,15 +138,10 @@ public class KitchenManager extends ObservableModel {
         }
     }
 
-    private static List<Cooker> generateTestCooks() {
-        List<Cooker> cooks = new ArrayList<>();
-        cooks.add(new Cook());
-        cooks.add(new Cook());
-        cooks.add(new Cook());
-        cooks.add(new Cook());
-        cooks.add(new Cook());
-        cooks.add(new Cook());
-        return cooks;
+    private void addCook() {
+        Cooker cook = new Cook();
+        cooks.add(cook);
+        eventContext.forceFirePropertyChange("cookAdded", null, cook);
     }
 
     @Override
@@ -135,5 +154,8 @@ public class KitchenManager extends ObservableModel {
 
     public Logger getLogger() {
         return logger;
+    }
+    public List<Cooker> getCooks() {
+        return cooks;
     }
 }

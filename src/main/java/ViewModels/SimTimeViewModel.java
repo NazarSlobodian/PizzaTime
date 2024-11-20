@@ -19,6 +19,8 @@ public class SimTimeViewModel {
 
     public SimTimeViewModel(Clock clock, TimeProperties timeProperties) {
 
+        this.timeProperties = timeProperties;
+
         simDateTimeProperty = new SimpleStringProperty(clock.toString());
         simTimeSpeedProperty = new SimpleIntegerProperty(timeProperties.getTimeSpeed());
 

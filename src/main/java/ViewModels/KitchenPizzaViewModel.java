@@ -30,7 +30,7 @@ public class KitchenPizzaViewModel {
             if (evt.getPropertyName().equals("pizzaStateReadinessChanged")) {
                 Platform.runLater(()-> {
                     readinessProperty.setValue(String.format("%.2f", (double)evt.getNewValue())+"%");
-                    System.out.println(name.getValue()+" readiness " + readinessProperty.getValue());
+                    System.out.println(name.getValue() + " " + stateProperty.getValue() + " " + readinessProperty.getValue());
                 });
             }
         });
