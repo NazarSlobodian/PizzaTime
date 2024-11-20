@@ -30,7 +30,6 @@ public class Schedule {
         defaultSchedule.put(DayOfWeek.WEDNESDAY, typicalWorkday);
         defaultSchedule.put(DayOfWeek.THURSDAY, typicalWorkday);
         defaultSchedule.put(DayOfWeek.FRIDAY, typicalWorkday);
-
         specialSchedule = new HashMap<>();
         holidays = new HashSet<>();
     }
