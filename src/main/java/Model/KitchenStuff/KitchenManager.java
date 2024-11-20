@@ -21,7 +21,12 @@ public class KitchenManager extends ObservableModel {
 
     public KitchenManager(Clock clock) {
         this.cookables = new ArrayList<Cookable>(); // Генеруємо тестові замовлення
-        this.cooks = generateTestCooks(); // Генеруємо тестових кухарів
+        this.cooks = new ArrayList<>(); // Генеруємо тестових кухарів
+        addCook();
+        addCook();
+        addCook();
+        addCook();
+        addCook();
         this.cookAssignments = new HashMap<>();
         this.clock = clock;
         this.logger = new Logger(clock);
@@ -37,7 +42,6 @@ public class KitchenManager extends ObservableModel {
         for (Cookable cookable : order.getItems()) {
             addCookable(cookable);
         }
-        System.out.println("Kitchen processing order: " + order);
     }
 
     public void setCookPresent(Cooker cooker, boolean cookPresent) {
@@ -114,15 +118,10 @@ public class KitchenManager extends ObservableModel {
         }
     }
 
-    private static List<Cooker> generateTestCooks() {
-        List<Cooker> cooks = new ArrayList<>();
-        cooks.add(new Cook());
-        cooks.add(new Cook());
-        cooks.add(new Cook());
-        cooks.add(new Cook());
-        cooks.add(new Cook());
-        cooks.add(new Cook());
-        return cooks;
+    private void addCook() {
+        Cooker cook = new Cook();
+        cooks.add(cook);
+        eventContext.forceFirePropertyChange("cookAdded", null, cook);
     }
 
     @Override
@@ -135,5 +134,8 @@ public class KitchenManager extends ObservableModel {
 
     public Logger getLogger() {
         return logger;
+    }
+    public List<Cooker> getCooks() {
+        return cooks;
     }
 }

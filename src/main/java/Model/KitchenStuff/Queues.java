@@ -67,7 +67,7 @@ public class Queues {
         if (canOrderBeCompleted(order)) {
             Queue<Order> queue = orderQueues.get(currentQueueIndex);
             queue.add(order);
-            System.out.println("Order added to queue [" + (currentQueueIndex + 1) + "]: " + order);
+            //System.out.println("Order added to queue [" + (currentQueueIndex + 1) + "]: " + order);
 
             currentQueueIndex = (currentQueueIndex + 1) % orderQueues.size();
         } else {
@@ -87,7 +87,7 @@ public class Queues {
                     queue.poll(); // Remove the order from the queue
                     Order orderCopy = new Order(order); // Create a copy before sending
                     kitchenManager.acceptOrder(orderCopy);
-                    System.out.println("Order sent to kitchen from queue [" + (i + 1) + "]: " + orderCopy);
+                    //System.out.println("Order sent to kitchen from queue [" + (i + 1) + "]: " + orderCopy);
                 } else {
                     System.out.println("Kitchen cannot accept order yet from queue [" + (i + 1) + "]: " + order);
                     break; // Stop processing this queue if the kitchen can't accept the current order

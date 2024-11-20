@@ -1,8 +1,9 @@
 package Model.KitchenStuff;
 
 import Model.FoodAndStuff.Cookable;
+import Model.Utils.Observable;
 
-public interface Cooker {
+public interface Cooker extends Observable {
     // Перевіряє, чи можна готувати до заданого стану
     boolean canCook(Cookable cookable);
 
