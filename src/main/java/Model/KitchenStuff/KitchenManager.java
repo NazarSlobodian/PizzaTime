@@ -1,9 +1,6 @@
 package Model.KitchenStuff;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import Model.FoodAndStuff.Cookable;
 import Model.FoodAndStuff.Pizza;
@@ -44,7 +41,19 @@ public class KitchenManager extends ObservableModel {
         }
     }
 
-    public void setCookPresent(Cooker cooker, boolean cookPresent) {
+    public void startCooker(Cooker cooker) {
+        setCookPresent(cooker, true);
+    }
+    public void stopCooker(Cooker cooker) {
+        setCookPresent(cooker, false);
+        for (Cookable cookable: cookAssignments.keySet()) {
+            if (cookAssignments.get(cookable).equals(cooker)) {
+                assignCook(cookable);
+                System.out.println("Trying to find someone to help");
+            }
+        }
+    }
+    private void setCookPresent(Cooker cooker, boolean cookPresent) {
         cooks.stream()
                 .filter(cook -> cook.equals(cooker))
                 .findFirst()
@@ -88,8 +97,6 @@ public class KitchenManager extends ObservableModel {
         } else {
             cookAssignments.remove(cookable);
         }
-
-
     }
 
     private void addCookable(Cookable cookable) {

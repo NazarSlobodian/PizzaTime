@@ -13,5 +13,5 @@ public interface Cooker extends Observable {
     void setCookPresent(boolean cookPresent);
 
     // Метод готовки
-    boolean cook(Cookable cookable, long elapsedTime);
+    void cook(Cookable cookable, long elapsedTime);
 }
