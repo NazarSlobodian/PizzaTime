@@ -1,5 +1,6 @@
 package pizzatimepack;
 
+import ViewModels.MainViewModel;
 import ViewModels.SimTimeViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,15 +34,35 @@ public class NavSceneController {
     @FXML
     private Label clockLabel;
 
+    @FXML
+    private Button speedUp1Btn;
+
+    @FXML
+    private Button speedUp60Btn;
+
+    private MainViewModel mainViewModel;
     private SimTimeViewModel simTimeViewModel;
 
-    public void setSimTimeViewModel(SimTimeViewModel simTimeViewModel) {
-        this.simTimeViewModel = simTimeViewModel;
+    public void setMainViewModel(MainViewModel mainViewModel) {
+        this.mainViewModel = mainViewModel;
+        this.simTimeViewModel = mainViewModel.getSimTimeViewModel();
+
+        // Initialize bindings related to SimTimeViewModel
         bindClockLabel();
+        bindSpeedButtons();
     }
 
     private void bindClockLabel() {
         clockLabel.textProperty().bind(simTimeViewModel.simDateTimeProperty());
+    }
+
+    public void bindSpeedButtons() {
+        speedUp1Btn.disableProperty().bind(simTimeViewModel.simTimeSpeedProperty().isEqualTo(1));
+
+        speedUp60Btn.disableProperty().bind(simTimeViewModel.simTimeSpeedProperty().isEqualTo(60));
+
+        speedUp1Btn.setOnAction(event -> simTimeViewModel.setSimTimeSpeed(1));
+        speedUp60Btn.setOnAction(event -> simTimeViewModel.setSimTimeSpeed(60));
     }
 
     @FXML
@@ -66,7 +87,12 @@ public class NavSceneController {
 
     @FXML
     private void btnPizza() throws IOException {
-        AnchorPane view = FXMLLoader.load(getClass().getResource("/Views/pizza-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/pizza-view.fxml"));
+        AnchorPane view = loader.load();
+
+        PizzaSceneController controller = loader.getController();
+        controller.setMenuViewModel(mainViewModel.getMenuViewModel());
+
         viewBorderPane.setVisible(true);
         viewBorderPane.setCenter(view);
     }
@@ -94,10 +120,13 @@ public class NavSceneController {
 
     @FXML
     private void btnKitchen() throws IOException {
-        AnchorPane view = FXMLLoader.load(getClass().getResource("/Views/kitchen-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/kitchen-view.fxml"));
+        AnchorPane view = loader.load();
+
+        KitchenSceneController controller = loader.getController();
+        controller.setKitchenViewModel(mainViewModel.getKitchenViewModel());
+
         viewBorderPane.setVisible(true);
         viewBorderPane.setCenter(view);
     }
-
-
 }

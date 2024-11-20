@@ -73,3 +73,45 @@
     -fx-background-color: #e0e0e0;
     -fx-border-color: #808080;
 }
+
+.dessertsButtons {
+    -fx-background-color: transparent;
+}
+
+#addDessertsButton:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+#addPizzasButton {
+    -fx-background-color: transparent;
+}
+
+#addPizzasButton:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+.tile-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+.pizza-card {
+    -fx-padding: 10;
+    -fx-border-color: lightgray;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-background-color: white;
+}
+
+.text-box {
+    -fx-padding: 5;
+}
+
+.pizzasButtons {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 5;
+    -fx-border-radius: 3;
+}

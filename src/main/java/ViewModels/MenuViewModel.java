@@ -50,4 +50,8 @@ public class MenuViewModel {
         menu.removePizza(index);
     }
 
+    public void addPizza(String name, int timeMs) {
+        Pizza newPizza = new Pizza(name, timeMs);
+        menu.addPizza(newPizza);
+    }
 }
