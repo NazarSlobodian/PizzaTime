@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestControllers.CashTableController">
+    <children>
+        <!-- Меню -->
+        <MenuButton fx:id="menuButton" layoutX="42.0" layoutY="36.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="№ каси ">
+            <items>
+                <MenuItem mnemonicParsing="false" text="Хардкод1" />
+                <MenuItem mnemonicParsing="false" text="Хардкод2" />
+            </items>
+        </MenuButton>
+        <!-- Контейнер для кнопок "Додати касу" та "Видалити касу" -->
+        <HBox alignment="CENTER" layoutX="42.0" layoutY="67.0" prefHeight="39.0" prefWidth="164.0" spacing="20">
+            <Button fx:id="addCashButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="+" />
+            <Button fx:id="removeCashButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" text="-" />
+        </HBox>
+        <!-- Кнопка ініціалізації -->
+        <Button fx:id="initButton" layoutX="42.0" layoutY="286.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="Ініціалізувати дані" />
+
+        <!-- Таблиця -->
+        <TableView fx:id="tableView" layoutX="209.0" layoutY="36.0" prefHeight="558.0" prefWidth="568.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+            <columns>
+                <TableColumn fx:id="orderNumberColumn" prefWidth="111.20001220703125" text="№ Замовлення" />
+                <TableColumn fx:id="customerColumn" prefWidth="100.800048828125" text="Клієнт" />
+                <TableColumn fx:id="statusColumn" prefWidth="111.99993896484375" text="Стан замолення" />
+                <TableColumn fx:id="startTimeColumn" prefWidth="97.60003662109375" text="Час початку" />
+                <TableColumn fx:id="endTimeColumn" prefWidth="139.20001220703125" text="Час завершення" />
+            </columns>
+        </TableView>
+
+
+    </children>
 </AnchorPane>

@@ -10,4 +10,12 @@ module pizzatimepack {
 
     opens pizzatimepack to javafx.fxml;
     exports pizzatimepack;
+
+
+
+    //Чичук додав для тестування
+    opens TestControllers to javafx.fxml;
+    exports TestControllers;
+    opens TestControllers.TestClassCook to javafx.base;
 }
+

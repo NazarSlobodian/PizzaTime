@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="windowMenuAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #76582B;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzatimepack.NavSceneController">
+<AnchorPane fx:id="windowMenuAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #76582B;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzatimepack.NavSceneController">
    <children>
       <ImageView fitHeight="720.0" fitWidth="612.0" layoutX="668.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <image>
@@ -50,9 +49,9 @@
                   <Button fx:id="dessertsButton" onAction="#btnDesserts" prefHeight="31.0" prefWidth="235.0" styleClass="menu-item" text="Десерти" />
                </children>
             </VBox>
-            <Button fx:id="cashButton" onAction="#btnCash"  layoutX="50.0" layoutY="250.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Каса">
+            <Button fx:id="cashButton" layoutX="50.0" layoutY="250.0" onAction="#btnCash" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Каса">
                <graphic>
-                  <ImageView fitHeight="20" fitWidth="20">
+                  <ImageView fx:id="CashDesks_btn" fitHeight="20" fitWidth="20">
                      <image>
                         <Image url="@images/cashIcon.png" /> <!-- Замість CashIcon.png використайте свій файл іконки -->
                      </image>
@@ -62,7 +61,7 @@
 
 
             <!-- Кнопка для Кухня -->
-            <Button fx:id="kitchenButton" onAction="#btnKitchen" layoutX="50.0" layoutY="350.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Кухня">
+            <Button fx:id="kitchenButton" layoutX="50.0" layoutY="350.0" onAction="#btnKitchen" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Кухня">
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
@@ -73,9 +72,9 @@
             </Button>
 
             <!-- Кнопка для Персонал -->
-            <Button fx:id="staffButton" layoutX="50.0" layoutY="450.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Персонал">
+            <Button fx:id="staffButton" layoutX="50.0" layoutY="450.0" onAction="#staffButton" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Персонал">
                <graphic>
-                  <ImageView fitHeight="20" fitWidth="20">
+                  <ImageView fitHeight="20" fitWidth="20" >
                      <image>
                         <Image url="@images/staffIcon.png" /> <!-- Замість StaffIcon.png використайте свій файл іконки -->
                      </image>

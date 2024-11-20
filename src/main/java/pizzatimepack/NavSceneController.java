@@ -1,5 +1,6 @@
 package pizzatimepack;
 
+
 import ViewModels.SimTimeViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -97,7 +98,14 @@ public class NavSceneController {
         AnchorPane view = FXMLLoader.load(getClass().getResource("/Views/kitchen-view.fxml"));
         viewBorderPane.setVisible(true);
         viewBorderPane.setCenter(view);
-    }
 
+    }
+    @FXML
+    private void staffButton() throws IOException {
+        AnchorPane view = FXMLLoader.load(getClass().getResource("/Views/staff-view.fxml"));
+        viewBorderPane.setVisible(true);
+        viewBorderPane.setCenter(view);
+
+    }
 
 }
