@@ -25,6 +25,10 @@ public abstract class PizzaState implements CookableState {
         return false;
     }
     @Override
+    public boolean isInitial() {
+        return false;
+    }
+    @Override
     public boolean isBad() {
         return false;
     }

@@ -2,6 +2,9 @@ package Model.FoodAndStuff;
 
 import Model.FoodAndStuff.States.DoughPizzaState;
 import Model.FoodAndStuff.States.PizzaState;
+import Model.Utils.EventFiringContext;
+
+import javax.naming.event.EventContext;
 
 public class Pizza extends Dish implements Cloneable {
 
@@ -12,23 +15,20 @@ public class Pizza extends Dish implements Cloneable {
         this.state = new DoughPizzaState();
     }
 
-    public PizzaState getState() {
-        return state;
-    }
     public String getStateName() {
         return state.toString();
     }
+
     @Override
     public void increaseReadiness(double value, boolean controlledCooking) {
         state.increaseReadiness(value);
         if (eventContext.canFireEvent()) {
             eventContext.firePropertyChange("pizzaStateReadinessChanged", 0, this.state.getReadiness());
         }
-        if (state.getReadiness() >=100) {
+        if (state.getReadiness() >= 100) {
             if (controlledCooking) {
                 setNextSuccessfulState();
-            }
-            else {
+            } else {
                 setNextFailureState();
             }
         }
@@ -47,6 +47,7 @@ public class Pizza extends Dish implements Cloneable {
         try {
             Pizza cloned = (Pizza) super.clone();
             cloned.state = this.state.clone();
+            cloned.eventContext = new EventFiringContext(cloned);
             return cloned;
         } catch (Exception e) {
             throw new RuntimeException("Failed to clone Pizza", e);
@@ -59,6 +60,11 @@ public class Pizza extends Dish implements Cloneable {
     }
 
     @Override
+    public boolean isInitial() {
+        return state.isInitial() && state.getReadiness() < 0.01;
+    }
+
+    @Override
     public double getReadiness() {
         return state.getReadiness();
     }
@@ -66,9 +72,11 @@ public class Pizza extends Dish implements Cloneable {
     private void setNextSuccessfulState() {
         setState(state.getNextSuccessful());
     }
+
     private void setNextFailureState() {
         setState(state.getNextFailed());
     }
+
     private void setState(PizzaState state) {
         PizzaState oldState = this.state;
         this.state = state;

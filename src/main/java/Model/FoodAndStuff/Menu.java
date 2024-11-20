@@ -70,4 +70,10 @@ public class Menu extends ObservableModel {
         }
         return null;
     }
+    @Override
+    public void setNotifications(boolean setting) {
+        for (Pizza pizza : pizzas) {
+            pizza.setNotifications(setting);
+        }
+    }
 }

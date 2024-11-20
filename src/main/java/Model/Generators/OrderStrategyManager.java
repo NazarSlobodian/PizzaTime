@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import Model.FoodAndStuff.Menu;
 import Model.KitchenStuff.Order;
+import Model.Utils.Clock;
 
 /**
  * Manages different order generation strategies
@@ -15,10 +16,10 @@ public class OrderStrategyManager {
     private final Map<String, OrderGenerator> strategies = new HashMap<>();
     private OrderGenerator activeStrategy;
 
-    public OrderStrategyManager(Menu menu) {
+    public OrderStrategyManager(Menu menu, Clock clock) {
         // Add strategies here
-        strategies.put("Random", new OrderGeneratorImpl(menu));
-        strategies.put("Interval", new OrderGeneratorImpl(menu));
+        strategies.put("Random", new OrderGeneratorImpl(menu, clock));
+        strategies.put("Interval", new OrderGeneratorImpl(menu, clock));
         
         // Set a default strategy
         this.activeStrategy = strategies.get("Random");

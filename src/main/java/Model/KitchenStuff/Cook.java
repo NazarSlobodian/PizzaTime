@@ -1,71 +1,53 @@
 package Model.KitchenStuff;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import Model.FoodAndStuff.Cookable;
-import Model.FoodAndStuff.DishReadiness;
 import Model.FoodAndStuff.StateRegistry;
+import Model.Utils.Logger;
 import Model.Utils.ObservableModel;
 
 /**
  *  Let him cook
  */
-public class Cook extends ObservableModel implements Cooker { // Успадковуємо ObservableModel
-    private final Map<String, Boolean> stateMap; // Карта для зберігання доступних станів приготування
-    private boolean isActive; // Показує, чи активний кухар
-    private boolean cookPresent; // Показує, чи присутній кухар
-
+public class Cook extends ObservableModel implements Cooker {
+    private final Map<String, Boolean> stateMap;
+    private boolean cookPresent;
 
     public Cook() {
         stateMap = StateRegistry.getStateMap();
-        isActive = true; // Початково кухар активний
-        cookPresent = true; // За замовчуванням кухар присутній
+        cookPresent = true;
     }
 
     @Override
-    public boolean canCook(String stateName) {
-        return stateMap.getOrDefault(stateName, false);
+    public boolean canCook(Cookable cookable) {
+        return stateMap.getOrDefault(cookable.getStateName(), false);
     }
 
-    // Геттер для cookPresent
+
     @Override
     public boolean isCookPresent() {
         return cookPresent;
     }
-    @Override
-    public boolean isActive(){return isActive;}
 
-
-    // Сеттер для cookPresent з викликом forceFirePropertyChange
     @Override
     public void setCookPresent(boolean cookPresent) {
         boolean oldCookPresent = this.cookPresent;
         this.cookPresent = cookPresent;
-        eventContext.forceFirePropertyChange("cookPresent", oldCookPresent, cookPresent); // Виклик forceFirePropertyChange
+        eventContext.forceFirePropertyChange("cookPresent", oldCookPresent, cookPresent);
     }
 
     // Метод готовки
     @Override
-    public DishReadiness cook(Cookable cookable, long elapsedTime) {
-        isActive = false; // Встановлюємо, що кухар неактивний на час приготування
-
+    public boolean cook(Cookable cookable, long elapsedTime) {
         // Перевірка, чи можна готувати поточний стан
-        if (canCook(cookable.getStateName())) {
+        if (canCook(cookable)) {
             // Розрахунок приросту готовності
             double increaseFactor = ((double) (elapsedTime * 3) / cookable.getTotalPrepTimeMs()) * 100;
-
-            // Викликаємо increaseReadiness, передаючи тільки приріст готовності
             cookable.increaseReadiness(increaseFactor, cookPresent);
 
-            isActive = true; // Після приготування кухар стає активним
-            return new DishReadiness(cookable, true);
+            return true;
         }
-
-        // Якщо кухар не може готувати цей стан, повертаємо DishReadiness з готовністю false
-        isActive = true; // Після завершення кухар стає активним
-        return new DishReadiness(cookable, false);
-
+        // Якщо кухар не може готувати цей стан, повертаємо false
+        return false;
     }
-
 }

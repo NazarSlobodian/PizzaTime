@@ -16,7 +16,7 @@ public class SimulatorLauncher {
     }
     public void run() {
         scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(this::update, 0, 1, TimeUnit.SECONDS);
+        scheduler.scheduleWithFixedDelay(this::update, 0, 1, TimeUnit.SECONDS);
     }
     public void stop() {
         scheduler.shutdownNow();

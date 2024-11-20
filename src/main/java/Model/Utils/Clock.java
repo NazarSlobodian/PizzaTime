@@ -1,6 +1,7 @@
 package Model.Utils;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +26,12 @@ public class Clock extends ObservableModel{
     // - - - - - - - - - - - - - -
     public LocalDateTime getLocalDateTime() {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(currentTime), ZoneId.systemDefault());
+    }
+    // - - - - - - - - - - - - - -
+    public LocalDate getLocalDate() {
+        return Instant.ofEpochMilli(currentTime)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
     // - - - - - - - - - - - - - -
     public void addMs(long ms) {

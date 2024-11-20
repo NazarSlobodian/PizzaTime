@@ -1,5 +1,6 @@
 package ViewModels;
 
+import Model.FoodAndStuff.Cookable;
 import Model.FoodAndStuff.Pizza;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,24 +12,24 @@ public class KitchenPizzaViewModel {
     private final StringProperty stateProperty;
     private final StringProperty readinessProperty;
 
-    public KitchenPizzaViewModel(Pizza pizza) {
-        this.name = new SimpleStringProperty(pizza.getName());
-        this.stateProperty = new SimpleStringProperty(pizza.getState().toString());
-        this.readinessProperty = new SimpleStringProperty(String.format("%.2f", pizza.getReadiness()) + "%");
+    public KitchenPizzaViewModel(Cookable cookable) {
+        this.name = new SimpleStringProperty(cookable.getName());
+        this.stateProperty = new SimpleStringProperty(cookable.getStateName());
+        this.readinessProperty = new SimpleStringProperty(String.format("%.2f", cookable.getReadiness()) + "%");
 
-        pizza.addPropertyChangeListener(evt-> {
+        cookable.addPropertyChangeListener(evt-> {
             if (evt.getPropertyName().equals("pizzaStateChanged")) {
                 Platform.runLater(()->{
                     stateProperty.setValue(evt.getNewValue().toString());
-                    System.out.println("Pizza "+ name.getValue() + " state " + stateProperty.getValue());
+                    System.out.println(name.getValue() + " state " + stateProperty.getValue());
                 });
             }
         });
-        pizza.addPropertyChangeListener(evt-> {
+        cookable.addPropertyChangeListener(evt-> {
             if (evt.getPropertyName().equals("pizzaStateReadinessChanged")) {
                 Platform.runLater(()-> {
                     readinessProperty.setValue(String.format("%.2f", (double)evt.getNewValue())+"%");
-                    System.out.println("Pizza " + name.getValue()+" readiness " + readinessProperty.getValue());
+                    System.out.println(name.getValue()+" readiness " + readinessProperty.getValue());
                 });
             }
         });
