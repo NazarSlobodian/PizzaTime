@@ -19,4 +19,7 @@ public class LogViewModel {
             }
         });
     }
+    public ObservableList<String> getLogs() {
+        return logs;
+    }
 }
