@@ -6,6 +6,7 @@ module pizzatimepack {
     requires org.kordamp.bootstrapfx.core;
     requires java.desktop;
     requires org.reflections;
+    requires java.naming;
 
     opens pizzatimepack to javafx.fxml;
     exports pizzatimepack;

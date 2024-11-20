@@ -56,7 +56,5 @@ public class OrderGeneratorImpl implements OrderGenerator {
             return new Order(items, clock.getCurrentTime());
         }
         return null;
-        // ?? Why throw??????
-        //throw new IllegalStateException("Interval has not passed yet. Wait for the next generation.");
     }
 }

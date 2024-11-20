@@ -117,7 +117,18 @@ public class KitchenManager extends ObservableModel {
     private static List<Cooker> generateTestCooks() {
         List<Cooker> cooks = new ArrayList<>();
         cooks.add(new Cook());
-
+        cooks.add(new Cook());
+        cooks.add(new Cook());
+        cooks.add(new Cook());
+        cooks.add(new Cook());
+        cooks.add(new Cook());
         return cooks;
+    }
+    @Override
+    public void setNotifications(boolean setting) {
+        eventContext.setEventFiring(setting);
+        for (Cookable cookable : cookables) {
+            cookable.setNotifications(setting);
+        }
     }
 }

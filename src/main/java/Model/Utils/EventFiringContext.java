@@ -10,7 +10,7 @@ public class EventFiringContext {
 
     public EventFiringContext(Object source) {
         support = new PropertyChangeSupport(source);
-        eventFireAllowed = true;
+        eventFireAllowed = false;
     }
     public void setEventFiring(boolean setting) {
         eventFireAllowed = setting;

@@ -29,5 +29,6 @@ public interface Cookable extends Observable {
     void setTotalPrepTimeMs(long totalPrepTimeMs);
 
     boolean cookableWithoutCook();
+
     // boolean shouldBeRecooked();
 }
