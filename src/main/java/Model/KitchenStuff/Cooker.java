@@ -1,7 +1,6 @@
 package Model.KitchenStuff;
 
 import Model.FoodAndStuff.Cookable;
-import Model.FoodAndStuff.DishReadiness;
 
 public interface Cooker {
     // Перевіряє, чи можна готувати до заданого стану
@@ -16,5 +15,5 @@ public interface Cooker {
     void setCookPresent(boolean cookPresent);
 
     // Метод готовки
-    DishReadiness cook(Cookable cookable, long elapsedTime);
+    boolean cook(Cookable cookable, long elapsedTime);
 }

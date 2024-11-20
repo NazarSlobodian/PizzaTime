@@ -2,7 +2,6 @@ package Model.KitchenStuff;
 
 import java.util.Map;
 import Model.FoodAndStuff.Cookable;
-import Model.FoodAndStuff.DishReadiness;
 import Model.FoodAndStuff.StateRegistry;
 import Model.Utils.Logger;
 import Model.Utils.ObservableModel;
@@ -47,8 +46,9 @@ public class Cook extends ObservableModel implements Cooker {
 
     // Метод готовки
     @Override
-    public DishReadiness cook(Cookable cookable, long elapsedTime) {
-        isActive = false;
+
+    public boolean cook(Cookable cookable, long elapsedTime) {
+        isActive = false; // Встановлюємо, що кухар неактивний на час приготування
 
         // Перевірка, чи можна готувати поточний стан
         if (canCook(cookable.getStateName())) {
@@ -61,16 +61,11 @@ public class Cook extends ObservableModel implements Cooker {
             double increaseFactor = ((double) (elapsedTime * 3) / cookable.getTotalPrepTimeMs()) * 100;
             cookable.increaseReadiness(increaseFactor, cookPresent);
 
-            // Логування завершення приготування
-            if ("Done".equals(cookable.getStateName()) && cookable.getReadiness() >= 100) {
-                Logger.logFinishCooking(cookable.getName());
-            }
-
-            isActive = true;
-            return new DishReadiness(cookable, true);
+            isActive = true; // Після приготування кухар стає активним
+            return true;
         }
-
-        isActive = true;
-        return new DishReadiness(cookable, false);
+        // Якщо кухар не може готувати цей стан, повертаємо DishReadiness з готовністю false
+        isActive = true; // Після завершення кухар стає активним
+        return false;
     }
 }

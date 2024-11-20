@@ -1,42 +1,58 @@
 package Model.KitchenStuff;
 
-import Model.FoodAndStuff.Cookable;
-import Model.FoodAndStuff.DishReadiness;
-import Model.FoodAndStuff.Pizza;
-import Model.Utils.Clock;
-import Model.Utils.ObservableModel;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Model.FoodAndStuff.Cookable;
+import Model.FoodAndStuff.Pizza;
+import Model.Utils.Clock;
+import Model.Utils.Logger;
+import Model.Utils.ObservableModel;
+
 public class KitchenManager extends ObservableModel {
 
-    private List<Order> orders; // Список замовлень
+    private List<Cookable> cookables;
     private List<Cooker> activeCooks; // Активні кухарі
     private List<Cooker> notActiveCooks; // Неактивні кухарі
     private Map<Cookable, Cooker> cookAssignments; // Мапа для відстеження, хто готує кожну страву
     private final Clock clock;
 
     public KitchenManager(Clock clock) {
-        this.orders = generateTestOrders(); // Генеруємо тестові замовлення
+        this.cookables = new ArrayList<Cookable>(); // Генеруємо тестові замовлення
         this.activeCooks = generateTestCooks(); // Генеруємо тестових кухарів
         this.notActiveCooks = new ArrayList<>();
         this.cookAssignments = new HashMap<>();
         this.clock = clock;
     }
 
-    public KitchenManager(List<Order> orders, List<Cooker> cooks, Clock clock) {
-        this.orders = orders;
-        this.activeCooks = cooks;
-        this.notActiveCooks = new ArrayList<>();
-        this.cookAssignments = new HashMap<>();
-        this.clock = clock;
+    // Example method: Check if the kitchen can accept the order
+    public boolean canAcceptOrder(Order order) {
+        // Logic to determine if the kitchen can accept the order
+        // Example: Check if there are enough available slots or resources
+        return true; // Placeholder
     }
 
-    public void addOrder(Order order) {
-        orders.add(order);
+    public void acceptOrder(Order order) {
+        for (Cookable cookable : order.getItems()) {
+            addCookable(cookable);
+        }
+        System.out.println("Kitchen processing order: " + order);
+    }
+
+    public void setCookPresent(Cooker cooker, boolean cookPresent) {
+        // Змінюємо параметри кухаря в списку activeCooks, якщо він там є
+        activeCooks.stream()
+                .filter(cook -> cook.equals(cooker))
+                .findFirst()
+                .ifPresent(cook -> cook.setCookPresent(cookPresent));
+        //?? Нащо розподіл якщо в cook є метод перевірки
+        // Змінюємо параметри кухаря в списку notActiveCooks, якщо він там є
+        notActiveCooks.stream()
+                .filter(cook -> cook.equals(cooker))
+                .findFirst()
+                .ifPresent(cook -> cook.setCookPresent(cookPresent));
     }
 
     /**
@@ -44,75 +60,64 @@ public class KitchenManager extends ObservableModel {
      */
     public void update(long elapsedMs) {
         checkActiveCook();
-
-        // Копіюємо список замовлень, щоб уникнути ConcurrentModificationException
-        for (Order order : new ArrayList<>(orders)) {
-            for (Cookable cookable : new ArrayList<>(order.getItems())) {
-                processOrderItem(cookable, elapsedMs, order);
-            }
-
-            // Видаляємо замовлення, якщо всі його елементи готові
-            if (order.getItems().isEmpty()) {
-                orders.remove(order);
+        for (int i = 0; i < cookables.size(); i++) {
+            processOrderItem(cookables.get(i), elapsedMs);
+        }
+        //видалення приготованих страв
+        for (int i = 0; i < cookables.size(); i++) {
+            if (cookables.get(i).isCooked()) {
+                Logger.logFinishCooking(cookables.get(i).getName());
+                cookAssignments.remove(cookables.get(i)); // Видаляємо з мапи призначень, страва готова
+                cookables.remove(cookables.get(i)); // Видаляємо готовий елемент з замовлення
+                i--;
             }
         }
     }
 
-    /**
-     * Метод для обробки окремого елемента замовлення.
-     */
-    private void processOrderItem(Cookable cookable, long elapsedMs, Order order) {
+    private void processOrderItem(Cookable cookable, long elapsedMs) {
         Cooker assignedCook = cookAssignments.get(cookable);
 
         // Якщо кухар не призначений або зайнятий іншою стравою, шукаємо доступного кухаря
         if (assignedCook == null) {
-            assignedCook = assignCook(cookable, elapsedMs);
-            if (assignedCook == null) {
-                //System.out.println("No available cook for " + cookable.getStateName());
-                return;
-            }
+            assignCook(cookable);
+            return;
+        }
+        // Виконуємо один етап приготування з призначеним кухарем
+        boolean isCookingStepDone = assignedCook.cook(cookable, elapsedMs);
+
+        if (isCookingStepDone && cookable.getStateName().equals("Dough preparation")
+                && cookable.getReadiness() < 0.5) {
+            Logger.logStartCooking(cookable.getName());
         }
 
-        // Виконуємо один етап приготування з призначеним кухарем
-        DishReadiness readiness = assignedCook.cook(cookable, elapsedMs);
-
-        if (readiness.isReady()) {
-            System.out.println("Cook " + assignedCook + " completed an stage of: " + cookable.getStateName() + " Readiness: " + cookable.getReadiness() + "%");
-
-            // Перевірка, чи продукт повністю готовий
-            if (cookable.isCooked()) {
-                System.out.println("Product " + cookable.getName() + " is fully cooked and ready at time: " + clock.getLocalDateTime().toLocalTime());
-                cookAssignments.remove(cookable); // Видаляємо з мапи призначень, страва готова
-                order.getItems().remove(cookable); // Видаляємо готовий елемент з замовлення
-            }
-        } else {
+        if (!isCookingStepDone) {
             // Якщо кухар більше не може виконати етап, видаляємо його призначення для цього етапу
             cookAssignments.remove(cookable);
-            assignedCook = assignCook(cookable, elapsedMs);
-            if (assignedCook == null) {
-                System.out.println("No available cook to continue " + cookable.getStateName());
-            }
         }
+    }
+
+
+    private void addCookable(Cookable cookable) {
+        cookables.add(cookable);
+        eventContext.forceFirePropertyChange("cookableAdded", null, cookable);
     }
 
     /**
      * Призначає доступного кухаря для приготування страви, якщо він не зайнятий.
      */
-    private Cooker assignCook(Cookable cookable, long elapsedMs) {
+    private void assignCook(Cookable cookable) {
         for (Cooker cook : activeCooks) {
             // Перевіряємо, чи кухар уже зайнятий іншою стравою
             if (cookAssignments.containsValue(cook)) {
                 continue; // Пропускаємо кухаря, якщо він уже зайнятий
             }
-
             // Якщо кухар не зайнятий, призначаємо його для приготування страви
-            DishReadiness readiness = cook.cook(cookable, elapsedMs);
-            if (readiness.isReady()) {
+            boolean canCook = cook.canCook(cookable.getStateName());
+            if (canCook) {
                 cookAssignments.put(cookable, cook);
-                return cook;
+                return;
             }
         }
-        return null; // Якщо немає доступного кухаря
     }
 
     /**
@@ -132,23 +137,6 @@ public class KitchenManager extends ObservableModel {
                 notActiveCooks.remove(cook);
             }
         }
-    }
-
-    // Методи для генерації тестових замовлень і кухарів
-    private static List<Order> generateTestOrders() {
-        List<Order> orders = new ArrayList<>();
-        List<Cookable> itemsOrder1 = new ArrayList<>();
-        itemsOrder1.add(new Pizza("Quattro Formaggi", 20*60*1000));
-        itemsOrder1.add(new Pizza("Diavolo", 25*60*1000));
-
-        List<Cookable> itemsOrder2 = new ArrayList<>();
-        itemsOrder2.add(new Pizza("Hawaii", 15*60*1000));
-        itemsOrder2.add(new Pizza("Margherita", 14*60*1000));
-
-        orders.add(new Order(itemsOrder1, System.currentTimeMillis()));
-        orders.add(new Order(itemsOrder2, System.currentTimeMillis()));
-
-        return orders;
     }
 
     private static List<Cooker> generateTestCooks() {

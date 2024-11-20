@@ -1,5 +1,6 @@
 package Model.KitchenStuff;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Model.FoodAndStuff.Cookable;
@@ -13,8 +14,13 @@ public class Order {
     private final long orderTime;
 
     public Order(List<Cookable> items, long orderTime) {
-        this.items = items;
+        this.items = new ArrayList<>(items);
         this.orderTime = orderTime;
+    }
+
+    public Order(Order other) {
+        this.items = new ArrayList<>(other.items);
+        this.orderTime = other.orderTime;
     }
 
     public List<Cookable> getItems() {

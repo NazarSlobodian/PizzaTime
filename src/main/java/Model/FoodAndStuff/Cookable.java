@@ -1,8 +1,9 @@
 package Model.FoodAndStuff;
 
 import Model.FoodAndStuff.States.CookableState;
+import Model.Utils.Observable;
 
-public interface Cookable {
+public interface Cookable extends Observable {
     /**
      *
      * @return whether cookable is ready for serving

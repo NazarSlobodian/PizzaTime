@@ -35,4 +35,5 @@ public class Logger {
     public static void clearLogs() {
         logEntries.clear();
     }
+
 }
