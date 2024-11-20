@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.Lock;
 
+import Model.KitchenStuff.Cook;
 import Model.Utils.ObservableModel;
 
 public class Menu extends ObservableModel {
@@ -24,15 +25,14 @@ public class Menu extends ObservableModel {
         pizzas.add(new Pizza("Salami", 18*60*1000));
     }
 
-    public Pizza getRandomPizza() {
+    public Cookable getRandomCookable() {
         return pizzas.get(random.nextInt(pizzas.size())).clone();
     }
-
     public List<Pizza> getPizzas() {
         return new ArrayList<>(pizzas);
     }
 
-    public void addPizza(Pizza pizza) {
+    public void addCookable(Pizza pizza) {
         lock.lock();
         pizzas.add(pizza);
         lock.unlock();
@@ -62,8 +62,8 @@ public class Menu extends ObservableModel {
         eventContext.forceFirePropertyChange("menuPizzaDeleted", -1, index);
     }
 
-    public Pizza getPizzaByType(String type) {
-        for (Pizza pizza : pizzas) {
+    public Cookable getByType(String type) {
+        for (Cookable pizza : pizzas) {
             if (pizza.getName().equalsIgnoreCase(type)) {
                 return pizza.clone();
             }
@@ -72,7 +72,7 @@ public class Menu extends ObservableModel {
     }
     @Override
     public void setNotifications(boolean setting) {
-        for (Pizza pizza : pizzas) {
+        for (Cookable pizza : pizzas) {
             pizza.setNotifications(setting);
         }
     }

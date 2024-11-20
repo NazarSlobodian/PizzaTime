@@ -6,7 +6,7 @@ import Model.Utils.EventFiringContext;
 
 import javax.naming.event.EventContext;
 
-public class Pizza extends Dish implements Cloneable {
+public class Pizza extends Dish  {
 
     private PizzaState state;
 
@@ -47,7 +47,7 @@ public class Pizza extends Dish implements Cloneable {
     }
 
     @Override
-    public Pizza clone() {
+    public Cookable clone() {
         try {
             Pizza cloned = (Pizza) super.clone();
             cloned.state = this.state.clone();
