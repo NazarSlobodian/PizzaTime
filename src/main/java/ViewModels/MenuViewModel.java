@@ -52,6 +52,6 @@ public class MenuViewModel {
 
     public void addPizza(String name, int timeMs) {
         Pizza newPizza = new Pizza(name, timeMs);
-        menu.addPizza(newPizza);
+        menu.addCookable(newPizza);
     }
 }
