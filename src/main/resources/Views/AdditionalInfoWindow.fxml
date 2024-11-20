@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.stage.Stage?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER" spacing="20" style="-fx-padding: 20;">
+    <!-- Заголовок -->
+    <Label text="Додаткова інформація" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-background-color: #a67c52; -fx-text-fill: white; -fx-padding: 10; -fx-alignment: center;" maxWidth="Infinity"/>
+
+    <!-- Вміст -->
+    <VBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
+        <Label text="Інгредієнти:" style="-fx-font-size: 14;"/>
+        <TextArea fx:id="ingredientsField" editable="false" wrapText="true" style="-fx-font-size: 14; -fx-pref-height: 100;"/>
+
+        <Label text="Час приготування:" style="-fx-font-size: 14;"/>
+        <Label fx:id="timeLabel" style="-fx-font-size: 14;"/>
+    </VBox>
+
+    <!-- Кнопка
+    <Button text="OK" onAction=
+       ((Stage)((Button)event.getSource()).getScene().getWindow()).close();-->
+    " style="-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 14;"
+    -->
+</VBox>

@@ -5,14 +5,173 @@
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
+
+<?import javafx.scene.shape.Circle?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="310.0" layoutY="293.0" text="Drinks">
-         <font>
-            <Font size="65.0" />
-         </font>
-      </Label>
+
+      <ImageView layoutX="125.0" layoutY="80.0" fitWidth="50.0" fitHeight="50.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <image>
+            <Image url="@images/plus.png" />
+         </image>
+      </ImageView>
+
+
+      <!-- Кругла картинка -->
+      <ImageView layoutX="125.0" layoutY="80.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/coffee.jpg" />
+         </image>
+         <clip>
+            <Circle centerX="75.0" centerY="75.0" radius="75.0" />
+         </clip>
+      </ImageView>
+      <Label text="Coffee"  layoutX="160.0" layoutY="235.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+      <ImageView layoutX="250.0" layoutY="80.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+         <image>
+            <Image url="@images/minus.png" />
+         </image>
+      </ImageView>
+
+
+
+      <ImageView layoutX="125.0" layoutY="280.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/late.jpg" />
+         </image>
+         <clip>
+            <Circle centerX="75.0" centerY="75.0" radius="75.0" />
+         </clip>
+      </ImageView>
+      <Label text="Late"  layoutX="170.0" layoutY="435.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+      <ImageView layoutX="250.0" layoutY="280.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+         <image>
+            <Image url="@images/minus.png" />
+         </image>
+      </ImageView>
+
+      <ImageView layoutX="125.0" layoutY="480.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/espresso.jpg" />
+         </image>
+         <clip>
+            <Circle centerX="75.0" centerY="75.0" radius="75.0" />
+         </clip>
+      </ImageView>
+      <Label text="Americano"  layoutX="170.0" layoutY="635.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+      <ImageView layoutX="250.0" layoutY="480.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+         <image>
+            <Image url="@images/minus.png" />
+         </image>
+      </ImageView>
+
+      <ImageView layoutX="325.0" layoutY="80.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/darck.jpg" />
+         </image>
+         <clip>
+            <Circle centerX="75.0" centerY="75.0" radius="75.0" />
+         </clip>
+      </ImageView>
+      <Label text="Black Tea"  layoutX="350.0" layoutY="235.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+
+      <ImageView layoutX="455.0" layoutY="80.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+         <image>
+            <Image url="@images/minus.png" />
+         </image>
+      </ImageView>
+
+      <ImageView layoutX="325.0" layoutY="280.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/greentea.jpg" />
+         </image>
+         <clip>
+            <Circle centerX="75.0" centerY="75.0" radius="75.0" />
+         </clip>
+      </ImageView>
+
+      <Label text="Green Tea"  layoutX="320.0" layoutY="435.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+
+      <ImageView layoutX="455.0" layoutY="280.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+         <image>
+            <Image url="@images/minus.png" />
+         </image>
+      </ImageView>
+
+
+      <ImageView layoutX="325.0" layoutY="480.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/fruit.jpg" />
+         </image>
+         <clip>
+            <Circle centerX="75.0" centerY="75.0" radius="75.0" />
+         </clip>
+      </ImageView>
+      <Label text="Fruit Tea"  layoutX="350.0" layoutY="635.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+      <ImageView layoutX="455.0" layoutY="480.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+         <image>
+            <Image url="@images/minus.png" />
+         </image>
+      </ImageView>
+
+      <ImageView layoutX="525.0" layoutY="80.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/blue.jpg" />
+         </image>
+         <clip>
+            <Circle centerX="75.0" centerY="75.0" radius="75.0" />
+         </clip>
+      </ImageView>
+      <Label text="Blue Lagon"  layoutX="555.0" layoutY="435.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+      <ImageView layoutX="655.0" layoutY="80.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+         <image>
+            <Image url="@images/minus.png" />
+         </image>
+      </ImageView>
+
+      <ImageView layoutX="525.0" layoutY="280.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/mohito.jpg" />
+         </image>
+         <clip>
+            <Circle centerX="75.0" centerY="75.0" radius="75.0" />
+         </clip>
+      </ImageView>
+
+      <Label text="Mohito"  layoutX="555.0" layoutY="235.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+
+      <ImageView layoutX="655.0" layoutY="280.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+         <image>
+            <Image url="@images/minus.png" />
+         </image>
+      </ImageView>
+
+      <ImageView layoutX="525.0" layoutY="480.0" fitWidth="150.0" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/orange.jpg" />
+         </image>
+         <clip>
+            <Circle centerX="75.0" centerY="75.0" radius="75.0" />
+         </clip>
+      </ImageView>
+      <Label text="Orangeen"  layoutX="585.0" layoutY="635.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+
+      <ImageView layoutX="655.0" layoutY="480.0" fitWidth="20.0" fitHeight="20.0" preserveRatio="true">
+         <image>
+            <Image url="@images/minus.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
