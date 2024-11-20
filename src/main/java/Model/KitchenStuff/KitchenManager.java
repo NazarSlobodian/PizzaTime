@@ -53,6 +53,19 @@ public class KitchenManager extends ObservableModel {
             }
         }
     }
+    public void startCooker(int index) {
+
+        setCookPresent(cooks.get(index), true);
+    }
+    public void stopCooker(int index) {
+        setCookPresent(cooks.get(index), false);
+        for (Cookable cookable: cookAssignments.keySet()) {
+            if (cookAssignments.get(cookable).equals(cooks.get(index))) {
+                assignCook(cookable);
+                System.out.println("Trying to find someone to help");
+            }
+        }
+    }
     private void setCookPresent(Cooker cooker, boolean cookPresent) {
         cooks.stream()
                 .filter(cook -> cook.equals(cooker))

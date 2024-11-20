@@ -79,4 +79,11 @@ public class KitchenViewModel {
     public ObservableList<CookerViewModel> getCooks() {
         return cooks;
     }
+
+    public void stopCook(int index) {
+        kitchenManager.stopCooker(index);
+    }
+    public void startCook(int index) {
+        kitchenManager.startCooker(index);
+    }
 }
