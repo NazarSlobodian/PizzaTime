@@ -17,6 +17,7 @@ public class OrderStrategyManager {
     private final Map<String, FlowGenerator> flowGenerators = new HashMap<>();
     private OrderGenerator activeStrategy;
     private FlowGenerator activeFlowGenerator;
+    private Menu menu;
 
     public OrderStrategyManager(Menu menu, Clock clock) {
         // Add strategies here
@@ -27,6 +28,7 @@ public class OrderStrategyManager {
         flowGenerators.put("RandomPeak", new FlowGeneratorImpl(1000 * 30 * 60, clock));
         // Set a default strategy
         setActiveStrategy("IntervalSteady");
+        this.menu = menu;
     }
 
     /**
@@ -64,6 +66,9 @@ public class OrderStrategyManager {
         throw new IllegalStateException("No active strategy set");
     }
     public boolean shouldGenerate() {
+        if (menu.getPizzas().isEmpty()) {
+            return false;
+        }
         return activeFlowGenerator.shouldGenerateOrder();
     }
 }

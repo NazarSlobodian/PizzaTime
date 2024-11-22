@@ -33,7 +33,7 @@ public class Pizzeria extends ObservableModel {
     // - - - - - - - - - - - - - -
     public void update(long elapsedMs) {
         lock.lock();
-
+        System.out.println("Entered update loop");
         handleDayNightCycle(); // barely works, won't fix
         long remainingMs = elapsedMs * timeProperties.getTimeSpeed();
         long step = timeProperties.getStepMs();
@@ -42,18 +42,19 @@ public class Pizzeria extends ObservableModel {
 
         while (remainingMs > step) {
             clock.addMs(step);
-
+            System.out.println("Not last loop");
             updateStuff(step);
 
             remainingMs -= step;
         }
         if (remainingMs > 0) {
             setAllNotifications(true);
+            System.out.println("Last loop");
             clock.addMs(step);
 
             updateStuff(step);
         }
-
+        System.out.println("Left update loop");
         lock.unlock();
     }
 
@@ -70,7 +71,9 @@ public class Pizzeria extends ObservableModel {
             return;
         }
         queues.manageOrderFlow();
+        System.out.println("Updated queues");
         kitchenManager.update(elapsedMs);
+        System.out.println("Updated kitchen");
     }
 
     private void setAllNotifications(boolean setting) {
