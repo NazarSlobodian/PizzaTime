@@ -37,7 +37,7 @@ public class OrderGeneratorImpl implements OrderGenerator {
         for (int i = 0; i < itemCount; i++) {
             items.add(menu.getRandomCookable());
         }
-        return new Order(items, clock.getCurrentTime());
+        return new Order(items, clock);
     }
 
     // Generates an order after a fixed interval of time
@@ -53,7 +53,7 @@ public class OrderGeneratorImpl implements OrderGenerator {
                 items.add(menu.getRandomCookable());
             }
 
-            return new Order(items, clock.getCurrentTime());
+            return new Order(items, clock);
         }
         return null;
     }

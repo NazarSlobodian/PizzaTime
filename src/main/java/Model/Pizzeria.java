@@ -4,6 +4,7 @@ import Model.FoodAndStuff.Menu;
 import Model.Generators.FlowGeneratorImpl;
 import Model.Generators.OrderStrategyManager;
 import Model.KitchenStuff.KitchenManager;
+import Model.KitchenStuff.Lobby;
 import Model.KitchenStuff.Queues;
 import Model.Utils.*;
 
@@ -19,7 +20,7 @@ public class Pizzeria extends ObservableModel {
     private TimeProperties timeProperties;
     private Schedule schedule;
 
-    private Queues queues;
+    private Lobby queues;
     private Menu menu;
     private KitchenManager kitchenManager;
 
@@ -42,7 +43,7 @@ public class Pizzeria extends ObservableModel {
 
         while (remainingMs > step) {
             clock.addMs(step);
-            System.out.println("Not last loop");
+            //System.out.println("Not last loop");
             updateStuff(step);
 
             remainingMs -= step;
@@ -71,9 +72,9 @@ public class Pizzeria extends ObservableModel {
             return;
         }
         queues.manageOrderFlow();
-        System.out.println("Updated queues");
+        //System.out.println("Updated queues");
         kitchenManager.update(elapsedMs);
-        System.out.println("Updated kitchen");
+        //System.out.println("Updated kitchen");
     }
 
     private void setAllNotifications(boolean setting) {
@@ -119,5 +120,8 @@ public class Pizzeria extends ObservableModel {
 
     public Logger getLogger() {
         return kitchenManager.getLogger();
+    }
+    public Lobby getLobby() {
+        return queues;
     }
 }
