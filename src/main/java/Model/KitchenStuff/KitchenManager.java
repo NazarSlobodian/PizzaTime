@@ -1,6 +1,7 @@
 package Model.KitchenStuff;
 
 import java.util.*;
+import java.util.concurrent.locks.Lock;
 
 import Model.FoodAndStuff.Cookable;
 import Model.Utils.Clock;
@@ -16,7 +17,10 @@ public class KitchenManager extends ObservableModel {
     private final Logger logger;
     private final Cooker oven;
 
-    public KitchenManager(Clock clock) {
+    private Lock lock;
+
+    public KitchenManager(Clock clock, Lock lock) {
+        this.lock = lock;
         this.takenOrders = new ArrayList<>();
         this.cookables = new ArrayList<>(); // Генеруємо тестові замовлення
         this.cooks = new ArrayList<>(); // Генеруємо тестових кухарів
@@ -27,7 +31,7 @@ public class KitchenManager extends ObservableModel {
         addCook();
         this.cookAssignments = new HashMap<>();
         this.logger = new Logger(clock);
-        oven = new Cook();
+        oven = new Cook(lock);
         oven.setCookPresent(false);
     }
 
@@ -45,9 +49,12 @@ public class KitchenManager extends ObservableModel {
     }
 
     public void startCooker(Cooker cooker) {
+        lock.lock();
         setCookPresent(cooker, true);
+        lock.unlock();
     }
     public void stopCooker(Cooker cooker) {
+        lock.lock();
         setCookPresent(cooker, false);
         for (Cookable cookable: cookAssignments.keySet()) {
             if (cookAssignments.get(cookable).equals(cooker)) {
@@ -55,12 +62,15 @@ public class KitchenManager extends ObservableModel {
                 System.out.println("Trying to find someone to help");
             }
         }
+        lock.unlock();
     }
     public void startCooker(int index) {
-
+        lock.lock();
         setCookPresent(cooks.get(index), true);
+        lock.unlock();
     }
     public void stopCooker(int index) {
+        lock.lock();
         setCookPresent(cooks.get(index), false);
         for (Cookable cookable: cookAssignments.keySet()) {
             if (cookAssignments.get(cookable).equals(cooks.get(index))) {
@@ -68,6 +78,7 @@ public class KitchenManager extends ObservableModel {
                 System.out.println("Trying to find someone to help");
             }
         }
+        lock.unlock();
     }
     private void setCookPresent(Cooker cooker, boolean cookPresent) {
         cooks.stream()
@@ -151,9 +162,22 @@ public class KitchenManager extends ObservableModel {
     }
 
     private void addCook() {
-        Cooker cook = new Cook();
+        lock.lock();
+        Cooker cook = new Cook(lock);
         cooks.add(cook);
         eventContext.forceFirePropertyChange("cookAdded", null, cook);
+        lock.unlock();
+    }
+    private void deleteCook(int index) {
+        lock.lock();
+        for (Cookable cookable: cookAssignments.keySet()) {
+            if (cookAssignments.get(cookable).equals(cooks.get(index))) {
+                cookAssignments.remove(cookable);
+                System.out.println("COOK DELETED");
+            }
+        }
+        cooks.remove(index);
+        lock.unlock();
     }
 
     @Override
