@@ -22,4 +22,7 @@ public class QueuesViewModel {
 
     }
 
+    public ObservableList<OrderViewModel> getAllOrders() {
+        return allOrders;
+    }
 }

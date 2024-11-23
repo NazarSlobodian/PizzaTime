@@ -29,6 +29,18 @@ public class OrderViewModel {
             }
         });
     }
+
+    public StringProperty stateProperty() {
+        return state;
+    }
+    public StringProperty beginTimeProperty() {
+        return beginTime;
+    }
+    public StringProperty endTimeProperty() {
+        return endTime;
+    }
+
+
     private String msToString(long ms) {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(ms), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd,\nHH:mm:ss"));
     }
