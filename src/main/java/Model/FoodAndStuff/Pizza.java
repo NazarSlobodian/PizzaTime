@@ -86,6 +86,7 @@ public class Pizza extends Dish  {
         this.state = state;
         //if (eventContext.canFireEvent()) { force update
         eventContext.forceFirePropertyChange("pizzaStateChanged", oldState.toString(), this.state.toString());
+        eventContext.forceFirePropertyChange("pizzaStateReadinessChanged", null, this.state.getReadiness());
         //}
     }
 }
