@@ -161,14 +161,14 @@ public class KitchenManager extends ObservableModel {
         }
     }
 
-    private void addCook() {
+    public void addCook() {
         lock.lock();
         Cooker cook = new Cook(lock);
         cooks.add(cook);
         eventContext.forceFirePropertyChange("cookAdded", null, cook);
         lock.unlock();
     }
-    private void deleteCook(int index) {
+    public void deleteCook(int index) {
         lock.lock();
         for (Cookable cookable: cookAssignments.keySet()) {
             if (cookAssignments.get(cookable).equals(cooks.get(index))) {

@@ -86,4 +86,10 @@ public class KitchenViewModel {
     public void startCook(int index) {
         kitchenManager.startCooker(index);
     }
+    public void deleteCook(int index) {
+        kitchenManager.deleteCook(index);
+    }
+    public void addCook(int index) {
+        kitchenManager.addCook();
+    }
 }
