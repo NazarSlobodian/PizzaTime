@@ -73,7 +73,7 @@
             </Button>
 
             <!-- Кнопка для Персонал -->
-            <Button fx:id="staffButton" layoutX="50.0" layoutY="450.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Персонал">
+            <Button fx:id="staffButton" onAction="#btnStaff" layoutX="50.0" layoutY="450.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Персонал">
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
