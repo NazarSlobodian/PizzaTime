@@ -90,9 +90,9 @@ public class KitchenManager extends ObservableModel {
                 logger.logFinishCooking(c.getName());
                 for (Order takenOrder : takenOrders) {
                     if (takenOrder.getItems().contains(c)) {
-                        takenOrder.updateStatus();
-                        takenOrders.remove(takenOrder);
-                        return;
+                        if (takenOrder.updateStatus())
+                            takenOrders.remove(takenOrder);
+                        break;
                     }
                 }
                 cookAssignments.remove(c); // Видаляємо з мапи призначень, страва готова
