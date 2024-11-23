@@ -89,7 +89,7 @@ public class KitchenViewModel {
     public void deleteCook(int index) {
         kitchenManager.deleteCook(index);
     }
-    public void addCook(int index) {
+    public void addCook() {
         kitchenManager.addCook();
     }
 }
