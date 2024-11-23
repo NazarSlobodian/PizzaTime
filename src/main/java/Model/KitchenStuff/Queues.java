@@ -66,6 +66,7 @@ public class Queues extends ObservableModel implements Lobby {
 
         if (canOrderBeCompleted(order)) {
             Queue<Order> queue = orderQueues.get(currentQueueIndex);
+            order.setQueue(currentQueueIndex);
             queue.add(order);
             eventContext.forceFirePropertyChange("orderAdded", null, order);
             //System.out.println("Order added to queue [" + (currentQueueIndex + 1) + "]: " + order);
