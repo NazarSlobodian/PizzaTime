@@ -15,7 +15,9 @@ public class Order extends ObservableModel {
     private final Clock clock;
     private final List<Cookable> items;
     private final long orderTime;
+
     private int queue;
+
     private boolean ready = false;
 
     public Order(List<Cookable> items, Clock clock) {

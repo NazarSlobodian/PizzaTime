@@ -2,8 +2,10 @@ package ViewModels;
 
 import Model.KitchenStuff.Order;
 import javafx.application.Platform;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -17,12 +19,15 @@ public class OrderViewModel {
     private final StringProperty beginTime;
     private final StringProperty endTime;
     private final IntegerProperty queue;
+
     public OrderViewModel(Order order) {
         state = new SimpleStringProperty(order.isDone()? "Done":"In progress");
         beginTime = new SimpleStringProperty(msToString(order.getOrderTime()));
         endTime = new SimpleStringProperty("N/A");
+
         queue = new SimpleIntegerProperty(order.getQueue());
         System.out.println(queue.getValue());
+
 
         order.addPropertyChangeListener(evt-> {
             if (evt.getPropertyName().equals("orderReady")) {
@@ -33,6 +38,7 @@ public class OrderViewModel {
                 });
             }
         });
+
         order.addPropertyChangeListener(evt-> {
             if (evt.getPropertyName().equals("queueChange")) {
                 Platform.runLater(()-> {
@@ -41,6 +47,7 @@ public class OrderViewModel {
                 });
             }
         });
+
     }
 
     public StringProperty stateProperty() {
@@ -55,6 +62,7 @@ public class OrderViewModel {
     public IntegerProperty queueProperty() {
         return queue;
     }
+
 
     private String msToString(long ms) {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(ms), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd,\nHH:mm:ss"));
