@@ -119,6 +119,13 @@ public class NavSceneController {
     }
 
     @FXML
+    private void btnStaff() throws IOException {
+        AnchorPane view = FXMLLoader.load(getClass().getResource("/Views/staff-view.fxml"));
+        viewBorderPane.setVisible(true);
+        viewBorderPane.setCenter(view);
+    }
+
+    @FXML
     private void btnKitchen() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/kitchen-view.fxml"));
         AnchorPane view = loader.load();
