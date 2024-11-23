@@ -9,12 +9,15 @@ import Model.Utils.ObservableModel;
 
 public class KitchenManager extends ObservableModel {
 
+    private final List<Order> takenOrders;
     private final List<Cookable> cookables;
     private final List<Cooker> cooks; // Активні кухарі
     private final Map<Cookable, Cooker> cookAssignments; // Мапа для відстеження, хто готує кожну страву
     private final Logger logger;
+    private final Cooker oven;
 
     public KitchenManager(Clock clock) {
+        this.takenOrders = new ArrayList<>();
         this.cookables = new ArrayList<>(); // Генеруємо тестові замовлення
         this.cooks = new ArrayList<>(); // Генеруємо тестових кухарів
         addCook();
@@ -24,6 +27,8 @@ public class KitchenManager extends ObservableModel {
         addCook();
         this.cookAssignments = new HashMap<>();
         this.logger = new Logger(clock);
+        oven = new Cook();
+        oven.setCookPresent(false);
     }
 
     // Example method: Check if the kitchen can accept the order
@@ -33,6 +38,7 @@ public class KitchenManager extends ObservableModel {
     }
 
     public void acceptOrder(Order order) {
+        takenOrders.add(order);
         for (Cookable cookable : order.getItems()) {
             addCookable(cookable);
         }
@@ -82,6 +88,13 @@ public class KitchenManager extends ObservableModel {
             if (cookables.get(i).isCooked()) {
                 Cookable c = cookables.get(i);
                 logger.logFinishCooking(c.getName());
+                for (Order takenOrder : takenOrders) {
+                    if (takenOrder.getItems().contains(c)) {
+                        if (takenOrder.updateStatus())
+                            takenOrders.remove(takenOrder);
+                        break;
+                    }
+                }
                 cookAssignments.remove(c); // Видаляємо з мапи призначень, страва готова
                 cookables.remove(c); // Видаляємо готовий елемент з замовлення
                 eventContext.forceFirePropertyChange("cookableDeleted", null, c);
@@ -94,8 +107,9 @@ public class KitchenManager extends ObservableModel {
         Cooker assignedCook = cookAssignments.get(cookable);
 
         // Якщо кухар не призначений або зайнятий іншою стравою, шукаємо доступного кухаря
-        if (assignedCook == null) {
+        if (assignedCook == null || !assignedCook.isCookPresent()) {
             assignCook(cookable);
+            oven.cook(cookable, elapsedMs);
             return;
         }
         // Виконуємо один етап приготування з призначеним кухарем
@@ -104,7 +118,8 @@ public class KitchenManager extends ObservableModel {
         }
         if (assignedCook.canCook(cookable)) {
             assignedCook.cook(cookable, elapsedMs);
-        } else {
+        }
+        else {
             cookAssignments.remove(cookable);
         }
     }

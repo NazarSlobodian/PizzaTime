@@ -8,12 +8,13 @@ import java.util.Queue;
 import Model.Generators.FlowGenerator;
 import Model.Generators.OrderStrategyManager;
 import Model.Utils.Clock;
+import Model.Utils.ObservableModel;
 import Model.Utils.Schedule;
 
 /**
  * Manages the queues for order processing and integrates with OrderStrategyManager, FlowGenerator, and KitchenManager.
  */
-public class Queues {
+public class Queues extends ObservableModel implements Lobby {
     private final List<Queue<Order>> orderQueues;
     private final Queue<Order> rejectedQueue;
     private final List<Order> allOrders;  
@@ -43,6 +44,7 @@ public class Queues {
     /**
      * Main logic to generate orders and manage the flow between queues and the kitchen.
      */
+    @Override
     public void manageOrderFlow() {
         if (orderStrategyManager.shouldGenerate()) {
             // Generate a new order using the active strategy
@@ -65,6 +67,7 @@ public class Queues {
         if (canOrderBeCompleted(order)) {
             Queue<Order> queue = orderQueues.get(currentQueueIndex);
             queue.add(order);
+            eventContext.forceFirePropertyChange("orderAdded", null, order);
             //System.out.println("Order added to queue [" + (currentQueueIndex + 1) + "]: " + order);
 
             currentQueueIndex = (currentQueueIndex + 1) % orderQueues.size();
@@ -83,8 +86,7 @@ public class Queues {
                 Order order = queue.peek();
                 if (kitchenManager.canAcceptOrder(order)) {
                     queue.poll(); // Remove the order from the queue
-                    Order orderCopy = new Order(order); // Create a copy before sending
-                    kitchenManager.acceptOrder(orderCopy);
+                    kitchenManager.acceptOrder(order);
                     //System.out.println("Order sent to kitchen from queue [" + (i + 1) + "]: " + orderCopy);
                 } else {
                     System.out.println("Kitchen cannot accept order yet from queue [" + (i + 1) + "]: " + order);
@@ -120,6 +122,7 @@ public class Queues {
      *
      * @return The rejected orders queue.
      */
+    @Override
     public Queue<Order> getRejectedOrders() {
         return rejectedQueue;
     }
@@ -129,6 +132,7 @@ public class Queues {
      *
      * @return The list of all orders.
      */
+    @Override
     public List<Order> getAllOrders() {
         return allOrders;
     }

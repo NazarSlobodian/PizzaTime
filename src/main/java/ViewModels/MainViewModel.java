@@ -12,6 +12,7 @@ public class MainViewModel {
     private final MenuViewModel menuViewModel;
     private final KitchenViewModel kitchenViewModel;
     private final LogViewModel logViewModel;
+    private final QueuesViewModel queuesViewModel;
     // Time data
 
     //------------------------------------------------
@@ -21,6 +22,7 @@ public class MainViewModel {
         menuViewModel = new MenuViewModel(simulator.getMenu());
         kitchenViewModel = new KitchenViewModel(simulator.getKitchen());
         logViewModel = new LogViewModel(simulator.getLogger());
+        queuesViewModel = new QueuesViewModel(simulator.getLobby());
     }
 
     public SimTimeViewModel getSimTimeViewModel() {

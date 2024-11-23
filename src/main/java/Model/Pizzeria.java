@@ -4,6 +4,7 @@ import Model.FoodAndStuff.Menu;
 import Model.Generators.FlowGeneratorImpl;
 import Model.Generators.OrderStrategyManager;
 import Model.KitchenStuff.KitchenManager;
+import Model.KitchenStuff.Lobby;
 import Model.KitchenStuff.Queues;
 import Model.Utils.*;
 
@@ -19,7 +20,7 @@ public class Pizzeria extends ObservableModel {
     private TimeProperties timeProperties;
     private Schedule schedule;
 
-    private Queues queues;
+    private Lobby queues;
     private Menu menu;
     private KitchenManager kitchenManager;
 
@@ -119,5 +120,8 @@ public class Pizzeria extends ObservableModel {
 
     public Logger getLogger() {
         return kitchenManager.getLogger();
+    }
+    public Lobby getLobby() {
+        return queues;
     }
 }
