@@ -15,6 +15,9 @@ public class Order extends ObservableModel {
     private final Clock clock;
     private final List<Cookable> items;
     private final long orderTime;
+
+    private int queue;
+
     private boolean ready = false;
 
     public Order(List<Cookable> items, Clock clock) {
@@ -28,7 +31,13 @@ public class Order extends ObservableModel {
         this.orderTime = other.orderTime;
         this.clock = clock;
     }
-
+    public void setQueue(int num) {
+        this.queue = num;
+        eventContext.forceFirePropertyChange("queueChange", null, num);
+    }
+    public int getQueue() {
+        return queue;
+    }
     public List<Cookable> getItems() {
         return items;
     }

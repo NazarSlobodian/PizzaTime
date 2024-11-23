@@ -97,8 +97,8 @@ public class Pizzeria extends ObservableModel {
         schedule = new Schedule();
         menu = new Menu(lock);
 
-        kitchenManager = new KitchenManager(clock);
-        queues = new Queues(schedule, new OrderStrategyManager(menu, clock), kitchenManager, clock);
+        kitchenManager = new KitchenManager(clock, lock);
+        queues = new Queues(schedule, new OrderStrategyManager(menu, clock), kitchenManager, clock, lock);
     }
 
     // For view model

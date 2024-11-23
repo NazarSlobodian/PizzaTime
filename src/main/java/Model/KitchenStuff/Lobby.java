@@ -11,4 +11,10 @@ public interface Lobby extends Observable {
     Queue<Order> getRejectedOrders();
 
     List<Order> getAllOrders();
+
+    void deleteQueue();
+
+    void addQueue();
+
+    int getQueuesCount();
 }

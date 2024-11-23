@@ -1,6 +1,7 @@
 package Model.KitchenStuff;
 
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 
 import Model.FoodAndStuff.Cookable;
 import Model.FoodAndStuff.StateRegistry;
@@ -12,17 +13,17 @@ import Model.Utils.ObservableModel;
 public class Cook extends ObservableModel implements Cooker {
     private final Map<String, Boolean> stateMap;
     private boolean cookPresent;
-
-    public Cook() {
+    private Lock lock;
+    public Cook(Lock lock) {
         stateMap = StateRegistry.getStateMap();
         cookPresent = true;
+        this.lock = lock;
     }
 
     @Override
     public boolean canCook(Cookable cookable) {
         return stateMap.getOrDefault(cookable.getStateName(), false);
     }
-
 
     @Override
     public boolean isCookPresent() {
@@ -31,8 +32,10 @@ public class Cook extends ObservableModel implements Cooker {
 
     @Override
     public void setCookPresent(boolean cookPresent) {
+        lock.lock();
         this.cookPresent = cookPresent;
         eventContext.forceFirePropertyChange("statusChanged", null, cookPresent);
+        lock.unlock();
     }
 
     // Метод готовки
@@ -51,7 +54,9 @@ public class Cook extends ObservableModel implements Cooker {
     }
     @Override
     public void setSkill(String name, boolean flag) {
+        lock.lock();
         stateMap.put(name, flag);
         eventContext.forceFirePropertyChange("skillChanged", name, flag);
+        lock.unlock();
     }
 }

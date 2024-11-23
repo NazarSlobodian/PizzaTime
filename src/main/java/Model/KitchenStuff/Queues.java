@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.locks.Lock;
 
-import Model.Generators.FlowGenerator;
 import Model.Generators.OrderStrategyManager;
 import Model.Utils.Clock;
 import Model.Utils.ObservableModel;
@@ -17,7 +17,7 @@ import Model.Utils.Schedule;
 public class Queues extends ObservableModel implements Lobby {
     private final List<Queue<Order>> orderQueues;
     private final Queue<Order> rejectedQueue;
-    private final List<Order> allOrders;  
+    private final List<Order> allOrders;
     private final KitchenManager kitchenManager;
     private final Schedule schedule;
 
@@ -25,8 +25,10 @@ public class Queues extends ObservableModel implements Lobby {
     private final Clock clock;
 
     private int currentQueueIndex;
+    private Lock lock;
 
-    public Queues(Schedule schedule, OrderStrategyManager orderStrategyManager, KitchenManager kitchenManager, Clock clock) {
+    public Queues(Schedule schedule, OrderStrategyManager orderStrategyManager, KitchenManager kitchenManager, Clock clock, Lock lock) {
+        this.lock = lock;
         this.orderQueues = new ArrayList<>();
         this.rejectedQueue = new LinkedList<>();
         this.allOrders = new ArrayList<>();
@@ -66,6 +68,7 @@ public class Queues extends ObservableModel implements Lobby {
 
         if (canOrderBeCompleted(order)) {
             Queue<Order> queue = orderQueues.get(currentQueueIndex);
+            order.setQueue(currentQueueIndex);
             queue.add(order);
             eventContext.forceFirePropertyChange("orderAdded", null, order);
             //System.out.println("Order added to queue [" + (currentQueueIndex + 1) + "]: " + order);
@@ -135,5 +138,39 @@ public class Queues extends ObservableModel implements Lobby {
     @Override
     public List<Order> getAllOrders() {
         return allOrders;
+    }
+
+    @Override
+    public void deleteQueue() {
+        lock.lock();
+        if (orderQueues.size() < 2)
+            return;
+        Queue<Order> ordersToRedistribute = orderQueues.get(orderQueues.size() - 1);
+        Queue<Order> reversed = new LinkedList<>();
+        while(ordersToRedistribute.size() > 0) {
+            reversed.add(ordersToRedistribute.remove());
+        }
+        orderQueues.remove(orderQueues.size() - 1);
+        int amount = (int) Math.ceil(reversed.size() / (double) orderQueues.size());
+        for (int i = 0; i < orderQueues.size(); i++) {
+            for (int j = 0; j < amount; j++) {
+                Order order = reversed.poll();
+                order.setQueue(i);
+                orderQueues.get(i).add(order);
+            }
+        }
+        eventContext.firePropertyChange("queuesCountChanged", null, getQueuesCount());
+        lock.unlock();
+    }
+    @Override
+    public void addQueue() {
+        lock.lock();
+        orderQueues.add(new LinkedList<>());
+        eventContext.firePropertyChange("queuesCountChanged", null, getQueuesCount());
+        lock.unlock();
+    }
+    @Override
+    public int getQueuesCount() {
+        return orderQueues.size();
     }
 }
