@@ -23,21 +23,25 @@ public class SimTimeViewModel {
         simDateTimeProperty = new SimpleStringProperty(clock.toString());
         simTimeSpeedProperty = new SimpleIntegerProperty(timeProperties.getTimeSpeed());
 
-        clock.addPropertyChangeListener(evt-> {
+        clock.addPropertyChangeListener(evt -> {
             if ("simDateTime".equals(evt.getPropertyName())) {
-                Platform.runLater(()->simDateTimeProperty.set((String)evt.getNewValue()));
-
-                System.out.println(simDateTimeProperty.get());
+                Platform.runLater(() -> {
+                    simDateTimeProperty.set((String) evt.getNewValue());
+                    System.out.println(simDateTimeProperty.get());
+                });
             }
         });
-        timeProperties.addPropertyChangeListener(evt-> {
+        timeProperties.addPropertyChangeListener(evt -> {
             if ("simTimeSpeed".equals(evt.getPropertyName())) {
-                Platform.runLater(()->simTimeSpeedProperty.set((int)evt.getNewValue()));
-
-                System.out.println("Time speed " + simTimeSpeedProperty.get());
+                Platform.runLater(() -> {
+                    simTimeSpeedProperty.set((int) evt.getNewValue());
+                    System.out.println("Time speed " + simTimeSpeedProperty.get());
+                });
             }
         });
     }
+
+
     public StringProperty simDateTimeProperty() {
         return simDateTimeProperty;
     }
@@ -45,7 +49,7 @@ public class SimTimeViewModel {
     public IntegerProperty simTimeSpeedProperty() {
         return simTimeSpeedProperty;
     }
-    //------------------------------------------------
+//------------------------------------------------
 
     public void setSimTimeSpeed(int simTimeSpeed) {
         timeProperties.setTimeSpeed(simTimeSpeed);
