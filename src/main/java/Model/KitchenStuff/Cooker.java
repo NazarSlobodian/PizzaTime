@@ -3,6 +3,8 @@ package Model.KitchenStuff;
 import Model.FoodAndStuff.Cookable;
 import Model.Utils.Observable;
 
+import java.util.Map;
+
 public interface Cooker extends Observable {
     // Перевіряє, чи можна готувати до заданого стану
     boolean canCook(Cookable cookable);
@@ -14,4 +16,8 @@ public interface Cooker extends Observable {
 
     // Метод готовки
     void cook(Cookable cookable, long elapsedTime);
+
+    Map<String, Boolean> getSkills();
+
+    void setSkill(String name, boolean flag);
 }

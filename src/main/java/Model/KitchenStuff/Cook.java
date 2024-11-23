@@ -4,7 +4,6 @@ import java.util.Map;
 
 import Model.FoodAndStuff.Cookable;
 import Model.FoodAndStuff.StateRegistry;
-import Model.Utils.Logger;
 import Model.Utils.ObservableModel;
 
 /**
@@ -45,5 +44,14 @@ public class Cook extends ObservableModel implements Cooker {
         double increaseFactor = ((double) (elapsedTime * 3) / cookable.getTotalPrepTimeMs()) * 100;
         cookable.increaseReadiness(increaseFactor, cookPresent);
 
+    }
+    @Override
+    public Map<String, Boolean> getSkills() {
+        return stateMap;
+    }
+    @Override
+    public void setSkill(String name, boolean flag) {
+        stateMap.put(name, flag);
+        eventContext.forceFirePropertyChange("skillChanged", name, flag);
     }
 }
