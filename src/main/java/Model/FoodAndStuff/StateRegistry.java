@@ -5,6 +5,7 @@ import org.reflections.Reflections;
 
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public class StateRegistry {
         if (stateMap != null) {
             return stateMap;
         }
-        stateMap = new HashMap<>();
+        stateMap = new LinkedHashMap<>();
         Reflections reflections = new Reflections("Model.FoodAndStuff.States");
         Set<Class<? extends CookableState>> subclasses = reflections.getSubTypesOf(CookableState.class);
         try {
