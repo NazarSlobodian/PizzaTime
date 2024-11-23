@@ -159,12 +159,18 @@ public class Queues extends ObservableModel implements Lobby {
                 orderQueues.get(i).add(order);
             }
         }
+        eventContext.firePropertyChange("queuesCountChanged", null, getQueuesCount());
         lock.unlock();
     }
     @Override
     public void addQueue() {
         lock.lock();
         orderQueues.add(new LinkedList<>());
+        eventContext.firePropertyChange("queuesCountChanged", null, getQueuesCount());
         lock.unlock();
+    }
+    @Override
+    public int getQueuesCount() {
+        return orderQueues.size();
     }
 }

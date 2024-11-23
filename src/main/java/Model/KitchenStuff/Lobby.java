@@ -15,4 +15,6 @@ public interface Lobby extends Observable {
     void deleteQueue();
 
     void addQueue();
+
+    int getQueuesCount();
 }
