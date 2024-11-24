@@ -162,7 +162,7 @@ public class Queues extends ObservableModel implements Lobby {
                 }
             }
             currentQueueIndex = 0; // Magic fix
-            eventContext.firePropertyChange("queuesCountChanged", null, getQueuesCount());
+            eventContext.forceFirePropertyChange("queuesCountChanged", null, getQueuesCount());
         } finally {
             lock.unlock();
         }
@@ -172,7 +172,7 @@ public class Queues extends ObservableModel implements Lobby {
     public void addQueue() {
         lock.lock();
         orderQueues.add(new LinkedList<>());
-        eventContext.firePropertyChange("queuesCountChanged", null, getQueuesCount());
+        eventContext.forceFirePropertyChange("queuesCountChanged", null, getQueuesCount());
         lock.unlock();
     }
 
