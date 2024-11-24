@@ -15,6 +15,7 @@ public class QueuesViewModel {
 
     private final Lobby lobby;
     private final IntegerProperty queuesCount;
+
     private final IntegerProperty totalOrdersGenerated;
 
     public QueuesViewModel(Lobby lobby) {
@@ -46,9 +47,15 @@ public class QueuesViewModel {
         return allOrders;
     }
 
+
     public IntegerProperty queuesCount() {
         return queuesCount;
     }
+
+    public IntegerProperty totalOrdersGenerated() {
+        return totalOrdersGenerated;
+    }
+
     public void deleteQueue() {
         lobby.deleteQueue();
     }

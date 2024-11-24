@@ -103,6 +103,13 @@ public class KitchenViewModel {
         return cooks;
     }
 
+    public IntegerProperty getOrdersInKitchen() {
+        return ordersInKitchen;
+    }
+    public IntegerProperty getOrdersDone() {
+        return ordersDone;
+    }
+
     public void stopCook(int index) {
         kitchenManager.stopCooker(index);
     }
