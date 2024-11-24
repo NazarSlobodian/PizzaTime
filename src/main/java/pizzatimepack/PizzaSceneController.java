@@ -44,7 +44,6 @@ public class PizzaSceneController {
     private void refreshPizzasUI() {
         pizzasTilePane.getChildren().clear();
 
-        // Налаштування TilePane
         pizzasTilePane.setPrefColumns(2);
         pizzasTilePane.setHgap(20);
         pizzasTilePane.setVgap(20);
