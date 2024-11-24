@@ -2,10 +2,11 @@ package pizzatimepack;
 
 import ViewModels.KitchenPizzaViewModel;
 import ViewModels.KitchenViewModel;
+import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class KitchenSceneController {
 
@@ -26,6 +27,12 @@ public class KitchenSceneController {
     public void setKitchenViewModel(KitchenViewModel kitchenViewModel) {
         this.kitchenViewModel = kitchenViewModel;
         kitchenTable.setItems(kitchenViewModel.getPizzasInKitchen());
+
+        kitchenViewModel.getPizzasInKitchen().addListener((ListChangeListener<KitchenPizzaViewModel>) change -> {
+            while (change.next()) {
+                Platform.runLater(kitchenTable::refresh);
+            }
+        });
     }
 
     @FXML
