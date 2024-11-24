@@ -58,6 +58,21 @@ public class Queues extends ObservableModel implements Lobby {
         processOrdersToKitchen();
     }
 
+    @Override
+    public void setGenerationStrategy(String name) {
+        lock.lock();
+        try {
+            orderStrategyManager.setActiveStrategy(name);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public List<String> getStrategies() {
+        return orderStrategyManager.getAvailableStrategies();
+    }
+
     /**
      * Adds an order to one of the queues in a round-robin manner.
      *

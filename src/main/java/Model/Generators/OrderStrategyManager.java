@@ -21,13 +21,13 @@ public class OrderStrategyManager {
 
     public OrderStrategyManager(Menu menu, Clock clock) {
         // Add strategies here
-        strategies.put("IntervalSteady", new OrderGeneratorImpl(menu, clock));
-        flowGenerators.put("IntervalSteady", new FlowGeneratorImpl(1000 * 30 * 60, clock));
+        strategies.put("SlowAndSteady", new OrderGeneratorImpl(menu, clock, 1, 2));
+        flowGenerators.put("SlowAndSteady", new FlowGeneratorImpl(1000 * 60* 30, clock));
 
-        strategies.put("RandomPeak", new OrderGeneratorImpl(menu, clock));
-        flowGenerators.put("RandomPeak", new FlowGeneratorImpl(1000 * 30 * 60, clock));
+        strategies.put("FastAndALot", new OrderGeneratorImpl(menu, clock, 3, 10));
+        flowGenerators.put("FastAndALot", new FlowGeneratorImpl(1000 * 60 * 20, clock));
         // Set a default strategy
-        setActiveStrategy("IntervalSteady");
+        setActiveStrategy("FastAndALot");
         this.menu = menu;
     }
 

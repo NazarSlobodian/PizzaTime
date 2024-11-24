@@ -10,19 +10,31 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.List;
+
 public class QueuesViewModel {
     private final ObservableList<OrderViewModel> allOrders;
+
 
     private final Lobby lobby;
     private final IntegerProperty queuesCount;
 
     private final IntegerProperty totalOrdersGenerated;
 
+    private final ObservableList<String> strats;
+
     public QueuesViewModel(Lobby lobby) {
         this.lobby = lobby;
 
         totalOrdersGenerated = new SimpleIntegerProperty(0);
         allOrders = FXCollections.observableArrayList();
+        strats = FXCollections.observableArrayList();
+
+        List<String> strts = lobby.getStrategies();
+        for (String str : strts) {
+            strats.add(str);
+        }
+
         lobby.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals("orderAdded")) {
                 Platform.runLater(() -> {
@@ -61,6 +73,13 @@ public class QueuesViewModel {
     }
     public void addQueue() {
         lobby.addQueue();
+    }
+
+    public ObservableList<String> getStrats() {
+        return strats;
+    }
+    public void setStrat(String name){
+        lobby.setGenerationStrategy(name);
     }
 
 }
