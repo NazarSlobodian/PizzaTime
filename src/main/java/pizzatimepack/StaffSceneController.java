@@ -122,8 +122,13 @@ public class StaffSceneController {
 
         kitchenViewModel.getCooks().addListener((ListChangeListener<CookerViewModel>) change -> {
             while (change.next()) {
-                Platform.runLater(() -> tableView.refresh());
+                if (change.wasAdded()) {
+                    for (CookerViewModel newCooker : change.getAddedSubList()) {
+                        newCooker.getIsPresent().addListener((obs, oldVal, newVal) -> Platform.runLater(tableView::refresh));
+                    }
+                }
             }
+            Platform.runLater(() -> tableView.refresh());
         });
 
         for (CookerViewModel cooker : kitchenViewModel.getCooks()) {

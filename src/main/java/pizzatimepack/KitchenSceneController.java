@@ -2,10 +2,11 @@ package pizzatimepack;
 
 import ViewModels.KitchenPizzaViewModel;
 import ViewModels.KitchenViewModel;
+import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class KitchenSceneController {
 
