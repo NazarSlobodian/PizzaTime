@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzatimepack.CashSceneController">
     <children>
         <!-- Контейнер для кнопок "Додати касу" та "Видалити касу" -->
         <HBox alignment="CENTER" layoutX="16.0" layoutY="68.0" prefHeight="39.0" prefWidth="164.0" spacing="20">
@@ -15,10 +15,16 @@
            </children>
         </HBox>
 
+        <Label fx:id="cashCountLabel" layoutX="16.0" layoutY="120.0" text="Кількість кас: 0">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+        </Label>
+
         <!-- Таблиця -->
         <TableView fx:id="tableView" layoutX="209.0" layoutY="36.0" prefHeight="558.0" prefWidth="557.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
             <columns>
-            <TableColumn prefWidth="75.0" text="№ Каси" />
+                <TableColumn fx:id="cashColumn" prefWidth="75.0" text="№ Каси" />
                 <TableColumn fx:id="orderNumberColumn" prefWidth="111.20001220703125" text="№ Замовлення" />
                 <TableColumn fx:id="statusColumn" prefWidth="111.99993896484375" text="Стан замолення" />
                 <TableColumn fx:id="startTimeColumn" prefWidth="97.60003662109375" text="Час початку" />
