@@ -145,7 +145,6 @@ public class Queues extends ObservableModel implements Lobby {
         lock.lock();
         try {
             if (orderQueues.size() < 2) {
-                lock.unlock();
                 return;
             }
             Queue<Order> ordersToRedistribute = orderQueues.get(orderQueues.size() - 1);
@@ -162,6 +161,7 @@ public class Queues extends ObservableModel implements Lobby {
                     orderQueues.get(i).add(order);
                 }
             }
+            currentQueueIndex = 0; // Magic fix
             eventContext.firePropertyChange("queuesCountChanged", null, getQueuesCount());
         } finally {
             lock.unlock();
