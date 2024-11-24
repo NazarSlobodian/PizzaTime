@@ -50,7 +50,7 @@
                   <Button fx:id="dessertsButton" onAction="#btnDesserts" prefHeight="31.0" prefWidth="235.0" styleClass="menu-item" text="Десерти" />
                </children>
             </VBox>
-            <Button fx:id="cashButton" onAction="#btnCash"  layoutX="50.0" layoutY="250.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Каса">
+            <Button fx:id="cashButton" layoutX="50.0" layoutY="250.0" onAction="#btnCash" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Каса">
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
@@ -62,7 +62,7 @@
 
 
             <!-- Кнопка для Кухня -->
-            <Button fx:id="kitchenButton" onAction="#btnKitchen" layoutX="50.0" layoutY="350.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Кухня">
+            <Button fx:id="kitchenButton" layoutX="50.0" layoutY="350.0" onAction="#btnKitchen" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Кухня">
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
@@ -73,7 +73,7 @@
             </Button>
 
             <!-- Кнопка для Персонал -->
-            <Button fx:id="staffButton" onAction="#btnStaff" layoutX="50.0" layoutY="450.0" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Персонал">
+            <Button fx:id="staffButton" layoutX="50.0" layoutY="450.0" onAction="#btnStaff" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Персонал">
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
@@ -87,8 +87,9 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="speedUp1Btn" layoutX="135.0" layoutY="608.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="x1" />
-            <Button fx:id="speedUp60Btn" layoutX="135.0" layoutY="635.0" mnemonicParsing="false" prefWidth="35.0" text="x60" />
+            <Button fx:id="speedUp1Btn" layoutX="63.0" layoutY="634.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="x1" />
+            <Button fx:id="speedUp60Btn" layoutX="105.0" layoutY="634.0" mnemonicParsing="false" prefWidth="35.0" text="x60" />
+            <Button fx:id="speedUp0Btn" layoutX="21.0" layoutY="634.0" mnemonicParsing="false" prefWidth="35.0" text="x0" />
          </children>
       </AnchorPane>
       <BorderPane fx:id="viewBorderPane" layoutX="429.0" layoutY="14.0" prefHeight="680.0" prefWidth="800.0" style="-fx-background-color: white;" visible="false" />

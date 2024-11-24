@@ -35,10 +35,7 @@ public class NavSceneController {
     private Label clockLabel;
 
     @FXML
-    private Button speedUp1Btn;
-
-    @FXML
-    private Button speedUp60Btn;
+    private Button speedUp0Btn, speedUp1Btn, speedUp60Btn;
 
     private MainViewModel mainViewModel;
     private SimTimeViewModel simTimeViewModel;
@@ -57,12 +54,32 @@ public class NavSceneController {
     }
 
     public void bindSpeedButtons() {
-        speedUp1Btn.disableProperty().bind(simTimeViewModel.simTimeSpeedProperty().isEqualTo(1));
+        simTimeViewModel.simTimeSpeedProperty().addListener((observable, oldValue, newValue) -> {
+            updateSpeedButtonStates(newValue.intValue());
+        });
 
-        speedUp60Btn.disableProperty().bind(simTimeViewModel.simTimeSpeedProperty().isEqualTo(60));
+        speedUp0Btn.setOnAction(event -> {
+            simTimeViewModel.setSimTimeSpeed(0);
+            updateSpeedButtonStates(0);
+        });
 
-        speedUp1Btn.setOnAction(event -> simTimeViewModel.setSimTimeSpeed(1));
-        speedUp60Btn.setOnAction(event -> simTimeViewModel.setSimTimeSpeed(60));
+        speedUp1Btn.setOnAction(event -> {
+            simTimeViewModel.setSimTimeSpeed(1);
+            updateSpeedButtonStates(1);
+        });
+
+        speedUp60Btn.setOnAction(event -> {
+            simTimeViewModel.setSimTimeSpeed(60);
+            updateSpeedButtonStates(60);
+        });
+
+        updateSpeedButtonStates(simTimeViewModel.simTimeSpeedProperty().get());
+    }
+
+    private void updateSpeedButtonStates(int speed) {
+        speedUp0Btn.setDisable(speed == 0);
+        speedUp1Btn.setDisable(speed == 1);
+        speedUp60Btn.setDisable(speed == 60);
     }
 
     @FXML
@@ -120,7 +137,12 @@ public class NavSceneController {
 
     @FXML
     private void btnStaff() throws IOException {
-        AnchorPane view = FXMLLoader.load(getClass().getResource("/Views/staff-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/staff-view.fxml"));
+        AnchorPane view = loader.load();
+
+        StaffSceneController controller = loader.getController();
+        controller.setKitchenViewModel(mainViewModel.getKitchenViewModel());
+
         viewBorderPane.setVisible(true);
         viewBorderPane.setCenter(view);
     }

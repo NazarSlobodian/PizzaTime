@@ -27,7 +27,7 @@
               <TextField fx:id="timeField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       
               <Label text="Фото:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-              <Button fx:id="uploadButton" text="Завантажити" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+              <Button fx:id="uploadButton" onAction="#onUploadImage" text="Завантажити" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       </children>
          <columnConstraints>
             <ColumnConstraints />

@@ -4,7 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 public class AddPizzaController {
 
@@ -20,6 +23,7 @@ public class AddPizzaController {
     private String name;
     private String ingredients;
     private int time;
+    private String imagePath; // Path to the selected image
 
     private boolean isConfirmed = false;
 
@@ -35,6 +39,10 @@ public class AddPizzaController {
         return time;
     }
 
+    public String getImagePath() {
+        return imagePath; // Return the image path
+    }
+
     public boolean isConfirmed() {
         return isConfirmed;
     }
@@ -45,7 +53,7 @@ public class AddPizzaController {
         String enteredIngredients = ingredientsArea.getText();
         String enteredTime = timeField.getText();
 
-        // Перевірка обов'язкових полів
+        // Validate required fields
         if (enteredName.isEmpty() || enteredTime.isEmpty()) {
             showAlert("Помилка", "Назва та час приготування є обов'язковими полями!", Alert.AlertType.WARNING);
             return;
@@ -65,22 +73,37 @@ public class AddPizzaController {
         ingredients = enteredIngredients.isEmpty() ? "Не вказано" : enteredIngredients;
         isConfirmed = true;
 
-        // Закриваємо вікно
+        // Close the window
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
     }
 
     @FXML
     private void onCancel() {
-        // Закриваємо вікно без підтвердження
+        // Close the window without confirmation
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void onUploadImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Виберіть фото для піци");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            imagePath = selectedFile.toURI().toString(); // Save the image path as a URI
+            showAlert("Фото додано", "Шлях до фото: " + selectedFile.getName(), Alert.AlertType.INFORMATION);
+        }
     }
 
     private void showAlert(String title, String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
-        alert.setHeaderText(null); // Без заголовку
+        alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }

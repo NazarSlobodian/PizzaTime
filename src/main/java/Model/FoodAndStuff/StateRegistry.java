@@ -14,7 +14,7 @@ public class StateRegistry {
 
     public static Map<String, Boolean> getStateMap() {
         if (stateMap != null) {
-            return stateMap;
+            return new LinkedHashMap<>(stateMap);
         }
         stateMap = new LinkedHashMap<>();
         Reflections reflections = new Reflections("Model.FoodAndStuff.States");
@@ -33,6 +33,6 @@ public class StateRegistry {
         } catch (Exception e) {
             throw new RuntimeException("Oopsie daisy");
         }
-        return new HashMap<>(stateMap);
+        return new LinkedHashMap<>(stateMap);
     }
 }

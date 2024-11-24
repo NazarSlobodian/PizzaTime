@@ -67,7 +67,7 @@ public class KitchenViewModel {
                             break;
                         }
                     }
-                    System.out.println("Cook added");
+                    System.out.println("Cook deleted");
                 });
             }
         });
