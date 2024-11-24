@@ -2,6 +2,7 @@ package pizzatimepack;
 
 import ViewModels.CookerViewModel;
 import ViewModels.KitchenViewModel;
+import ViewModels.QueuesViewModel;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
@@ -10,14 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.Tooltip;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -41,11 +38,40 @@ public class StaffSceneController {
     @FXML
     private TableColumn<CookerViewModel, String> skillsColumn;
 
+    @FXML
+    private Label totalOrdersLabel, activeOrdersLabel, completedOrdersLabel;
+
     private KitchenViewModel kitchenViewModel;
+
+    private QueuesViewModel queuesViewModel;
 
     public void setKitchenViewModel(KitchenViewModel kitchenViewModel) {
         this.kitchenViewModel = kitchenViewModel;
         bindTableView();
+        bindKitchenViewModel();
+    }
+
+    public void setQueuesViewModel(QueuesViewModel queuesViewModel) {
+        this.queuesViewModel = queuesViewModel;
+        bindQueueViewModel();
+    }
+
+    private void bindKitchenViewModel() {
+        activeOrdersLabel.textProperty().bind(
+                kitchenViewModel.getOrdersInKitchen().asString()
+        );
+
+        completedOrdersLabel.textProperty().bind(
+                kitchenViewModel.getOrdersDone().asString()
+        );
+    }
+
+    private void bindQueueViewModel() {
+        if (queuesViewModel != null) {
+            totalOrdersLabel.textProperty().bind(
+                    queuesViewModel.totalOrdersGenerated().asString()
+            );
+        }
     }
 
     private void bindTableView() {
