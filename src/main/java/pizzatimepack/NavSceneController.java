@@ -43,7 +43,6 @@ public class NavSceneController {
         this.simTimeViewModel = mainViewModel.getSimTimeViewModel();
         this.queuesViewModel = mainViewModel.getQueuesViewModel();
 
-        // Initialize bindings related to SimTimeViewModel
         bindClockLabel();
         bindSpeedButtons();
 
