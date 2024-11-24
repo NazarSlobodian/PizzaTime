@@ -40,4 +40,8 @@ public class MainViewModel {
     public QueuesViewModel getQueuesViewModel(){
         return queuesViewModel;
     }
+
+    public LogViewModel getLogViewModel() {
+        return logViewModel;
+    }
 }
