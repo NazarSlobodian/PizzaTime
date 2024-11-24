@@ -143,25 +143,31 @@ public class Queues extends ObservableModel implements Lobby {
     @Override
     public void deleteQueue() {
         lock.lock();
-        if (orderQueues.size() < 2)
-            return;
-        Queue<Order> ordersToRedistribute = orderQueues.get(orderQueues.size() - 1);
-        Queue<Order> reversed = new LinkedList<>();
-        while(ordersToRedistribute.size() > 0) {
-            reversed.add(ordersToRedistribute.remove());
-        }
-        orderQueues.remove(orderQueues.size() - 1);
-        int amount = (int) Math.ceil(reversed.size() / (double) orderQueues.size());
-        for (int i = 0; i < orderQueues.size(); i++) {
-            for (int j = 0; j < amount; j++) {
-                Order order = reversed.poll();
-                order.setQueue(i);
-                orderQueues.get(i).add(order);
+        try {
+            if (orderQueues.size() < 2) {
+                lock.unlock();
+                return;
             }
+            Queue<Order> ordersToRedistribute = orderQueues.get(orderQueues.size() - 1);
+            Queue<Order> reversed = new LinkedList<>();
+            while (ordersToRedistribute.size() > 0) {
+                reversed.add(ordersToRedistribute.remove());
+            }
+            orderQueues.remove(orderQueues.size() - 1);
+            int amount = (int) Math.ceil(reversed.size() / (double) orderQueues.size());
+            for (int i = 0; i < orderQueues.size(); i++) {
+                for (int j = 0; j < amount; j++) {
+                    Order order = reversed.poll();
+                    order.setQueue(i);
+                    orderQueues.get(i).add(order);
+                }
+            }
+            eventContext.firePropertyChange("queuesCountChanged", null, getQueuesCount());
+        } finally {
+            lock.unlock();
         }
-        eventContext.firePropertyChange("queuesCountChanged", null, getQueuesCount());
-        lock.unlock();
     }
+
     @Override
     public void addQueue() {
         lock.lock();
@@ -169,6 +175,7 @@ public class Queues extends ObservableModel implements Lobby {
         eventContext.firePropertyChange("queuesCountChanged", null, getQueuesCount());
         lock.unlock();
     }
+
     @Override
     public int getQueuesCount() {
         return orderQueues.size();
