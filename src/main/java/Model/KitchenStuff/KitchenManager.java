@@ -124,7 +124,8 @@ public class KitchenManager extends ObservableModel {
         // Якщо кухар не призначений або зайнятий іншою стравою, шукаємо доступного кухаря
         if (assignedCook == null || !assignedCook.isCookPresent()) {
             assignCook(cookable);
-            oven.cook(cookable, elapsedMs);
+            if (!(cookable.getReadiness()< 0.01))
+                oven.cook(cookable, elapsedMs);
             return;
         }
         // Виконуємо один етап приготування з призначеним кухарем
