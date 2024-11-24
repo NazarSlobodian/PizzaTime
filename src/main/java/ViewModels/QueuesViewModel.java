@@ -15,14 +15,18 @@ public class QueuesViewModel {
 
     private final Lobby lobby;
     private final IntegerProperty queuesCount;
+    private final IntegerProperty totalOrdersGenerated;
+
     public QueuesViewModel(Lobby lobby) {
         this.lobby = lobby;
 
+        totalOrdersGenerated = new SimpleIntegerProperty(0);
         allOrders = FXCollections.observableArrayList();
         lobby.addPropertyChangeListener(evt -> {
             if (evt.getPropertyName().equals("orderAdded")) {
                 Platform.runLater(() -> {
                     allOrders.add(new OrderViewModel((Order)evt.getNewValue()));
+                    totalOrdersGenerated.set(totalOrdersGenerated.get() + 1);
                     System.out.println("ORDER ADDED");
                 });
             }

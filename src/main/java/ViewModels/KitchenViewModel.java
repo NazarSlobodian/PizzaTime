@@ -6,6 +6,8 @@ import Model.KitchenStuff.Cook;
 import Model.KitchenStuff.Cooker;
 import Model.KitchenStuff.KitchenManager;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,10 +19,15 @@ public class KitchenViewModel {
     private final ObservableList<KitchenPizzaViewModel> pizzasInKitchen;
     private final ObservableList<CookerViewModel> cooks;
 
+    private final IntegerProperty ordersInKitchen;
+    private final IntegerProperty ordersDone;
+
     public KitchenViewModel(KitchenManager kitchenManager) {
         this.pizzasInKitchen = FXCollections.observableArrayList();
         this.cooks = FXCollections.observableArrayList();
 
+        ordersInKitchen = new SimpleIntegerProperty();
+        ordersDone = new SimpleIntegerProperty();
         List<Cooker> cooks = kitchenManager.getCooks();
         for (Cooker cook : cooks) {
             this.cooks.add(new CookerViewModel(cook));
@@ -68,6 +75,22 @@ public class KitchenViewModel {
                         }
                     }
                     System.out.println("Cook deleted");
+                });
+            }
+        });
+        kitchenManager.addPropertyChangeListener(evt-> {
+            if (evt.getPropertyName().equals("ordersInKitchenChanged")) {
+                Platform.runLater(() -> {
+                    ordersInKitchen.setValue((int)evt.getNewValue());
+                    System.out.println("Changed orders in kitchen to some number");
+                });
+            }
+        });
+        kitchenManager.addPropertyChangeListener(evt-> {
+            if (evt.getPropertyName().equals("orderDone")) {
+                Platform.runLater(() -> {
+                    ordersDone.setValue(ordersDone.getValue() + 1);
+                    System.out.println("Orders done incremented");
                 });
             }
         });
