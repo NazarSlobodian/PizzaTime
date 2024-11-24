@@ -27,12 +27,6 @@ public class KitchenSceneController {
     public void setKitchenViewModel(KitchenViewModel kitchenViewModel) {
         this.kitchenViewModel = kitchenViewModel;
         kitchenTable.setItems(kitchenViewModel.getPizzasInKitchen());
-
-        kitchenViewModel.getPizzasInKitchen().addListener((ListChangeListener<KitchenPizzaViewModel>) change -> {
-            while (change.next()) {
-                Platform.runLater(kitchenTable::refresh);
-            }
-        });
     }
 
     @FXML
