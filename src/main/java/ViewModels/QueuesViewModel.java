@@ -29,7 +29,13 @@ public class QueuesViewModel {
         });
 
         queuesCount = new SimpleIntegerProperty(lobby.getQueuesCount());
-
+        lobby.addPropertyChangeListener(evt-> {
+            if (evt.getPropertyName().equals("queuesCountChanged")) {
+                Platform.runLater(() -> {
+                    queuesCount.set((int)evt.getNewValue());
+                });
+            }
+        });
     }
 
     public ObservableList<OrderViewModel> getAllOrders() {
