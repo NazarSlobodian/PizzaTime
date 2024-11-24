@@ -130,7 +130,12 @@ public class NavSceneController {
 
     @FXML
     private void btnCash() throws IOException {
-        AnchorPane view = FXMLLoader.load(getClass().getResource("/Views/cash_view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/cash_view.fxml"));
+        AnchorPane view = loader.load();
+
+        CashSceneController controller = loader.getController();
+        controller.setQueuesViewModel(mainViewModel.getQueuesViewModel());
+
         viewBorderPane.setVisible(true);
         viewBorderPane.setCenter(view);
     }
