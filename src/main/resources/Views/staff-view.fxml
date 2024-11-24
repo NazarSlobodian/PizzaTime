@@ -11,7 +11,7 @@
          <children>
             <Pane prefHeight="96.0" prefWidth="157.0" style="-fx-border-color: black; -fx-border-radius: 15; -fx-padding:  6; -fx-border-insets: 10;">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="22.0" prefHeight="67.0" prefWidth="75.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="totalOrdersLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="22.0" prefHeight="67.0" prefWidth="75.0" text="0" textAlignment="CENTER">
                      <font>
                         <Font name="Comic Sans MS" size="22.0" />
                      </font>
@@ -21,7 +21,7 @@
             </Pane>
             <Pane prefHeight="96.0" prefWidth="157.0" style="-fx-border-color: black; -fx-border-radius: 15; -fx-padding: 6; -fx-border-insets: 10;">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="22.0" prefHeight="67.0" prefWidth="75.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="activeOrdersLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="22.0" prefHeight="67.0" prefWidth="75.0" text="0" textAlignment="CENTER">
                      <font>
                         <Font name="Comic Sans MS" size="22.0" />
                      </font>
@@ -31,7 +31,7 @@
             </Pane>
             <Pane prefHeight="96.0" prefWidth="157.0" style="-fx-border-color: black; -fx-border-radius: 15; -fx-padding: 6; -fx-border-insets: 10;">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="22.0" prefHeight="67.0" prefWidth="75.0" text="0" textAlignment="CENTER">
+                  <Label fx:id="completedOrdersLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="22.0" prefHeight="67.0" prefWidth="75.0" text="0" textAlignment="CENTER">
                      <font>
                         <Font name="Comic Sans MS" size="22.0" />
                      </font>

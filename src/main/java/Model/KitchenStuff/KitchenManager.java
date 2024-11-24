@@ -46,6 +46,7 @@ public class KitchenManager extends ObservableModel {
         for (Cookable cookable : order.getItems()) {
             addCookable(cookable);
         }
+        eventContext.forceFirePropertyChange("ordersInKitchenChanged", null, takenOrders.size());
     }
 
     public void startCooker(Cooker cooker) {
@@ -101,8 +102,11 @@ public class KitchenManager extends ObservableModel {
                 logger.logFinishCooking(c.getName());
                 for (Order takenOrder : takenOrders) {
                     if (takenOrder.getItems().contains(c)) {
-                        if (takenOrder.updateStatus())
+                        if (takenOrder.updateStatus()) {
                             takenOrders.remove(takenOrder);
+                            eventContext.forceFirePropertyChange("ordersInKitchenChanged", null, takenOrders.size());
+                            eventContext.forceFirePropertyChange("orderDone", null, null);
+                        }
                         break;
                     }
                 }

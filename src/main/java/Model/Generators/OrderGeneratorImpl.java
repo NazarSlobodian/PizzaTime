@@ -21,18 +21,24 @@ public class OrderGeneratorImpl implements OrderGenerator {
     private final long intervalMillis;
     Clock clock;
 
-    public OrderGeneratorImpl(Menu menu, Clock clock) {
+    int from;
+    int to;
+
+    public OrderGeneratorImpl(Menu menu, Clock clock, int from, int to) {
         this.menu = menu;
         this.random = new Random();
         this.lastOrderTime = clock.getCurrentTime();
         this.intervalMillis = 10000;
         this.clock = clock;
+
+        this.from = from;
+        this.to = to;
     }
 
     // Generates an order with a random number of pizzas (1-5)
     @Override
     public Order generateRandomOrder() {
-        int itemCount = random.nextInt(1) + 2;
+        int itemCount = random.nextInt((to-from)+1)+from;
         List<Cookable> items = new ArrayList<>();
         for (int i = 0; i < itemCount; i++) {
             items.add(menu.getRandomCookable());

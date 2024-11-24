@@ -36,4 +36,12 @@ public class MainViewModel {
     public MenuViewModel getMenuViewModel() {
         return menuViewModel;
     }
+
+    public QueuesViewModel getQueuesViewModel(){
+        return queuesViewModel;
+    }
+
+    public LogViewModel getLogViewModel() {
+        return logViewModel;
+    }
 }

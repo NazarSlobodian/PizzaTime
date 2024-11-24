@@ -50,7 +50,7 @@
                   <Button fx:id="dessertsButton" onAction="#btnDesserts" prefHeight="31.0" prefWidth="235.0" styleClass="menu-item" text="Десерти" />
                </children>
             </VBox>
-            <Button fx:id="cashButton" layoutX="50.0" layoutY="250.0" onAction="#btnCash" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Каса">
+            <Button fx:id="cashButton" layoutX="50.0" layoutY="222.0" onAction="#btnCash" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Каса">
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
@@ -62,7 +62,7 @@
 
 
             <!-- Кнопка для Кухня -->
-            <Button fx:id="kitchenButton" layoutX="50.0" layoutY="350.0" onAction="#btnKitchen" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Кухня">
+            <Button fx:id="kitchenButton" layoutX="50.0" layoutY="283.0" onAction="#btnKitchen" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Кухня">
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
@@ -73,7 +73,7 @@
             </Button>
 
             <!-- Кнопка для Персонал -->
-            <Button fx:id="staffButton" layoutX="50.0" layoutY="450.0" onAction="#btnStaff" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Персонал">
+            <Button fx:id="staffButton" layoutX="50.0" layoutY="346.0" onAction="#btnStaff" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Персонал">
                <graphic>
                   <ImageView fitHeight="20" fitWidth="20">
                      <image>
@@ -90,6 +90,16 @@
             <Button fx:id="speedUp1Btn" layoutX="63.0" layoutY="634.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="x1" />
             <Button fx:id="speedUp60Btn" layoutX="105.0" layoutY="634.0" mnemonicParsing="false" prefWidth="35.0" text="x60" />
             <Button fx:id="speedUp0Btn" layoutX="21.0" layoutY="634.0" mnemonicParsing="false" prefWidth="35.0" text="x0" />
+            <Button fx:id="logButton" layoutX="50.0" layoutY="416.0" onAction="#btnLogs" prefHeight="40.0" prefWidth="205.0" styleClass="nav-item" text="Журнал">
+               <graphic>
+                  <ImageView fitHeight="20" fitWidth="20" styleClass="nav-item">
+                     <image>
+                        <Image url="@images/icons/log.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <ChoiceBox fx:id="strtegyChoiceBox" layoutX="21.0" layoutY="576.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
       <BorderPane fx:id="viewBorderPane" layoutX="429.0" layoutY="14.0" prefHeight="680.0" prefWidth="800.0" style="-fx-background-color: white;" visible="false" />
