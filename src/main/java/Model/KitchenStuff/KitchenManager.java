@@ -170,14 +170,20 @@ public class KitchenManager extends ObservableModel {
     }
     public void deleteCook(int index) {
         lock.lock();
-        for (Cookable cookable: cookAssignments.keySet()) {
-            if (cookAssignments.get(cookable).equals(cooks.get(index))) {
-                cookAssignments.remove(cookable);
-                System.out.println("COOK DELETED");
+        try {
+            Cooker removedCook = cooks.get(index);
+            Iterator<Cookable> iterator = cookAssignments.keySet().iterator();
+            while (iterator.hasNext()) {
+                Cookable cookable = iterator.next();
+                if (cookAssignments.get(cookable).equals(removedCook)) {
+                    iterator.remove();
+                }
             }
+            cooks.remove(index);
+            eventContext.forceFirePropertyChange("cookDeleted", null, removedCook);
+        } finally {
+            lock.unlock();
         }
-        cooks.remove(index);
-        lock.unlock();
     }
 
     @Override
