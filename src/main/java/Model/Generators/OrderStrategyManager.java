@@ -1,6 +1,7 @@
 package Model.Generators;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,8 +14,8 @@ import Model.Utils.Clock;
  * Manages different order generation strategies
  */
 public class OrderStrategyManager {
-    private final Map<String, OrderGenerator> strategies = new HashMap<>();
-    private final Map<String, FlowGenerator> flowGenerators = new HashMap<>();
+    private final Map<String, OrderGenerator> strategies = new LinkedHashMap<>();
+    private final Map<String, FlowGenerator> flowGenerators = new LinkedHashMap<>();
     private OrderGenerator activeStrategy;
     private FlowGenerator activeFlowGenerator;
     private Menu menu;
@@ -24,10 +25,10 @@ public class OrderStrategyManager {
         strategies.put("SlowAndSteady", new OrderGeneratorImpl(menu, clock, 1, 2));
         flowGenerators.put("SlowAndSteady", new FlowGeneratorImpl(1000 * 60* 30, clock));
 
-        strategies.put("FastAndALot", new OrderGeneratorImpl(menu, clock, 3, 10));
+        strategies.put("FastAndALot", new OrderGeneratorImpl(menu, clock, 3, 6));
         flowGenerators.put("FastAndALot", new FlowGeneratorImpl(1000 * 60 * 20, clock));
         // Set a default strategy
-        setActiveStrategy("FastAndALot");
+        setActiveStrategy("SlowAndSteady");
         this.menu = menu;
     }
 
